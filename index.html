@@ -7,691 +7,450 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;900&family=Bricolage+Grotesque:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0f0e0c;
-  --bg2: #181714;
-  --bg3: #201e1a;
-  --cream: #f0ebe2;
-  --cream2: #c8c0b0;
-  --cream3: #7a7268;
-  --accent: #d4622a;
-  --accent2: #e8845a;
-  --green: #4a9e6b;
-  --green-bg: #0d2419;
-  --border: rgba(240,235,226,0.08);
-  --border2: rgba(240,235,226,0.15);
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--cream);
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-::selection { background: var(--accent); color: #fff; }
-
-/* NAV */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 40px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(15,14,12,0.85);
-  backdrop-filter: blur(16px);
-}
-.nav-logo {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 18px; font-weight: 600;
-  color: var(--cream);
-  letter-spacing: -0.5px;
-}
-.nav-logo span { color: var(--accent); }
-.nav-links { display: flex; gap: 32px; }
-.nav-links a {
-  color: var(--cream3); font-size: 13px; text-decoration: none;
-  letter-spacing: 0.04em; transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--cream); }
-.nav-cta {
-  background: var(--accent); color: #fff;
-  border: none; padding: 9px 20px; border-radius: 6px;
-  font-size: 13px; font-weight: 500; cursor: pointer;
-  font-family: 'Bricolage Grotesque', sans-serif;
-  transition: background 0.2s;
-}
-.nav-cta:hover { background: var(--accent2); }
-
-/* HERO */
-.hero {
-  min-height: 100vh;
-  display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 0 40px 80px;
-  position: relative;
-  overflow: hidden;
-}
-.hero-bg-text {
-  position: absolute; top: 50%; left: -20px;
-  transform: translateY(-55%);
-  font-family: 'Noto Serif JP', serif;
-  font-size: clamp(200px, 30vw, 420px);
-  font-weight: 900;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(240,235,226,0.04);
-  pointer-events: none;
-  user-select: none;
-  line-height: 1;
-  white-space: nowrap;
-}
-.hero-live {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--green-bg); border: 1px solid rgba(74,158,107,0.3);
-  padding: 6px 14px; border-radius: 20px;
-  font-size: 12px; color: var(--green);
-  font-weight: 500; letter-spacing: 0.04em;
-  margin-bottom: 32px;
-  width: fit-content;
-}
-.live-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--green);
-  animation: pulse 1.8s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%,100% { opacity:1; transform:scale(1); box-shadow: 0 0 0 0 rgba(74,158,107,0.4); }
-  50% { opacity:0.7; transform:scale(0.85); box-shadow: 0 0 0 4px rgba(74,158,107,0); }
-}
-.hero-title {
-  font-family: 'Noto Serif JP', serif;
-  font-size: clamp(48px, 7vw, 96px);
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  margin-bottom: 24px;
-  max-width: 800px;
-}
-.hero-title em {
-  font-style: normal;
-  color: var(--accent);
-}
-.hero-sub {
-  font-size: clamp(15px, 1.5vw, 18px);
-  color: var(--cream2);
-  font-weight: 300;
-  max-width: 480px;
-  line-height: 1.8;
-  margin-bottom: 40px;
-}
-.hero-actions { display: flex; align-items: center; gap: 20px; }
-.btn-primary {
-  background: var(--cream); color: var(--bg);
-  border: none; padding: 14px 32px; border-radius: 8px;
-  font-size: 15px; font-weight: 600; cursor: pointer;
-  font-family: 'Bricolage Grotesque', sans-serif;
-  transition: all 0.2s; letter-spacing: -0.01em;
-}
-.btn-primary:hover { background: var(--cream2); transform: translateY(-1px); }
-.btn-ghost {
-  background: transparent; color: var(--cream2);
-  border: 1px solid var(--border2); padding: 14px 28px; border-radius: 8px;
-  font-size: 15px; cursor: pointer;
-  font-family: 'Bricolage Grotesque', sans-serif;
-  transition: all 0.2s;
-}
-.btn-ghost:hover { border-color: var(--cream2); color: var(--cream); }
-.hero-stats {
-  position: absolute; right: 40px; bottom: 80px;
-  display: flex; flex-direction: column; gap: 24px;
-  text-align: right;
-}
-.hero-stat-num {
-  font-size: 40px; font-weight: 700;
-  font-family: 'Bricolage Grotesque', sans-serif;
-  color: var(--cream); letter-spacing: -0.03em;
-  line-height: 1;
-}
-.hero-stat-label {
-  font-size: 11px; color: var(--cream3);
-  letter-spacing: 0.08em; margin-top: 4px;
-}
-.hero-divider {
-  width: 1px; height: 40px;
-  background: var(--border2);
-  margin-left: auto;
-}
-
-/* SCROLL LINE */
-.scroll-line {
-  width: 100%; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border2), transparent);
-}
-
-/* SECTIONS */
-section { padding: 100px 40px; }
-.section-tag {
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--accent2);
-  margin-bottom: 16px;
-}
-.section-title {
-  font-family: 'Noto Serif JP', serif;
-  font-size: clamp(32px, 4vw, 56px);
-  font-weight: 600; line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: var(--cream);
-  margin-bottom: 16px;
-}
-.section-sub {
-  font-size: 16px; color: var(--cream3);
-  font-weight: 300; line-height: 1.8;
-  max-width: 480px;
-}
-
-/* HOW IT WORKS */
-.how { background: var(--bg2); }
-.how-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 80px; align-items: center;
-  margin-top: 64px;
-}
-.how-steps { display: flex; flex-direction: column; gap: 0; }
-.how-step {
-  display: flex; gap: 24px; padding: 32px 0;
-  border-bottom: 1px solid var(--border);
-  cursor: pointer; transition: all 0.2s;
-}
-.how-step:first-child { padding-top: 0; }
-.how-step:last-child { border-bottom: none; }
-.step-num {
-  font-size: 11px; font-weight: 500; color: var(--cream3);
-  letter-spacing: 0.1em; padding-top: 4px;
-  min-width: 24px;
-}
-.step-content h3 {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 18px; font-weight: 600; color: var(--cream);
-  margin-bottom: 8px;
-}
-.step-content p { font-size: 14px; color: var(--cream3); line-height: 1.7; font-weight: 300; }
-.how-visual {
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 16px; padding: 28px;
-  position: relative; overflow: hidden;
-}
-.how-visual::before {
-  content: '';
-  position: absolute; top: -60px; right: -60px;
-  width: 200px; height: 200px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(212,98,42,0.08), transparent 70%);
-}
-.mini-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 12px; padding: 16px;
-  margin-bottom: 10px; position: relative;
-}
-.mini-card:last-child { margin-bottom: 0; }
-.mini-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-.mini-card-name { font-family: 'Noto Serif JP', serif; font-size: 14px; font-weight: 600; color: var(--cream); }
-.mini-card-genre { font-size: 11px; color: var(--cream3); margin-top: 2px; }
-.badge {
-  background: rgba(74,158,107,0.15); color: var(--green);
-  font-size: 10px; font-weight: 600; padding: 3px 8px;
-  border-radius: 4px; border: 1px solid rgba(74,158,107,0.2);
-  white-space: nowrap;
-}
-.mini-live { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--green); font-weight: 500; }
-
-/* LIVE SECTION */
-.live-section { background: var(--bg); }
-.live-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
-.live-counter {
-  background: var(--green-bg); border: 1px solid rgba(74,158,107,0.2);
-  border-radius: 12px; padding: 16px 24px; text-align: center;
-}
-.live-counter-num { font-size: 48px; font-weight: 700; color: var(--green); line-height: 1; }
-.live-counter-label { font-size: 11px; color: rgba(74,158,107,0.7); margin-top: 4px; letter-spacing: 0.06em; }
-.reports-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-.report-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 14px; padding: 20px;
-  transition: border-color 0.2s, transform 0.2s;
-  cursor: pointer;
-}
-.report-card:hover { border-color: var(--border2); transform: translateY(-2px); }
-.report-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.avatar {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--bg3); border: 1px solid var(--border2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; color: var(--cream2); font-weight: 500;
-  flex-shrink: 0;
-}
-.report-meta-name { font-size: 13px; font-weight: 500; color: var(--cream); }
-.report-meta-shop { font-size: 11px; color: var(--cream3); }
-.report-body { font-size: 13px; color: var(--cream2); line-height: 1.7; font-weight: 300; margin-bottom: 12px; }
-.report-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.tag {
-  font-size: 10px; padding: 3px 8px; border-radius: 4px;
-  background: var(--bg3); color: var(--cream3);
-  border: 1px solid var(--border);
-}
-.score-dots { display: flex; gap: 3px; margin-top: 10px; }
-.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border2); }
-.dot.on { background: var(--accent); border-color: var(--accent); }
-
-/* BADGE SECTION */
-.badge-section { background: var(--bg2); }
-.badge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 64px; }
-.badge-visual {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: 20px; padding: 40px;
-  text-align: center; position: relative;
-}
-.big-badge {
-  display: inline-flex; align-items: center; gap: 12px;
-  background: rgba(74,158,107,0.1); border: 2px solid rgba(74,158,107,0.3);
-  padding: 20px 32px; border-radius: 16px;
-  margin-bottom: 24px;
-}
-.big-badge-icon { font-size: 32px; }
-.big-badge-text { font-family: 'Noto Serif JP', serif; font-size: 22px; font-weight: 600; color: var(--green); }
-.badge-sub-text { font-size: 13px; color: var(--cream3); line-height: 1.7; }
-.price-display {
-  margin-top: 32px; padding-top: 32px;
-  border-top: 1px solid var(--border);
-}
-.price-num { font-size: 44px; font-weight: 700; color: var(--cream); letter-spacing: -0.03em; }
-.price-num span { font-size: 18px; color: var(--cream3); font-weight: 400; }
-.price-label { font-size: 12px; color: var(--cream3); margin-top: 4px; }
-.badge-perks { display: flex; flex-direction: column; gap: 20px; margin-top: 32px; }
-.perk { display: flex; gap: 16px; align-items: flex-start; }
-.perk-icon {
-  width: 36px; height: 36px; border-radius: 8px;
-  background: var(--bg3); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
-}
-.perk-title { font-size: 14px; font-weight: 500; color: var(--cream); margin-bottom: 4px; }
-.perk-body { font-size: 13px; color: var(--cream3); font-weight: 300; line-height: 1.6; }
-
-/* CTA */
-.cta-section {
-  background: var(--bg);
-  text-align: center; padding: 140px 40px;
-  position: relative; overflow: hidden;
-}
-.cta-section::before {
-  content: '一人';
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  font-family: 'Noto Serif JP', serif;
-  font-size: 400px; font-weight: 900;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(240,235,226,0.03);
-  pointer-events: none; user-select: none; white-space: nowrap;
-}
-.cta-section .section-title { max-width: 600px; margin: 0 auto 16px; }
-.cta-section .section-sub { margin: 0 auto 48px; text-align: center; }
-.cta-actions { display: flex; justify-content: center; gap: 16px; }
-
-/* FOOTER */
-footer {
-  padding: 40px;
-  border-top: 1px solid var(--border);
-  display: flex; justify-content: space-between; align-items: center;
-}
-.footer-logo {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 16px; font-weight: 600; color: var(--cream3);
-}
-.footer-copy { font-size: 12px; color: var(--cream3); }
-.footer-links { display: flex; gap: 24px; }
-.footer-links a { font-size: 12px; color: var(--cream3); text-decoration: none; transition: color 0.2s; }
-.footer-links a:hover { color: var(--cream); }
-
-/* ANIMATIONS */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.hero-live { animation: fadeUp 0.6s ease 0.1s both; }
-.hero-title { animation: fadeUp 0.7s ease 0.2s both; }
-.hero-sub { animation: fadeUp 0.7s ease 0.35s both; }
-.hero-actions { animation: fadeUp 0.7s ease 0.5s both; }
-.hero-stats { animation: fadeUp 0.7s ease 0.4s both; }
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  nav { padding: 16px 20px; }
-  .nav-links { display: none; }
-  .hero { padding: 0 20px 60px; }
-  .hero-stats { display: none; }
-  section { padding: 60px 20px; }
-  .how-grid, .badge-grid { grid-template-columns: 1fr; gap: 40px; }
-  .reports-grid { grid-template-columns: 1fr; }
-  .live-header { flex-direction: column; align-items: flex-start; gap: 20px; }
-  footer { flex-direction: column; gap: 16px; text-align: center; }
-  .footer-links { justify-content: center; }
-  .cta-actions { flex-direction: column; align-items: center; }
+:root{--bg:#0f0e0c;--bg2:#181714;--bg3:#201e1a;--cream:#f0ebe2;--cream2:#c8c0b0;--cream3:#7a7268;--accent:#d4622a;--accent2:#e8845a;--green:#4a9e6b;--green-bg:rgba(74,158,107,0.1);--border:rgba(240,235,226,0.08);--border2:rgba(240,235,226,0.15);--border3:rgba(240,235,226,0.25);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--cream);font-family:'Bricolage Grotesque',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;}
+::selection{background:var(--accent);color:#fff;}
+button{font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;}
+input,textarea,select{font-family:'Bricolage Grotesque',sans-serif;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:14px 28px;border-bottom:1px solid var(--border);background:rgba(15,14,12,0.92);backdrop-filter:blur(20px);}
+.nav-logo{font-family:'Noto Serif JP',serif;font-size:18px;font-weight:600;color:var(--cream);cursor:pointer;}
+.nav-logo span{color:var(--accent);}
+.nav-tabs{display:flex;gap:2px;}
+.nav-tab{padding:7px 14px;border-radius:6px;font-size:13px;color:var(--cream3);background:transparent;border:none;transition:all 0.15s;}
+.nav-tab.active,.nav-tab:hover{color:var(--cream);background:var(--bg3);}
+.nav-right{display:flex;gap:8px;}
+.checkin-btn{background:var(--green);color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12px;font-weight:500;}
+.report-btn{background:var(--accent);color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12px;font-weight:500;}
+.page{display:none;padding-top:65px;min-height:100vh;}
+.page.active{display:block;}
+.hero{padding:70px 36px 52px;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+.hero-bg{position:absolute;top:50%;left:-40px;transform:translateY(-50%);font-family:'Noto Serif JP',serif;font-size:clamp(160px,26vw,360px);font-weight:900;color:transparent;-webkit-text-stroke:1px rgba(240,235,226,0.03);pointer-events:none;user-select:none;line-height:1;}
+.hero-live{display:inline-flex;align-items:center;gap:8px;background:var(--green-bg);border:1px solid rgba(74,158,107,0.25);padding:5px 12px;border-radius:20px;font-size:12px;color:var(--green);font-weight:500;margin-bottom:20px;width:fit-content;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.8s ease-in-out infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.75);}}
+.hero h1{font-family:'Noto Serif JP',serif;font-size:clamp(36px,5.5vw,72px);font-weight:900;line-height:1.06;letter-spacing:-0.02em;margin-bottom:16px;}
+.hero h1 em{font-style:normal;color:var(--accent);}
+.hero-sub{font-size:15px;color:var(--cream2);font-weight:300;max-width:420px;line-height:1.8;margin-bottom:28px;}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.btn-primary{background:var(--cream);color:var(--bg);border:none;padding:11px 24px;border-radius:8px;font-size:14px;font-weight:600;transition:all 0.15s;}
+.btn-primary:hover{background:var(--cream2);}
+.btn-ghost{background:transparent;color:var(--cream2);border:1px solid var(--border2);padding:11px 20px;border-radius:8px;font-size:14px;transition:all 0.15s;}
+.btn-ghost:hover{border-color:var(--border3);color:var(--cream);}
+.hero-stats{display:flex;gap:36px;margin-top:40px;padding-top:32px;border-top:1px solid var(--border);}
+.hstat-num{font-size:32px;font-weight:700;color:var(--cream);line-height:1;letter-spacing:-0.03em;}
+.hstat-label{font-size:10px;color:var(--cream3);margin-top:3px;letter-spacing:0.06em;}
+.search-area{padding:20px 28px;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.search-wrap{flex:1;min-width:180px;position:relative;}
+.search-wrap input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 14px 9px 34px;font-size:13px;color:var(--cream);outline:none;transition:border-color 0.15s;}
+.search-wrap input:focus{border-color:var(--border3);}
+.search-wrap input::placeholder{color:var(--cream3);}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--cream3);font-size:14px;}
+.chips{display:flex;gap:6px;flex-wrap:wrap;}
+.chip{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border2);color:var(--cream3);background:transparent;transition:all 0.12s;}
+.chip:hover{border-color:var(--border3);color:var(--cream);}
+.chip.on{background:var(--cream);color:var(--bg);border-color:var(--cream);}
+.shop-card{padding:18px 28px;border-bottom:1px solid var(--border);display:flex;gap:16px;align-items:flex-start;transition:background 0.12s;cursor:default;}
+.shop-card:hover{background:var(--bg2);}
+.shop-main{flex:1;}
+.shop-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px;gap:10px;}
+.shop-name{font-family:'Noto Serif JP',serif;font-size:16px;font-weight:600;color:var(--cream);}
+.shop-genre{font-size:12px;color:var(--cream3);margin-top:2px;}
+.bw{background:rgba(74,158,107,0.12);color:var(--green);font-size:10px;font-weight:600;padding:3px 9px;border-radius:4px;border:1px solid rgba(74,158,107,0.2);white-space:nowrap;flex-shrink:0;}
+.shop-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.smeta{font-size:12px;color:var(--cream3);display:flex;align-items:center;gap:4px;}
+.live-count-text{color:var(--green);font-weight:500;}
+.shop-msg{font-size:12px;color:var(--cream3);font-style:italic;margin-top:7px;line-height:1.6;}
+.shop-acts{display:flex;flex-direction:column;gap:7px;align-items:flex-end;flex-shrink:0;}
+.btn-ci{background:var(--green-bg);color:var(--green);border:1px solid rgba(74,158,107,0.25);padding:7px 13px;border-radius:6px;font-size:12px;font-weight:500;white-space:nowrap;transition:all 0.15s;}
+.btn-ci:hover{background:rgba(74,158,107,0.2);}
+.btn-rp{background:transparent;color:var(--cream3);border:1px solid var(--border);padding:7px 13px;border-radius:6px;font-size:12px;transition:all 0.15s;white-space:nowrap;}
+.btn-rp:hover{color:var(--cream);border-color:var(--border2);}
+.no-results{padding:60px 28px;text-align:center;color:var(--cream3);font-size:14px;}
+.rpage-header{padding:36px 28px 20px;border-bottom:1px solid var(--border);}
+.rpage-header h2{font-family:'Noto Serif JP',serif;font-size:28px;font-weight:600;margin-bottom:6px;}
+.rpage-header p{font-size:14px;color:var(--cream3);}
+.rstats{display:flex;gap:28px;margin-top:20px;}
+.rstat-num{font-size:26px;font-weight:700;color:var(--cream);letter-spacing:-0.03em;}
+.rstat-label{font-size:10px;color:var(--cream3);margin-top:2px;}
+.rlist{padding:20px 28px;display:flex;flex-direction:column;gap:14px;}
+.rcard{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;}
+.rtop{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--cream2);font-weight:500;flex-shrink:0;}
+.rname{font-size:13px;font-weight:500;color:var(--cream);}
+.rshop{font-size:11px;color:var(--cream3);}
+.rbody{font-size:13px;color:var(--cream2);line-height:1.75;font-weight:300;margin-bottom:10px;}
+.rtags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;}
+.tag{font-size:10px;padding:3px 8px;border-radius:4px;background:var(--bg3);color:var(--cream3);border:1px solid var(--border);}
+.score-row{display:flex;align-items:center;gap:8px;}
+.dots{display:flex;gap:3px;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);}
+.dot.on{background:var(--accent);border-color:var(--accent);}
+.slabel{font-size:11px;color:var(--cream3);}
+.sbadge{font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500;margin-left:auto;}
+.sbadge.good{background:rgba(74,158,107,0.12);color:var(--green);}
+.sbadge.meh{background:rgba(212,98,42,0.12);color:var(--accent);}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;padding:28px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;}
+.modal h2{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:600;margin-bottom:4px;}
+.msub{font-size:13px;color:var(--cream3);margin-bottom:20px;}
+.fg{margin-bottom:16px;}
+.flabel{font-size:11px;font-weight:500;color:var(--cream2);margin-bottom:6px;display:block;letter-spacing:0.04em;}
+.finput{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 13px;font-size:13px;color:var(--cream);outline:none;transition:border-color 0.15s;}
+.finput:focus{border-color:var(--border3);}
+.finput::placeholder{color:var(--cream3);}
+textarea.finput{resize:vertical;min-height:90px;line-height:1.6;}
+select.finput{appearance:none;cursor:pointer;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.tag-opts{display:flex;gap:6px;flex-wrap:wrap;}
+.topt{padding:5px 11px;border-radius:6px;font-size:11px;border:1px solid var(--border2);color:var(--cream3);background:transparent;transition:all 0.12s;}
+.topt.on{background:var(--bg3);color:var(--cream);border-color:var(--border3);}
+.score-sel{display:flex;gap:6px;}
+.sopt{width:34px;height:34px;border-radius:6px;border:1px solid var(--border2);color:var(--cream3);background:transparent;font-size:13px;font-weight:500;transition:all 0.12s;}
+.sopt.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+.mactions{display:flex;gap:10px;margin-top:24px;}
+.mactions .btn-primary{flex:1;padding:12px;}
+.mclose{position:absolute;top:14px;right:14px;background:transparent;border:none;color:var(--cream3);font-size:18px;cursor:pointer;line-height:1;}
+.ssl{display:flex;flex-direction:column;gap:7px;max-height:260px;overflow-y:auto;}
+.ssi{padding:11px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.12s;display:flex;justify-content:space-between;align-items:center;}
+.ssi:hover,.ssi.on{border-color:var(--green);background:var(--green-bg);}
+.ssi-name{font-size:13px;color:var(--cream);font-family:'Noto Serif JP',serif;}
+.ssi-sub{font-size:11px;color:var(--cream3);}
+.bpage{padding:48px 36px;}
+.bpage h2{font-family:'Noto Serif JP',serif;font-size:clamp(24px,3.5vw,40px);font-weight:600;line-height:1.15;letter-spacing:-0.02em;margin-bottom:10px;}
+.bpage-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-top:40px;}
+.bvisual{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:36px;text-align:center;}
+.big-badge{display:inline-flex;align-items:center;gap:10px;background:var(--green-bg);border:2px solid rgba(74,158,107,0.3);padding:16px 28px;border-radius:14px;margin-bottom:16px;}
+.bb-text{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:600;color:var(--green);}
+.price-box{margin-top:24px;padding-top:24px;border-top:1px solid var(--border);}
+.price-num{font-size:40px;font-weight:700;color:var(--cream);letter-spacing:-0.03em;}
+.price-num span{font-size:16px;color:var(--cream3);font-weight:400;}
+.price-label{font-size:12px;color:var(--cream3);margin-top:3px;}
+.perks{display:flex;flex-direction:column;gap:18px;margin-top:28px;}
+.perk{display:flex;gap:14px;}
+.picon{width:34px;height:34px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.ptitle{font-size:13px;font-weight:500;color:var(--cream);margin-bottom:3px;}
+.pbody{font-size:12px;color:var(--cream3);font-weight:300;line-height:1.6;}
+.regform{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;margin-top:28px;}
+.regform h3{font-family:'Noto Serif JP',serif;font-size:17px;font-weight:600;margin-bottom:3px;}
+.regform p{font-size:12px;color:var(--cream3);margin-bottom:16px;}
+.success-msg{background:var(--green-bg);border:1px solid rgba(74,158,107,0.25);border-radius:8px;padding:14px;color:var(--green);font-size:13px;display:none;margin-top:14px;}
+.stag{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent2);margin-bottom:10px;}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--cream);color:var(--bg);padding:11px 22px;border-radius:8px;font-size:13px;font-weight:500;z-index:999;transition:transform 0.3s ease;pointer-events:none;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+@media(max-width:720px){
+  nav{padding:11px 14px;}
+  .nav-tabs{display:none;}
+  .hero{padding:44px 18px 36px;}
+  .hero-stats{gap:20px;flex-wrap:wrap;}
+  .search-area{padding:14px 18px;}
+  .shop-card{padding:14px 18px;flex-direction:column;}
+  .shop-acts{flex-direction:row;width:100%;}
+  .rpage-header,.rlist{padding:20px 18px;}
+  .bpage{padding:36px 18px;}
+  .bpage-grid{grid-template-columns:1fr;gap:32px;}
+  .frow{grid-template-columns:1fr;}
+  .modal{padding:20px;}
+  .mactions{flex-direction:column;}
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-logo">一人飯<span>.</span>com</div>
-  <div class="nav-links">
-    <a href="#how">使い方</a>
-    <a href="#live">今一人いる</a>
-    <a href="#badge">お店の方へ</a>
+  <div class="nav-logo" onclick="showPage('explore')">一人飯<span>.</span>com</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('explore')">探す</button>
+    <button class="nav-tab" onclick="showPage('reports')">入店レポート</button>
+    <button class="nav-tab" onclick="showPage('badge')">お店の方へ</button>
   </div>
-  <button class="nav-cta">お店を探す</button>
+  <div class="nav-right">
+    <button class="checkin-btn" onclick="openCheckin()">今ここにいる</button>
+    <button class="report-btn" onclick="openReport(null)">レポートを書く</button>
+  </div>
 </nav>
 
-<section class="hero">
-  <div class="hero-bg-text">一人</div>
-
-  <div class="hero-live">
-    <span class="live-dot"></span>
-    今このエリアで <strong id="live-count">31</strong> 人が一人飯中
-  </div>
-
-  <h1 class="hero-title">
-    一人で入れるお店が、<br><em>見つかる。</em>
-  </h1>
-
-  <p class="hero-sub">
-    「入っていいのかな」の不安を、<br>
-    リアルタイムの情報と、お店の本音で、解消する。<br>
-    一人飯専門のプラットフォーム。
-  </p>
-
-  <div class="hero-actions">
-    <button class="btn-primary">近くのお店を探す</button>
-    <button class="btn-ghost">入店レポートを読む</button>
-  </div>
-
-  <div class="hero-stats">
-    <div>
-      <div class="hero-stat-num" id="stat-reports">1,204</div>
-      <div class="hero-stat-label">入店レポート</div>
+<div class="page active" id="page-explore">
+  <div class="hero">
+    <div class="hero-bg">一人</div>
+    <div class="hero-live"><span class="live-dot"></span>今このエリアで <strong id="live-count">31</strong> 人が一人飯中</div>
+    <h1>一人で入れるお店が、<br><em>見つかる。</em></h1>
+    <p class="hero-sub">「入っていいのかな」の不安を、リアルタイムの情報と、お店の本音で、解消する。</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.querySelector('.search-area').scrollIntoView({behavior:'smooth'})">近くのお店を探す</button>
+      <button class="btn-ghost" onclick="showPage('reports')">入店レポートを読む</button>
     </div>
-    <div class="hero-divider"></div>
-    <div>
-      <div class="hero-stat-num">312</div>
-      <div class="hero-stat-label">歓迎バッジ店</div>
-    </div>
-    <div class="hero-divider"></div>
-    <div>
-      <div class="hero-stat-num">87%</div>
-      <div class="hero-stat-label">「入れた」率</div>
+    <div class="hero-stats">
+      <div><div class="hstat-num" id="stat-r">0</div><div class="hstat-label">入店レポート</div></div>
+      <div><div class="hstat-num" id="stat-s">9</div><div class="hstat-label">歓迎バッジ店</div></div>
+      <div><div class="hstat-num" id="stat-p">87%</div><div class="hstat-label">「入れた」率</div></div>
     </div>
   </div>
-</section>
-
-<div class="scroll-line"></div>
-
-<section class="how" id="how">
-  <div class="section-tag">how it works</div>
-  <h2 class="section-title">3ステップで<br>今夜の一人飯へ</h2>
-
-  <div class="how-grid">
-    <div class="how-steps">
-      <div class="how-step">
-        <div class="step-num">01</div>
-        <div class="step-content">
-          <h3>今一人いるお店を確認</h3>
-          <p>誰かが今まさに一人で入っているお店がわかる。それだけで「入っていいんだ」がわかる。</p>
-        </div>
-      </div>
-      <div class="how-step">
-        <div class="step-num">02</div>
-        <div class="step-content">
-          <h3>入店レポートを読む</h3>
-          <p>レビューじゃなくて記録。「カウンターに案内してくれた」「スタッフの反応が自然だった」という一人客視点だけの情報。</p>
-        </div>
-      </div>
-      <div class="how-step">
-        <div class="step-num">03</div>
-        <div class="step-content">
-          <h3>歓迎バッジで迷わず決める</h3>
-          <p>お店が自ら「一人大歓迎」と表明したバッジ。もう雰囲気を読む必要はない。</p>
-        </div>
-      </div>
+  <div class="search-area">
+    <div class="search-wrap"><span class="search-icon">⌕</span><input type="text" id="q" placeholder="お店名・ジャンルで検索..." oninput="renderShops()"></div>
+    <div class="chips">
+      <button class="chip on" onclick="setF(this,'all')">すべて</button>
+      <button class="chip" onclick="setF(this,'welcome')">歓迎バッジのみ</button>
+      <button class="chip" onclick="setF(this,'live')">今一人いる</button>
+      <button class="chip" onclick="setF(this,'counter')">カウンター</button>
     </div>
+  </div>
+  <div id="shops-list"></div>
+</div>
 
-    <div class="how-visual">
-      <div class="mini-card">
-        <div class="mini-card-top">
-          <div>
-            <div class="mini-card-name">炭火焼き 燈</div>
-            <div class="mini-card-genre">焼き鳥 · カウンター8席</div>
+<div class="page" id="page-reports">
+  <div class="rpage-header">
+    <div class="stag">real-time reports</div>
+    <h2>みんなの入店レポート</h2>
+    <p>一人飯した人の、一人飯した人のための、リアルな記録。</p>
+    <div class="rstats">
+      <div><div class="rstat-num" id="rs-total">0</div><div class="rstat-label">総レポート</div></div>
+      <div><div class="rstat-num" id="rs-good">0%</div><div class="rstat-label">「入れた」率</div></div>
+      <div><div class="rstat-num" id="rs-shops">0</div><div class="rstat-label">対象店舗数</div></div>
+    </div>
+  </div>
+  <div class="rlist" id="reports-list"></div>
+</div>
+
+<div class="page" id="page-badge">
+  <div class="bpage">
+    <div class="stag">for restaurants</div>
+    <h2>「一人でも大歓迎」を、伝えよう。</h2>
+    <div class="bpage-grid">
+      <div>
+        <p style="font-size:15px;color:var(--cream2);font-weight:300;line-height:1.8;margin-bottom:28px;">本当はウェルカムなのに、雰囲気的に言い出せない。そのギャップを埋めるのが、ひとり歓迎バッジです。</p>
+        <div class="perks">
+          <div class="perk"><div class="picon">◎</div><div><div class="ptitle">一人客に直接リーチ</div><div class="pbody">一人で入れるお店を探しているユーザーに、あなたのお店が表示されます。</div></div></div>
+          <div class="perk"><div class="picon">→</div><div><div class="ptitle">お店の言葉で発信</div><div class="pbody">「カウンターでゆっくりどうぞ」など、お店のメッセージを直接届けられます。</div></div></div>
+          <div class="perk"><div class="picon">✦</div><div><div class="ptitle">今は完全無料</div><div class="pbody">ユーザーが集まってから一緒に考えます。まず登録だけしてください。</div></div></div>
+        </div>
+        <div class="regform">
+          <h3>お店を登録する</h3>
+          <p>無料・1分で完了</p>
+          <div class="fg"><label class="flabel">お店の名前</label><input class="finput" type="text" id="rg-name" placeholder="例：炭火焼き 燈"></div>
+          <div class="frow">
+            <div class="fg"><label class="flabel">ジャンル</label><select class="finput" id="rg-genre"><option value="">選択...</option><option>焼き鳥</option><option>蕎麦</option><option>ラーメン</option><option>居酒屋</option><option>洋食</option><option>和食</option><option>寿司</option><option>中華</option><option>カフェ</option><option>その他</option></select></div>
+            <div class="fg"><label class="flabel">カウンター席</label><select class="finput" id="rg-counter"><option value="yes">あり</option><option value="no">なし</option></select></div>
           </div>
-          <div class="badge">ひとり歓迎</div>
-        </div>
-        <div class="mini-live">
-          <span class="live-dot"></span>今2人いる
-        </div>
-      </div>
-      <div class="mini-card">
-        <div class="mini-card-top">
-          <div>
-            <div class="mini-card-name">手打ち蕎麦 庵</div>
-            <div class="mini-card-genre">蕎麦 · カウンター6席</div>
-          </div>
-          <div class="badge">ひとり歓迎</div>
-        </div>
-        <div class="mini-live">
-          <span class="live-dot"></span>今1人いる
+          <div class="fg"><label class="flabel">一人客へのメッセージ（任意）</label><textarea class="finput" id="rg-msg" placeholder="例：カウンターでゆっくりお食事いただけます。一人のお客様も大歓迎です。" rows="3"></textarea></div>
+          <button class="btn-primary" onclick="registerShop()" style="width:100%;padding:12px;">無料でバッジを取得する</button>
+          <div class="success-msg" id="rg-ok">登録ありがとうございます！審査後、バッジが付与されます。</div>
         </div>
       </div>
-      <div class="mini-card" style="border-color: rgba(212,98,42,0.2);">
-        <div class="mini-card-top">
-          <div>
-            <div class="mini-card-name">ラーメン 麺道場</div>
-            <div class="mini-card-genre">ラーメン · カウンター12席</div>
-          </div>
-          <div class="badge">ひとり歓迎</div>
+      <div>
+        <div class="bvisual">
+          <div class="big-badge"><span style="font-size:26px;">🍽</span><span class="bb-text">ひとり歓迎</span></div>
+          <p style="font-size:13px;color:var(--cream3);line-height:1.7;">このバッジは、お店が自ら申請して取得します。<br>「うちは一人でも全然OKです」という、<br>お店からユーザーへの、静かな意思表示。</p>
+          <div class="price-box"><div class="price-num">¥0<span> / 今すぐ</span></div><div class="price-label">まずは無料で。ユーザーが集まったら一緒に考える。</div></div>
         </div>
-        <div style="font-size:12px;color:var(--cream3);">現在0人 — 最初の一人になる</div>
+        <div style="margin-top:16px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;">
+          <div style="font-size:11px;color:var(--cream3);margin-bottom:10px;letter-spacing:0.06em;">現在の登録店舗</div>
+          <div id="badge-list"></div>
+        </div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<section class="live-section" id="live">
-  <div class="live-header">
-    <div>
-      <div class="section-tag">real-time reports</div>
-      <h2 class="section-title">みんなの入店レポート</h2>
-      <p class="section-sub">一人飯した人の、一人飯した人のための、リアルな記録。</p>
-    </div>
-    <div class="live-counter">
-      <div class="live-counter-num" id="live-counter-num">31</div>
-      <div class="live-counter-label">NOW · 一人飯中</div>
-    </div>
-  </div>
-
-  <div class="reports-grid">
-    <div class="report-card">
-      <div class="report-top">
-        <div class="avatar">あ</div>
-        <div>
-          <div class="report-meta-name">あかね</div>
-          <div class="report-meta-shop">炭火焼き 燈 · 2時間前</div>
-        </div>
-      </div>
-      <div class="report-body">カウンターに案内してもらえた。大将が自然に話しかけてくれて、全然孤独じゃなかった。むしろ一人の方が大将と会話できて最高だった。</div>
-      <div class="score-dots">
-        <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div>
-      </div>
-      <div class="report-tags">
-        <span class="tag">カウンターに案内</span>
-        <span class="tag">店主と会話</span>
-        <span class="tag">また行く</span>
-      </div>
-    </div>
-
-    <div class="report-card">
-      <div class="report-top">
-        <div class="avatar">し</div>
-        <div>
-          <div class="report-meta-name">しんや</div>
-          <div class="report-meta-shop">手打ち蕎麦 庵 · 昨日</div>
-        </div>
-      </div>
-      <div class="report-body">暖簾をくぐったら「お一人ですか？」って自然に聞いてくれた。座れて安心。窓際の席でゆっくり食べられた。一人でも全然浮かなかった。</div>
-      <div class="score-dots">
-        <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div>
-      </div>
-      <div class="report-tags">
-        <span class="tag">一人確認あり</span>
-        <span class="tag">静かな雰囲気</span>
-        <span class="tag">昼使いやすい</span>
-      </div>
-    </div>
-
-    <div class="report-card">
-      <div class="report-top">
-        <div class="avatar">ゆ</div>
-        <div>
-          <div class="report-meta-name">ゆり</div>
-          <div class="report-meta-shop">洋食 キッチン六番 · 3日前</div>
-        </div>
-      </div>
-      <div class="report-body">テーブル席に案内されたが2人掛けで少し気まずかった。料理は本当においしい。カウンターがあればもっとよかった。次は昼に行く。</div>
-      <div class="score-dots">
-        <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div>
-      </div>
-      <div class="report-tags">
-        <span class="tag">テーブル席のみ</span>
-        <span class="tag">料理は◎</span>
-        <span class="tag">昼推奨</span>
-      </div>
+<div class="modal-overlay" id="m-checkin" onclick="if(event.target===this)closeM('m-checkin')">
+  <div class="modal">
+    <button class="mclose" onclick="closeM('m-checkin')">✕</button>
+    <h2>今一人で入ってます</h2>
+    <p class="msub">どのお店にいますか？みんなに教えよう。</p>
+    <div class="fg"><label class="flabel">お店を選ぶ</label><div class="ssl" id="ci-list"></div></div>
+    <div class="mactions">
+      <button class="checkin-btn" style="flex:1;padding:12px;font-size:14px;" onclick="submitCI()">チェックイン</button>
+      <button class="btn-ghost" onclick="closeM('m-checkin')">キャンセル</button>
     </div>
   </div>
+</div>
 
-  <div style="text-align:center;margin-top:48px;">
-    <button class="btn-ghost">もっと見る</button>
-  </div>
-</section>
-
-<section class="badge-section" id="badge">
-  <div class="badge-grid">
-    <div>
-      <div class="section-tag">for restaurants</div>
-      <h2 class="section-title">「一人でも<br>大歓迎」を、<br>伝えよう。</h2>
-      <p class="section-sub" style="margin-bottom:40px;">本当はウェルカムなのに、雰囲気的に言い出せない。そのギャップを埋めるのが、ひとり歓迎バッジです。</p>
-
-      <div class="badge-perks">
-        <div class="perk">
-          <div class="perk-icon">◎</div>
-          <div>
-            <div class="perk-title">一人客に直接リーチ</div>
-            <div class="perk-body">「一人で入っていいお店を探している」ユーザーに、あなたのお店が表示される。</div>
-          </div>
-        </div>
-        <div class="perk">
-          <div class="perk-icon">→</div>
-          <div>
-            <div class="perk-title">お店からのメッセージを発信</div>
-            <div class="perk-body">「カウンターでゆっくりどうぞ」など、お店の言葉で一人客に語りかけられる。</div>
-          </div>
-        </div>
-        <div class="perk">
-          <div class="perk-icon">✦</div>
-          <div>
-            <div class="perk-title">ユーザーが増えるほど価値が上がる</div>
-            <div class="perk-body">今は無料で登録。ユーザーが集まった時点で、本当に効くプラットフォームになる。</div>
-          </div>
-        </div>
-      </div>
-
-      <button class="btn-primary" style="margin-top:40px;">無料でバッジを登録する</button>
-    </div>
-
-    <div class="badge-visual">
-      <div class="big-badge">
-        <div class="big-badge-icon">🍽</div>
-        <div class="big-badge-text">ひとり歓迎</div>
-      </div>
-      <div class="badge-sub-text">
-        このバッジは、お店が自ら申請して取得します。<br>
-        「うちは一人でも全然OKです」という、<br>
-        お店からユーザーへの、静かな意思表示。
-      </div>
-      <div class="price-display">
-        <div class="price-num">¥0<span> / 今すぐ</span></div>
-        <div class="price-label">まずは無料で登録。ユーザーが集まってから一緒に考える。</div>
-      </div>
+<div class="modal-overlay" id="m-report" onclick="if(event.target===this)closeM('m-report')">
+  <div class="modal">
+    <button class="mclose" onclick="closeM('m-report')">✕</button>
+    <h2>入店レポートを書く</h2>
+    <p class="msub">一人で入ってみた正直な感想を残してください。次の誰かの勇気になります。</p>
+    <div class="fg"><label class="flabel">お名前（ニックネームでOK）</label><input class="finput" type="text" id="r-name" placeholder="例：あかね"></div>
+    <div class="fg"><label class="flabel">お店</label><select class="finput" id="r-shop"><option value="">選択...</option></select></div>
+    <div class="fg"><label class="flabel">入ってみた感想</label><textarea class="finput" id="r-body" placeholder="スタッフの対応、席の雰囲気、一人でどうだったか...正直に書いてください"></textarea></div>
+    <div class="fg"><label class="flabel">入りやすさ（5段階）</label><div class="score-sel"><button class="sopt" onclick="setScore(1)">1</button><button class="sopt" onclick="setScore(2)">2</button><button class="sopt" onclick="setScore(3)">3</button><button class="sopt" onclick="setScore(4)">4</button><button class="sopt" onclick="setScore(5)">5</button></div></div>
+    <div class="fg"><label class="flabel">あてはまるもの（複数OK）</label><div class="tag-opts"><button class="topt" onclick="tt(this)">カウンターに案内</button><button class="topt" onclick="tt(this)">一人確認あり</button><button class="topt" onclick="tt(this)">店主と会話</button><button class="topt" onclick="tt(this)">静かな雰囲気</button><button class="topt" onclick="tt(this)">テーブル席のみ</button><button class="topt" onclick="tt(this)">また行く</button><button class="topt" onclick="tt(this)">昼推奨</button><button class="topt" onclick="tt(this)">夜推奨</button><button class="topt" onclick="tt(this)">料理が◎</button></div></div>
+    <div class="mactions">
+      <button class="report-btn" style="flex:1;padding:12px;font-size:14px;" onclick="submitReport()">レポートを投稿する</button>
+      <button class="btn-ghost" onclick="closeM('m-report')">キャンセル</button>
     </div>
   </div>
-</section>
+</div>
 
-<section class="cta-section">
-  <div class="section-tag">さあ、始めよう</div>
-  <h2 class="section-title">今夜の一人飯、<br>もう迷わない。</h2>
-  <p class="section-sub">リアルタイムで、正直に、一人視点で。<br>一人飯のための、初めてのプラットフォーム。</p>
-  <div class="cta-actions">
-    <button class="btn-primary">近くのお店を探す</button>
-    <button class="btn-ghost">レポートを書く</button>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-logo">一人飯.com</div>
-  <div class="footer-links">
-    <a href="#">使い方</a>
-    <a href="#">お店の方へ</a>
-    <a href="#">お問い合わせ</a>
-    <a href="#">プライバシー</a>
-  </div>
-  <div class="footer-copy">© 2026 一人飯.com</div>
-</footer>
+<div class="toast" id="toast"></div>
 
 <script>
-  // Live counter animation
-  let count = 31;
-  setInterval(() => {
-    const delta = Math.random() > 0.5 ? 1 : -1;
-    count = Math.max(18, Math.min(48, count + delta));
-    const els = document.querySelectorAll('#live-count, #live-counter-num');
-    els.forEach(el => el.textContent = count);
-  }, 3200);
+const DEFAULT_SHOPS=[
+  {id:1,name:'炭火焼き 燈',genre:'焼き鳥',counter:true,welcome:true,msg:'一人でゆっくり楽しんでいただけます。カウンターで大将と話すのがおすすめです。',checkins:2,dist:'220m'},
+  {id:2,name:'手打ち蕎麦 庵',genre:'蕎麦',counter:true,welcome:true,msg:'昼も夜も一人のお客様が多く、静かに食事できる環境です。',checkins:1,dist:'380m'},
+  {id:3,name:'洋食 キッチン六番',genre:'洋食',counter:false,welcome:false,msg:'',checkins:0,dist:'520m'},
+  {id:4,name:'ラーメン 麺道場',genre:'ラーメン',counter:true,welcome:true,msg:'カウンター12席全席一人でOK。食券制なので気軽にどうぞ。',checkins:0,dist:'670m'},
+  {id:5,name:'立ち飲み 角打ち 升',genre:'居酒屋',counter:true,welcome:true,msg:'立ち飲みなので一人が基本スタイル。初めてでもすぐ馴染めます。',checkins:3,dist:'150m'},
+  {id:6,name:'寿司 大漁丸',genre:'寿司',counter:true,welcome:true,msg:'カウンターで職人と話しながら食べるのが一番楽しいお店です。',checkins:1,dist:'800m'},
+  {id:7,name:'イタリアン Vino',genre:'イタリアン',counter:false,welcome:false,msg:'',checkins:0,dist:'1.1km'},
+  {id:8,name:'天ぷら 花',genre:'天ぷら',counter:true,welcome:true,msg:'揚げたてを一人でゆっくり。カウンターで職人の技を間近に。',checkins:0,dist:'630m'},
+  {id:9,name:'中華食堂 龍',genre:'中華',counter:false,welcome:true,msg:'テーブル席ですが一人のお客様も多く、全然気になりません。',checkins:2,dist:'450m'},
+];
+const DEFAULT_REPORTS=[
+  {id:1,name:'あかね',sid:1,sname:'炭火焼き 燈',body:'カウンターに案内してもらえた。大将が自然に話しかけてくれて、全然孤独じゃなかった。むしろ一人の方が大将と会話できて最高だった。',score:5,tags:['カウンターに案内','店主と会話','また行く'],time:'2時間前'},
+  {id:2,name:'しんや',sid:2,sname:'手打ち蕎麦 庵',body:'暖簾をくぐったら「お一人ですか？」って自然に聞いてくれた。窓際の席でゆっくり食べられた。一人でも全然浮かなかった。',score:4,tags:['一人確認あり','静かな雰囲気','昼推奨'],time:'昨日'},
+  {id:3,name:'ゆり',sid:3,sname:'洋食 キッチン六番',body:'テーブル席に案内されたが2人掛けで少し気まずかった。料理は本当においしい。カウンターがあればもっとよかった。次は昼に行く。',score:3,tags:['テーブル席のみ','料理が◎','昼推奨'],time:'3日前'},
+  {id:4,name:'たかし',sid:5,sname:'立ち飲み 角打ち 升',body:'立ち飲みなので最初から一人前提のお店。隣の人と自然に会話が始まって気づいたら2時間いた。最高すぎる。',score:5,tags:['また行く','夜推奨','店主と会話'],time:'4日前'},
+];
 
-  // Smooth scroll for nav links
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+let shops=JSON.parse(localStorage.getItem('hm2-shops')||'null')||[...DEFAULT_SHOPS];
+let reports=JSON.parse(localStorage.getItem('hm2-reports')||'null')||[...DEFAULT_REPORTS];
+let curFilter='all', curScore=0, curCIShop=null;
+
+function save(){localStorage.setItem('hm2-shops',JSON.stringify(shops));localStorage.setItem('hm2-reports',JSON.stringify(reports));}
+
+function showPage(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',['explore','reports','badge'][i]===n));
+  document.getElementById('page-'+n).classList.add('active');
+  window.scrollTo(0,0);
+  if(n==='explore')renderShops();
+  if(n==='reports')renderReports();
+  if(n==='badge')renderBadge();
+}
+
+function renderShops(){
+  const q=(document.getElementById('q').value||'').toLowerCase();
+  let list=shops.filter(s=>{
+    if(q&&!s.name.toLowerCase().includes(q)&&!s.genre.toLowerCase().includes(q))return false;
+    if(curFilter==='welcome')return s.welcome;
+    if(curFilter==='live')return s.checkins>0;
+    if(curFilter==='counter')return s.counter;
+    return true;
   });
+  const el=document.getElementById('shops-list');
+  if(!list.length){el.innerHTML='<div class="no-results">条件に合うお店が見つかりませんでした</div>';return;}
+  el.innerHTML=list.map(s=>`
+    <div class="shop-card">
+      <div class="shop-main">
+        <div class="shop-top">
+          <div><div class="shop-name">${s.name}</div><div class="shop-genre">${s.genre}${s.counter?' · カウンター席あり':''}</div></div>
+          ${s.welcome?'<div class="bw">ひとり歓迎</div>':'<div style="font-size:10px;color:var(--cream3);padding:3px 9px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;">未登録</div>'}
+        </div>
+        <div class="shop-meta">
+          ${s.checkins>0?`<div class="smeta"><span class="live-dot"></span><span class="live-count-text">今${s.checkins}人いる</span></div>`:'<div class="smeta" style="color:var(--cream3);">現在0人</div>'}
+          <div class="smeta">📍 ${s.dist}</div>
+        </div>
+        ${s.msg?`<div class="shop-msg">「${s.msg}」</div>`:''}
+      </div>
+      <div class="shop-acts">
+        <button class="btn-ci" onclick="quickCI(${s.id})">今ここにいる</button>
+        <button class="btn-rp" onclick="openReport(${s.id})">レポートを書く</button>
+      </div>
+    </div>`).join('');
+  const n=reports.length;
+  const g=reports.filter(r=>r.score>=4).length;
+  document.getElementById('stat-r').textContent=n;
+  document.getElementById('stat-s').textContent=shops.filter(s=>s.welcome).length;
+  document.getElementById('stat-p').textContent=(n?Math.round(g/n*100):87)+'%';
+}
 
-  // Intersection observer for fade-in
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
+function renderReports(){
+  const el=document.getElementById('reports-list');
+  const rs=[...reports].reverse();
+  if(!rs.length){el.innerHTML='<div style="padding:60px 0;text-align:center;color:var(--cream3);">まだレポートがありません。最初の一人になろう！</div>';return;}
+  el.innerHTML=rs.map(r=>`
+    <div class="rcard">
+      <div class="rtop">
+        <div class="avatar">${r.name[0]}</div>
+        <div><div class="rname">${r.name}</div><div class="rshop">${r.sname} · ${r.time}</div></div>
+        <span class="sbadge ${r.score>=4?'good':'meh'}" style="margin-left:auto;">${r.score>=4?'入れた':'少し難しい'}</span>
+      </div>
+      <div class="rbody">${r.body}</div>
+      ${r.tags.length?`<div class="rtags">${r.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`:''}
+      <div class="score-row">
+        <div class="dots">${[1,2,3,4,5].map(i=>`<div class="dot ${i<=r.score?'on':''}"></div>`).join('')}</div>
+        <span class="slabel">入りやすさ ${r.score}/5</span>
+      </div>
+    </div>`).join('');
+  const total=reports.length,good=reports.filter(r=>r.score>=4).length;
+  document.getElementById('rs-total').textContent=total;
+  document.getElementById('rs-good').textContent=(total?Math.round(good/total*100):0)+'%';
+  document.getElementById('rs-shops').textContent=[...new Set(reports.map(r=>r.sid))].length;
+}
 
-  document.querySelectorAll('.report-card, .how-step, .perk').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
-  });
+function renderBadge(){
+  const el=document.getElementById('badge-list');
+  el.innerHTML=shops.filter(s=>s.welcome).map(s=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);">
+      <div><div style="font-family:'Noto Serif JP',serif;font-size:13px;font-weight:600;color:var(--cream);">${s.name}</div><div style="font-size:11px;color:var(--cream3);">${s.genre}</div></div>
+      <div class="bw">ひとり歓迎</div>
+    </div>`).join('');
+}
+
+function setF(el,f){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');curFilter=f;renderShops();}
+
+function openCheckin(){
+  curCIShop=null;
+  document.getElementById('ci-list').innerHTML=shops.map(s=>`
+    <div class="ssi" onclick="selectCI(this,${s.id})">
+      <div><div class="ssi-name">${s.name}</div><div class="ssi-sub">${s.genre} · ${s.dist}</div></div>
+      ${s.checkins>0?`<div style="font-size:11px;color:var(--green);">今${s.checkins}人</div>`:''}
+    </div>`).join('');
+  openM('m-checkin');
+}
+function selectCI(el,id){document.querySelectorAll('.ssi').forEach(i=>i.classList.remove('on'));el.classList.add('on');curCIShop=id;}
+function quickCI(id){const s=shops.find(x=>x.id===id);if(!s)return;s.checkins++;save();renderShops();toast(`${s.name}にチェックインしました！`);}
+function submitCI(){if(!curCIShop){toast('お店を選んでください');return;}quickCI(curCIShop);closeM('m-checkin');curCIShop=null;}
+
+function openReport(sid){
+  curScore=0;
+  document.querySelectorAll('.sopt').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.topt').forEach(b=>b.classList.remove('on'));
+  document.getElementById('r-name').value='';
+  document.getElementById('r-body').value='';
+  const sel=document.getElementById('r-shop');
+  sel.innerHTML='<option value="">選択...</option>'+shops.map(s=>`<option value="${s.id}"${sid===s.id?' selected':''}>${s.name}</option>`).join('');
+  openM('m-report');
+}
+function setScore(n){curScore=n;document.querySelectorAll('.sopt').forEach((b,i)=>b.classList.toggle('on',i<n));}
+function tt(el){el.classList.toggle('on');}
+function submitReport(){
+  const name=document.getElementById('r-name').value.trim();
+  const sid=parseInt(document.getElementById('r-shop').value);
+  const body=document.getElementById('r-body').value.trim();
+  if(!name){toast('お名前を入力してください');return;}
+  if(!sid){toast('お店を選んでください');return;}
+  if(!body){toast('感想を入力してください');return;}
+  if(!curScore){toast('入りやすさを選んでください');return;}
+  const shop=shops.find(s=>s.id===sid);
+  const tags=[...document.querySelectorAll('.topt.on')].map(t=>t.textContent);
+  reports.push({id:Date.now(),name,sid,sname:shop.name,body,score:curScore,tags,time:'たった今'});
+  save();closeM('m-report');toast('レポートを投稿しました！');renderShops();renderReports();
+}
+
+function registerShop(){
+  const name=document.getElementById('rg-name').value.trim();
+  const genre=document.getElementById('rg-genre').value;
+  const counter=document.getElementById('rg-counter').value==='yes';
+  const msg=document.getElementById('rg-msg').value.trim();
+  if(!name||!genre){toast('お店の名前とジャンルを入力してください');return;}
+  shops.push({id:Date.now(),name,genre,counter,welcome:true,msg,checkins:0,dist:'---'});
+  save();document.getElementById('rg-ok').style.display='block';
+  document.getElementById('rg-name').value='';document.getElementById('rg-genre').value='';document.getElementById('rg-msg').value='';
+  renderBadge();toast(`${name} を登録しました！`);
+}
+
+function openM(id){document.getElementById(id).classList.add('open');}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+let lv=31;
+setInterval(()=>{lv=Math.max(15,Math.min(55,lv+(Math.random()>.5?1:-1)));const el=document.getElementById('live-count');if(el)el.textContent=lv;},3500);
+
+renderShops();
 </script>
 </body>
 </html>
