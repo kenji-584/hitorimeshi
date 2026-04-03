@@ -51,7 +51,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .chip{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border2);color:var(--cream3);background:transparent;transition:all 0.12s;}
 .chip:hover{border-color:var(--border3);color:var(--cream);}
 .chip.on{background:var(--cream);color:var(--bg);border-color:var(--cream);}
-.shop-card{padding:18px 28px;border-bottom:1px solid var(--border);display:flex;gap:16px;align-items:flex-start;transition:background 0.12s;cursor:default;}
+.shop-card{padding:18px 28px;border-bottom:1px solid var(--border);display:flex;gap:16px;align-items:flex-start;transition:background 0.12s;}
 .shop-card:hover{background:var(--bg2);}
 .shop-main{flex:1;}
 .shop-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px;gap:10px;}
@@ -67,7 +67,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .btn-ci:hover{background:rgba(74,158,107,0.2);}
 .btn-rp{background:transparent;color:var(--cream3);border:1px solid var(--border);padding:7px 13px;border-radius:6px;font-size:12px;transition:all 0.15s;white-space:nowrap;}
 .btn-rp:hover{color:var(--cream);border-color:var(--border2);}
-.no-results{padding:60px 28px;text-align:center;color:var(--cream3);font-size:14px;}
+.empty-state{padding:80px 28px;text-align:center;}
+.empty-icon{font-size:48px;margin-bottom:16px;}
+.empty-title{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:600;color:var(--cream);margin-bottom:8px;}
+.empty-sub{font-size:14px;color:var(--cream3);line-height:1.7;margin-bottom:24px;}
+.loading{padding:60px 28px;text-align:center;color:var(--cream3);font-size:14px;}
 .rpage-header{padding:36px 28px 20px;border-bottom:1px solid var(--border);}
 .rpage-header h2{font-family:'Noto Serif JP',serif;font-size:28px;font-weight:600;margin-bottom:6px;}
 .rpage-header p{font-size:14px;color:var(--cream3);}
@@ -137,6 +141,7 @@ select.finput{appearance:none;cursor:pointer;}
 .regform h3{font-family:'Noto Serif JP',serif;font-size:17px;font-weight:600;margin-bottom:3px;}
 .regform p{font-size:12px;color:var(--cream3);margin-bottom:16px;}
 .success-msg{background:var(--green-bg);border:1px solid rgba(74,158,107,0.25);border-radius:8px;padding:14px;color:var(--green);font-size:13px;display:none;margin-top:14px;}
+.error-msg{background:rgba(212,98,42,0.1);border:1px solid rgba(212,98,42,0.3);border-radius:8px;padding:14px;color:var(--accent2);font-size:13px;display:none;margin-top:14px;}
 .stag{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent2);margin-bottom:10px;}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--cream);color:var(--bg);padding:11px 22px;border-radius:8px;font-size:13px;font-weight:500;z-index:999;transition:transform 0.3s ease;pointer-events:none;white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);}
@@ -158,7 +163,6 @@ select.finput{appearance:none;cursor:pointer;}
 </style>
 </head>
 <body>
-
 <nav>
   <div class="nav-logo" onclick="showPage('explore')">一人飯<span>.</span>com</div>
   <div class="nav-tabs">
@@ -175,7 +179,7 @@ select.finput{appearance:none;cursor:pointer;}
 <div class="page active" id="page-explore">
   <div class="hero">
     <div class="hero-bg">一人</div>
-    <div class="hero-live"><span class="live-dot"></span>今このエリアで <strong id="live-count">31</strong> 人が一人飯中</div>
+    <div class="hero-live"><span class="live-dot"></span>今このエリアで <strong id="live-count">0</strong> 人が一人飯中</div>
     <h1>一人で入れるお店が、<br><em>見つかる。</em></h1>
     <p class="hero-sub">「入っていいのかな」の不安を、リアルタイムの情報と、お店の本音で、解消する。</p>
     <div class="hero-actions">
@@ -184,12 +188,12 @@ select.finput{appearance:none;cursor:pointer;}
     </div>
     <div class="hero-stats">
       <div><div class="hstat-num" id="stat-r">0</div><div class="hstat-label">入店レポート</div></div>
-      <div><div class="hstat-num" id="stat-s">9</div><div class="hstat-label">歓迎バッジ店</div></div>
-      <div><div class="hstat-num" id="stat-p">87%</div><div class="hstat-label">「入れた」率</div></div>
+      <div><div class="hstat-num" id="stat-s">0</div><div class="hstat-label">歓迎バッジ店</div></div>
+      <div><div class="hstat-num" id="stat-p">-</div><div class="hstat-label">「入れた」率</div></div>
     </div>
   </div>
   <div class="search-area">
-    <div class="search-wrap"><span class="search-icon">⌕</span><input type="text" id="q" placeholder="お店名・ジャンルで検索..." oninput="renderShops()"></div>
+    <div class="search-wrap"><span class="search-icon">⌕</span><input type="text" id="q" placeholder="お店名・ジャンルで検索..." oninput="filterShops()"></div>
     <div class="chips">
       <button class="chip on" onclick="setF(this,'all')">すべて</button>
       <button class="chip" onclick="setF(this,'welcome')">歓迎バッジのみ</button>
@@ -197,7 +201,7 @@ select.finput{appearance:none;cursor:pointer;}
       <button class="chip" onclick="setF(this,'counter')">カウンター</button>
     </div>
   </div>
-  <div id="shops-list"></div>
+  <div id="shops-list"><div class="loading">読み込み中...</div></div>
 </div>
 
 <div class="page" id="page-reports">
@@ -207,11 +211,11 @@ select.finput{appearance:none;cursor:pointer;}
     <p>一人飯した人の、一人飯した人のための、リアルな記録。</p>
     <div class="rstats">
       <div><div class="rstat-num" id="rs-total">0</div><div class="rstat-label">総レポート</div></div>
-      <div><div class="rstat-num" id="rs-good">0%</div><div class="rstat-label">「入れた」率</div></div>
+      <div><div class="rstat-num" id="rs-good">-%</div><div class="rstat-label">「入れた」率</div></div>
       <div><div class="rstat-num" id="rs-shops">0</div><div class="rstat-label">対象店舗数</div></div>
     </div>
   </div>
-  <div class="rlist" id="reports-list"></div>
+  <div class="rlist" id="reports-list"><div class="loading">読み込み中...</div></div>
 </div>
 
 <div class="page" id="page-badge">
@@ -228,15 +232,16 @@ select.finput{appearance:none;cursor:pointer;}
         </div>
         <div class="regform">
           <h3>お店を登録する</h3>
-          <p>無料・1分で完了</p>
+          <p>無料・5分で完了</p>
           <div class="fg"><label class="flabel">お店の名前</label><input class="finput" type="text" id="rg-name" placeholder="例：炭火焼き 燈"></div>
           <div class="frow">
             <div class="fg"><label class="flabel">ジャンル</label><select class="finput" id="rg-genre"><option value="">選択...</option><option>焼き鳥</option><option>蕎麦</option><option>ラーメン</option><option>居酒屋</option><option>洋食</option><option>和食</option><option>寿司</option><option>中華</option><option>カフェ</option><option>その他</option></select></div>
-            <div class="fg"><label class="flabel">カウンター席</label><select class="finput" id="rg-counter"><option value="yes">あり</option><option value="no">なし</option></select></div>
+            <div class="fg"><label class="flabel">カウンター席</label><select class="finput" id="rg-counter"><option value="true">あり</option><option value="false">なし</option></select></div>
           </div>
           <div class="fg"><label class="flabel">一人客へのメッセージ（任意）</label><textarea class="finput" id="rg-msg" placeholder="例：カウンターでゆっくりお食事いただけます。一人のお客様も大歓迎です。" rows="3"></textarea></div>
-          <button class="btn-primary" onclick="registerShop()" style="width:100%;padding:12px;">無料でバッジを取得する</button>
-          <div class="success-msg" id="rg-ok">登録ありがとうございます！審査後、バッジが付与されます。</div>
+          <button class="btn-primary" onclick="registerShop()" style="width:100%;padding:12px;" id="rg-btn">無料でバッジを取得する</button>
+          <div class="success-msg" id="rg-ok">登録ありがとうございます！お店が一覧に追加されました。</div>
+          <div class="error-msg" id="rg-err">エラーが発生しました。もう一度お試しください。</div>
         </div>
       </div>
       <div>
@@ -247,7 +252,7 @@ select.finput{appearance:none;cursor:pointer;}
         </div>
         <div style="margin-top:16px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;">
           <div style="font-size:11px;color:var(--cream3);margin-bottom:10px;letter-spacing:0.06em;">現在の登録店舗</div>
-          <div id="badge-list"></div>
+          <div id="badge-list"><div class="loading" style="padding:20px 0;">読み込み中...</div></div>
         </div>
       </div>
     </div>
@@ -278,7 +283,7 @@ select.finput{appearance:none;cursor:pointer;}
     <div class="fg"><label class="flabel">入りやすさ（5段階）</label><div class="score-sel"><button class="sopt" onclick="setScore(1)">1</button><button class="sopt" onclick="setScore(2)">2</button><button class="sopt" onclick="setScore(3)">3</button><button class="sopt" onclick="setScore(4)">4</button><button class="sopt" onclick="setScore(5)">5</button></div></div>
     <div class="fg"><label class="flabel">あてはまるもの（複数OK）</label><div class="tag-opts"><button class="topt" onclick="tt(this)">カウンターに案内</button><button class="topt" onclick="tt(this)">一人確認あり</button><button class="topt" onclick="tt(this)">店主と会話</button><button class="topt" onclick="tt(this)">静かな雰囲気</button><button class="topt" onclick="tt(this)">テーブル席のみ</button><button class="topt" onclick="tt(this)">また行く</button><button class="topt" onclick="tt(this)">昼推奨</button><button class="topt" onclick="tt(this)">夜推奨</button><button class="topt" onclick="tt(this)">料理が◎</button></div></div>
     <div class="mactions">
-      <button class="report-btn" style="flex:1;padding:12px;font-size:14px;" onclick="submitReport()">レポートを投稿する</button>
+      <button class="report-btn" style="flex:1;padding:12px;font-size:14px;" onclick="submitReport()" id="r-btn">レポートを投稿する</button>
       <button class="btn-ghost" onclick="closeM('m-report')">キャンセル</button>
     </div>
   </div>
@@ -287,43 +292,36 @@ select.finput{appearance:none;cursor:pointer;}
 <div class="toast" id="toast"></div>
 
 <script>
-const DEFAULT_SHOPS=[
-  {id:1,name:'炭火焼き 燈',genre:'焼き鳥',counter:true,welcome:true,msg:'一人でゆっくり楽しんでいただけます。カウンターで大将と話すのがおすすめです。',checkins:2,dist:'220m'},
-  {id:2,name:'手打ち蕎麦 庵',genre:'蕎麦',counter:true,welcome:true,msg:'昼も夜も一人のお客様が多く、静かに食事できる環境です。',checkins:1,dist:'380m'},
-  {id:3,name:'洋食 キッチン六番',genre:'洋食',counter:false,welcome:false,msg:'',checkins:0,dist:'520m'},
-  {id:4,name:'ラーメン 麺道場',genre:'ラーメン',counter:true,welcome:true,msg:'カウンター12席全席一人でOK。食券制なので気軽にどうぞ。',checkins:0,dist:'670m'},
-  {id:5,name:'立ち飲み 角打ち 升',genre:'居酒屋',counter:true,welcome:true,msg:'立ち飲みなので一人が基本スタイル。初めてでもすぐ馴染めます。',checkins:3,dist:'150m'},
-  {id:6,name:'寿司 大漁丸',genre:'寿司',counter:true,welcome:true,msg:'カウンターで職人と話しながら食べるのが一番楽しいお店です。',checkins:1,dist:'800m'},
-  {id:7,name:'イタリアン Vino',genre:'イタリアン',counter:false,welcome:false,msg:'',checkins:0,dist:'1.1km'},
-  {id:8,name:'天ぷら 花',genre:'天ぷら',counter:true,welcome:true,msg:'揚げたてを一人でゆっくり。カウンターで職人の技を間近に。',checkins:0,dist:'630m'},
-  {id:9,name:'中華食堂 龍',genre:'中華',counter:false,welcome:true,msg:'テーブル席ですが一人のお客様も多く、全然気になりません。',checkins:2,dist:'450m'},
-];
-const DEFAULT_REPORTS=[
-  {id:1,name:'あかね',sid:1,sname:'炭火焼き 燈',body:'カウンターに案内してもらえた。大将が自然に話しかけてくれて、全然孤独じゃなかった。むしろ一人の方が大将と会話できて最高だった。',score:5,tags:['カウンターに案内','店主と会話','また行く'],time:'2時間前'},
-  {id:2,name:'しんや',sid:2,sname:'手打ち蕎麦 庵',body:'暖簾をくぐったら「お一人ですか？」って自然に聞いてくれた。窓際の席でゆっくり食べられた。一人でも全然浮かなかった。',score:4,tags:['一人確認あり','静かな雰囲気','昼推奨'],time:'昨日'},
-  {id:3,name:'ゆり',sid:3,sname:'洋食 キッチン六番',body:'テーブル席に案内されたが2人掛けで少し気まずかった。料理は本当においしい。カウンターがあればもっとよかった。次は昼に行く。',score:3,tags:['テーブル席のみ','料理が◎','昼推奨'],time:'3日前'},
-  {id:4,name:'たかし',sid:5,sname:'立ち飲み 角打ち 升',body:'立ち飲みなので最初から一人前提のお店。隣の人と自然に会話が始まって気づいたら2時間いた。最高すぎる。',score:5,tags:['また行く','夜推奨','店主と会話'],time:'4日前'},
-];
+const SUPABASE_URL='https://lmqjwrcjsyymjahuight.supabase.co';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtcWp3cmNqc3l5bWphaHVpZ2h0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNzQ5NDksImV4cCI6MjA5MDY1MDk0OX0.qzmUhoo64iYfZ4odhyikKLc29s8Xjb9f0z_-w_9zMGM';
 
-let shops=JSON.parse(localStorage.getItem('hm2-shops')||'null')||[...DEFAULT_SHOPS];
-let reports=JSON.parse(localStorage.getItem('hm2-reports')||'null')||[...DEFAULT_REPORTS];
-let curFilter='all', curScore=0, curCIShop=null;
+async function sb(path,options={}){
+  const res=await fetch(`${SUPABASE_URL}/rest/v1/${path}`,{
+    headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}`,'Content-Type':'application/json','Prefer':options.prefer||'return=representation',...options.headers},
+    ...options
+  });
+  if(!res.ok){const err=await res.text();throw new Error(err);}
+  const text=await res.text();
+  return text?JSON.parse(text):[];
+}
 
-function save(){localStorage.setItem('hm2-shops',JSON.stringify(shops));localStorage.setItem('hm2-reports',JSON.stringify(reports));}
+let allShops=[],curFilter='all',curScore=0,curCIShop=null;
 
-function showPage(n){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',['explore','reports','badge'][i]===n));
-  document.getElementById('page-'+n).classList.add('active');
-  window.scrollTo(0,0);
-  if(n==='explore')renderShops();
-  if(n==='reports')renderReports();
-  if(n==='badge')renderBadge();
+async function init(){await loadShops();await loadReports();}
+
+async function loadShops(){
+  try{
+    allShops=await sb('shops?select=*&order=created_at.desc');
+    renderShops();updateStats();renderBadge();
+  }catch(e){
+    document.getElementById('shops-list').innerHTML='<div class="empty-state"><div class="empty-icon">🍽</div><div class="empty-title">まだお店が登録されていません</div><div class="empty-sub">一人飯できるお店を知っていますか？<br>最初の登録者になろう！</div><button class="btn-primary" onclick="showPage(\'badge\')">お店を登録する</button></div>';
+    document.getElementById('badge-list').innerHTML='<div style="padding:20px 0;text-align:center;color:var(--cream3);font-size:13px;">まだ登録店舗はありません</div>';
+  }
 }
 
 function renderShops(){
   const q=(document.getElementById('q').value||'').toLowerCase();
-  let list=shops.filter(s=>{
+  let list=allShops.filter(s=>{
     if(q&&!s.name.toLowerCase().includes(q)&&!s.genre.toLowerCase().includes(q))return false;
     if(curFilter==='welcome')return s.welcome;
     if(curFilter==='live')return s.checkins>0;
@@ -331,79 +329,80 @@ function renderShops(){
     return true;
   });
   const el=document.getElementById('shops-list');
-  if(!list.length){el.innerHTML='<div class="no-results">条件に合うお店が見つかりませんでした</div>';return;}
-  el.innerHTML=list.map(s=>`
-    <div class="shop-card">
-      <div class="shop-main">
-        <div class="shop-top">
-          <div><div class="shop-name">${s.name}</div><div class="shop-genre">${s.genre}${s.counter?' · カウンター席あり':''}</div></div>
-          ${s.welcome?'<div class="bw">ひとり歓迎</div>':'<div style="font-size:10px;color:var(--cream3);padding:3px 9px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;">未登録</div>'}
-        </div>
-        <div class="shop-meta">
-          ${s.checkins>0?`<div class="smeta"><span class="live-dot"></span><span class="live-count-text">今${s.checkins}人いる</span></div>`:'<div class="smeta" style="color:var(--cream3);">現在0人</div>'}
-          <div class="smeta">📍 ${s.dist}</div>
-        </div>
-        ${s.msg?`<div class="shop-msg">「${s.msg}」</div>`:''}
-      </div>
-      <div class="shop-acts">
-        <button class="btn-ci" onclick="quickCI(${s.id})">今ここにいる</button>
-        <button class="btn-rp" onclick="openReport(${s.id})">レポートを書く</button>
-      </div>
-    </div>`).join('');
-  const n=reports.length;
-  const g=reports.filter(r=>r.score>=4).length;
-  document.getElementById('stat-r').textContent=n;
-  document.getElementById('stat-s').textContent=shops.filter(s=>s.welcome).length;
-  document.getElementById('stat-p').textContent=(n?Math.round(g/n*100):87)+'%';
+  if(allShops.length===0){el.innerHTML='<div class="empty-state"><div class="empty-icon">🍽</div><div class="empty-title">まだお店が登録されていません</div><div class="empty-sub">一人飯できるお店を知っていますか？<br>最初の登録者になろう！</div><button class="btn-primary" onclick="showPage(\'badge\')">お店を登録する</button></div>';return;}
+  if(list.length===0){el.innerHTML='<div class="loading">条件に合うお店が見つかりませんでした</div>';return;}
+  el.innerHTML=list.map(s=>`<div class="shop-card"><div class="shop-main"><div class="shop-top"><div><div class="shop-name">${s.name}</div><div class="shop-genre">${s.genre}${s.counter?' · カウンター席あり':''}</div></div>${s.welcome?'<div class="bw">ひとり歓迎</div>':'<div style="font-size:10px;color:var(--cream3);padding:3px 9px;border:1px solid var(--border);border-radius:4px;">未登録</div>'}</div><div class="shop-meta">${(s.checkins||0)>0?`<div class="smeta"><span class="live-dot"></span><span class="live-count-text">今${s.checkins}人いる</span></div>`:'<div class="smeta" style="color:var(--cream3);">現在0人</div>'}</div>${s.msg?`<div class="shop-msg">「${s.msg}」</div>`:''}</div><div class="shop-acts"><button class="btn-ci" onclick="quickCI('${s.id}','${s.name}')">今ここにいる</button><button class="btn-rp" onclick="openReport('${s.id}')">レポートを書く</button></div></div>`).join('');
 }
 
-function renderReports(){
+function filterShops(){renderShops();}
+function setF(el,f){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');curFilter=f;renderShops();}
+function updateStats(){
+  document.getElementById('stat-s').textContent=allShops.filter(s=>s.welcome).length;
+  document.getElementById('live-count').textContent=allShops.reduce((a,s)=>a+(s.checkins||0),0);
+}
+
+async function loadReports(){
+  try{
+    const reports=await sb('reports?select=*&order=created_at.desc');
+    renderReports(reports);
+    const good=reports.filter(r=>r.score>=4).length;
+    document.getElementById('stat-r').textContent=reports.length;
+    document.getElementById('stat-p').textContent=reports.length?Math.round(good/reports.length*100)+'%':'-';
+    document.getElementById('rs-total').textContent=reports.length;
+    document.getElementById('rs-good').textContent=reports.length?Math.round(good/reports.length*100)+'%':'-%';
+    document.getElementById('rs-shops').textContent=[...new Set(reports.map(r=>r.shop_id))].length;
+  }catch(e){}
+}
+
+function renderReports(reports){
   const el=document.getElementById('reports-list');
-  const rs=[...reports].reverse();
-  if(!rs.length){el.innerHTML='<div style="padding:60px 0;text-align:center;color:var(--cream3);">まだレポートがありません。最初の一人になろう！</div>';return;}
-  el.innerHTML=rs.map(r=>`
-    <div class="rcard">
-      <div class="rtop">
-        <div class="avatar">${r.name[0]}</div>
-        <div><div class="rname">${r.name}</div><div class="rshop">${r.sname} · ${r.time}</div></div>
-        <span class="sbadge ${r.score>=4?'good':'meh'}" style="margin-left:auto;">${r.score>=4?'入れた':'少し難しい'}</span>
-      </div>
-      <div class="rbody">${r.body}</div>
-      ${r.tags.length?`<div class="rtags">${r.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`:''}
-      <div class="score-row">
-        <div class="dots">${[1,2,3,4,5].map(i=>`<div class="dot ${i<=r.score?'on':''}"></div>`).join('')}</div>
-        <span class="slabel">入りやすさ ${r.score}/5</span>
-      </div>
-    </div>`).join('');
-  const total=reports.length,good=reports.filter(r=>r.score>=4).length;
-  document.getElementById('rs-total').textContent=total;
-  document.getElementById('rs-good').textContent=(total?Math.round(good/total*100):0)+'%';
-  document.getElementById('rs-shops').textContent=[...new Set(reports.map(r=>r.sid))].length;
+  if(!reports||reports.length===0){el.innerHTML='<div class="empty-state"><div class="empty-icon">✍️</div><div class="empty-title">まだレポートがありません</div><div class="empty-sub">一人で入ってみた感想を書いてみよう。<br>次の誰かの勇気になります。</div><button class="btn-primary" onclick="openReport(null)">レポートを書く</button></div>';return;}
+  el.innerHTML=reports.map(r=>{
+    const d=new Date(r.created_at).toLocaleDateString('ja-JP',{month:'long',day:'numeric'});
+    const tags=Array.isArray(r.tags)?r.tags:(r.tags?r.tags.replace(/[{}]/g,'').split(',').filter(Boolean):[]);
+    return `<div class="rcard"><div class="rtop"><div class="avatar">${r.name[0]}</div><div><div class="rname">${r.name}</div><div class="rshop">${r.shop_name} · ${d}</div></div><span class="sbadge ${r.score>=4?'good':'meh'}" style="margin-left:auto;">${r.score>=4?'入れた':'少し難しい'}</span></div><div class="rbody">${r.body}</div>${tags.length?`<div class="rtags">${tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`:''}<div class="score-row"><div class="dots">${[1,2,3,4,5].map(i=>`<div class="dot ${i<=r.score?'on':''}"></div>`).join('')}</div><span class="slabel">入りやすさ ${r.score}/5</span></div></div>`;
+  }).join('');
 }
 
 function renderBadge(){
   const el=document.getElementById('badge-list');
-  el.innerHTML=shops.filter(s=>s.welcome).map(s=>`
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);">
-      <div><div style="font-family:'Noto Serif JP',serif;font-size:13px;font-weight:600;color:var(--cream);">${s.name}</div><div style="font-size:11px;color:var(--cream3);">${s.genre}</div></div>
-      <div class="bw">ひとり歓迎</div>
-    </div>`).join('');
+  const w=allShops.filter(s=>s.welcome);
+  if(w.length===0){el.innerHTML='<div style="padding:20px 0;text-align:center;color:var(--cream3);font-size:13px;">まだ登録店舗はありません</div>';return;}
+  el.innerHTML=w.map(s=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);"><div><div style="font-family:'Noto Serif JP',serif;font-size:13px;font-weight:600;color:var(--cream);">${s.name}</div><div style="font-size:11px;color:var(--cream3);">${s.genre}</div></div><div class="bw">ひとり歓迎</div></div>`).join('');
 }
 
-function setF(el,f){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');curFilter=f;renderShops();}
+async function registerShop(){
+  const name=document.getElementById('rg-name').value.trim();
+  const genre=document.getElementById('rg-genre').value;
+  const counter=document.getElementById('rg-counter').value==='true';
+  const msg=document.getElementById('rg-msg').value.trim();
+  if(!name||!genre){toast('お店の名前とジャンルを入力してください');return;}
+  const btn=document.getElementById('rg-btn');
+  btn.disabled=true;btn.textContent='登録中...';
+  try{
+    const result=await sb('shops',{method:'POST',body:JSON.stringify({name,genre,counter,welcome:true,msg,checkins:0}),prefer:'return=representation'});
+    document.getElementById('rg-ok').style.display='block';
+    document.getElementById('rg-err').style.display='none';
+    document.getElementById('rg-name').value='';
+    document.getElementById('rg-genre').value='';
+    document.getElementById('rg-msg').value='';
+    allShops.unshift(result[0]);renderBadge();updateStats();renderShops();
+    toast(`${name} を登録しました！`);
+  }catch(e){document.getElementById('rg-err').style.display='block';}
+  finally{btn.disabled=false;btn.textContent='無料でバッジを取得する';}
+}
 
 function openCheckin(){
   curCIShop=null;
-  document.getElementById('ci-list').innerHTML=shops.map(s=>`
-    <div class="ssi" onclick="selectCI(this,${s.id})">
-      <div><div class="ssi-name">${s.name}</div><div class="ssi-sub">${s.genre} · ${s.dist}</div></div>
-      ${s.checkins>0?`<div style="font-size:11px;color:var(--green);">今${s.checkins}人</div>`:''}
-    </div>`).join('');
+  document.getElementById('ci-list').innerHTML=allShops.length===0?'<div style="padding:20px;text-align:center;color:var(--cream3);">まだお店が登録されていません</div>':allShops.map(s=>`<div class="ssi" onclick="selectCI(this,'${s.id}','${s.name}')"><div><div class="ssi-name">${s.name}</div><div class="ssi-sub">${s.genre}</div></div>${(s.checkins||0)>0?`<div style="font-size:11px;color:var(--green);">今${s.checkins}人</div>`:''}</div>`).join('');
   openM('m-checkin');
 }
-function selectCI(el,id){document.querySelectorAll('.ssi').forEach(i=>i.classList.remove('on'));el.classList.add('on');curCIShop=id;}
-function quickCI(id){const s=shops.find(x=>x.id===id);if(!s)return;s.checkins++;save();renderShops();toast(`${s.name}にチェックインしました！`);}
-function submitCI(){if(!curCIShop){toast('お店を選んでください');return;}quickCI(curCIShop);closeM('m-checkin');curCIShop=null;}
+function selectCI(el,id,name){document.querySelectorAll('.ssi').forEach(i=>i.classList.remove('on'));el.classList.add('on');curCIShop={id,name};}
+async function quickCI(id,name){
+  const s=allShops.find(x=>x.id===id);if(!s)return;
+  try{s.checkins=(s.checkins||0)+1;await sb(`shops?id=eq.${id}`,{method:'PATCH',body:JSON.stringify({checkins:s.checkins}),prefer:'return=minimal'});renderShops();updateStats();toast(`${name}にチェックインしました！`);}catch(e){toast('エラーが発生しました');}
+}
+async function submitCI(){if(!curCIShop){toast('お店を選んでください');return;}await quickCI(curCIShop.id,curCIShop.name);closeM('m-checkin');curCIShop=null;}
 
 function openReport(sid){
   curScore=0;
@@ -412,45 +411,44 @@ function openReport(sid){
   document.getElementById('r-name').value='';
   document.getElementById('r-body').value='';
   const sel=document.getElementById('r-shop');
-  sel.innerHTML='<option value="">選択...</option>'+shops.map(s=>`<option value="${s.id}"${sid===s.id?' selected':''}>${s.name}</option>`).join('');
+  sel.innerHTML='<option value="">選択...</option>'+allShops.map(s=>`<option value="${s.id}" data-name="${s.name}"${sid===s.id?' selected':''}>${s.name}</option>`).join('');
   openM('m-report');
 }
 function setScore(n){curScore=n;document.querySelectorAll('.sopt').forEach((b,i)=>b.classList.toggle('on',i<n));}
 function tt(el){el.classList.toggle('on');}
-function submitReport(){
+async function submitReport(){
   const name=document.getElementById('r-name').value.trim();
-  const sid=parseInt(document.getElementById('r-shop').value);
+  const shopSel=document.getElementById('r-shop');
+  const shop_id=shopSel.value;
+  const shop_name=shopSel.selectedOptions[0]?.dataset.name||'';
   const body=document.getElementById('r-body').value.trim();
   if(!name){toast('お名前を入力してください');return;}
-  if(!sid){toast('お店を選んでください');return;}
+  if(!shop_id){toast('お店を選んでください');return;}
   if(!body){toast('感想を入力してください');return;}
   if(!curScore){toast('入りやすさを選んでください');return;}
-  const shop=shops.find(s=>s.id===sid);
   const tags=[...document.querySelectorAll('.topt.on')].map(t=>t.textContent);
-  reports.push({id:Date.now(),name,sid,sname:shop.name,body,score:curScore,tags,time:'たった今'});
-  save();closeM('m-report');toast('レポートを投稿しました！');renderShops();renderReports();
+  const btn=document.getElementById('r-btn');
+  btn.disabled=true;btn.textContent='投稿中...';
+  try{
+    await sb('reports',{method:'POST',body:JSON.stringify({name,shop_id,shop_name,body,score:curScore,tags}),prefer:'return=minimal'});
+    closeM('m-report');toast('レポートを投稿しました！');await loadReports();
+  }catch(e){toast('エラーが発生しました。もう一度お試しください。');}
+  finally{btn.disabled=false;btn.textContent='レポートを投稿する';}
 }
 
-function registerShop(){
-  const name=document.getElementById('rg-name').value.trim();
-  const genre=document.getElementById('rg-genre').value;
-  const counter=document.getElementById('rg-counter').value==='yes';
-  const msg=document.getElementById('rg-msg').value.trim();
-  if(!name||!genre){toast('お店の名前とジャンルを入力してください');return;}
-  shops.push({id:Date.now(),name,genre,counter,welcome:true,msg,checkins:0,dist:'---'});
-  save();document.getElementById('rg-ok').style.display='block';
-  document.getElementById('rg-name').value='';document.getElementById('rg-genre').value='';document.getElementById('rg-msg').value='';
-  renderBadge();toast(`${name} を登録しました！`);
+function showPage(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',['explore','reports','badge'][i]===n));
+  document.getElementById('page-'+n).classList.add('active');
+  window.scrollTo(0,0);
+  if(n==='reports')loadReports();
+  if(n==='badge')renderBadge();
 }
-
 function openM(id){document.getElementById(id).classList.add('open');}
 function closeM(id){document.getElementById(id).classList.remove('open');}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 
-let lv=31;
-setInterval(()=>{lv=Math.max(15,Math.min(55,lv+(Math.random()>.5?1:-1)));const el=document.getElementById('live-count');if(el)el.textContent=lv;},3500);
-
-renderShops();
+init();
 </script>
 </body>
 </html>
