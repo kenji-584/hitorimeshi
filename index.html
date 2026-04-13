@@ -184,7 +184,7 @@ select.finput{appearance:none;cursor:pointer;}
 <div class="page active" id="page-explore">
   <div class="hero">
     <div class="hero-bg">一人</div>
-    <div class="hero-live"><span class="live-dot"></span>今このエリアで <strong id="live-count">31</strong> 人が一人飧中</div>
+    <div class="hero-live"><span class="live-dot"></span>今このエリアで <strong id="live-count">31</strong> 人が一人飯中</div>
     <h1>一人で入れるお店が、<br><em>見つかる。</em></h1>
     <p class="hero-sub">「入っていいのかな」の不安を、リアルタイムの情報と、お店の本音で、解消する。</p>
     <div class="hero-actions">
@@ -240,7 +240,7 @@ select.finput{appearance:none;cursor:pointer;}
         <div class="regform">
           <h3>お店を登録する</h3>
           <p>無料・5分で完了</p>
-          <div class="fg"><label class="flabel">お店の名前</label><input class="finput" type="text" id="rg-name" placeholder="例：炭火焼き 燈"></div>
+          <div class="fg"><label class="flabel">お店の名前</label><input class="finput" type="text" id="rg-name" placeholder="例：炭火焼き 獈"></div>
           <div class="frow">
             <div class="fg"><label class="flabel">ジャンル</label><select class="finput" id="rg-genre"><option value="">選択...</option><option>焼き鳥</option><option>蕎麦</option><option>ラーメン</option><option>居酒屋</option><option>洋食</option><option>和食</option><option>寿司</option><option>中華</option><option>カフェ</option><option>その他</option></select></div>
             <div class="fg"><label class="flabel">カウンター席</label><select class="finput" id="rg-counter"><option value="yes">あり</option><option value="no">なし</option></select></div>
@@ -306,7 +306,7 @@ const SUPABASE_URL = 'https://lmqjwrcjsyymjahuight.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtcWp3cmNqc3l5bWphaHVpZ2h0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNzQ5NDksImV4cCI6MjA5MDY1MDk0OX0.qzmUhoo64iYfZ4odhyikKLc29s8Xjb9f0z_-w_9zMGM';
 
 // Supabaseクライアント初期化
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // グローバル変数
 let shops = [];
@@ -321,7 +321,7 @@ let editingReportId = null;
 async function initApp() {
   try {
     // 匿名ユーザーでサインイン
-    const { data: { user }, error: authError } = await supabase.auth.signInAnonymously();
+    const { data: { user }, error: authError } = await sb.auth.signInAnonymously();
     if (authError) throw authError;
 
     currentUser = user;
@@ -342,7 +342,7 @@ async function initApp() {
 async function loadShopsAndReports() {
   try {
     // Shopsを取得
-    const { data: shopsData, error: shopsError } = await supabase
+    const { data: shopsData, error: shopsError } = await sb
       .from('shops')
       .select('*')
       .order('created_at', { ascending: true });
@@ -351,7 +351,7 @@ async function loadShopsAndReports() {
     shops = shopsData || [];
 
     // Reportsを取得
-    const { data: reportsData, error: reportsError } = await supabase
+    const { data: reportsData, error: reportsError } = await sb
       .from('reports')
       .select('*')
       .order('created_at', { ascending: false });
@@ -505,7 +505,7 @@ async function quickCI(id) {
 
   try {
     // チェックイン数をインクリメント
-    const { error } = await supabase
+    const { error } = await sb
       .from('shops')
       .update({ checkins: s.checkins + 1 })
       .eq('id', s.id);
@@ -583,7 +583,7 @@ async function deleteReport(id) {
   }
 
   try {
-    const { error } = await supabase
+    const { error } = await sb
       .from('reports')
       .delete()
       .eq('id', id)
@@ -649,7 +649,7 @@ async function submitReport() {
   try {
     if (editingReportId) {
       // 修正
-      const { error } = await supabase
+      const { error } = await sb
         .from('reports')
         .update({
           name,
@@ -672,7 +672,7 @@ async function submitReport() {
       toast('レポートを修正しました！');
     } else {
       // 新規投稿
-      const { data, error } = await supabase
+      const { data, error } = await sb
         .from('reports')
         .insert([{
           name,
@@ -717,7 +717,7 @@ async function registerShop() {
   }
 
   try {
-    const { data, error } = await supabase
+    const { data, error } = await sb
       .from('shops')
       .insert([{
         name,
