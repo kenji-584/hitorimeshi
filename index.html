@@ -87,7 +87,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .dots{display:flex;gap:3px;}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);}
 .dot.on{background:var(--accent);border-color:var(--accent);}
-.slabel{font-size:11px;color:var(--cream3);} 
+.slabel{font-size:11px;color:var(--cream3);}
 .sbadge{font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500;margin-left:auto;}
 .sbadge.good{background:rgba(74,158,107,0.12);color:var(--green);}
 .sbadge.meh{background:rgba(212,98,42,0.12);color:var(--accent);}
@@ -146,6 +146,7 @@ select.finput{appearance:none;cursor:pointer;}
 .stag{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent2);margin-bottom:10px;}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--cream);color:var(--bg);padding:11px 22px;border-radius:8px;font-size:13px;font-weight:500;z-index:999;transition:transform 0.3s ease;pointer-events:none;white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);}
+.toast.error{background:#e05555;color:#fff;}
 .modal-title-edit{color:var(--accent2);}
 @media(max-width:720px){
   nav{padding:11px 14px;}
@@ -183,7 +184,7 @@ select.finput{appearance:none;cursor:pointer;}
 <div class="page active" id="page-explore">
   <div class="hero">
     <div class="hero-bg">一人</div>
-    <div class="hero-live"><span class="live-dot"></span>今このエリアで <strong id="live-count">31</strong> 人が一人飯中</div>
+    <div class="hero-live"><span class="live-dot"></span>今このエリアで <strong id="live-count">31</strong> 人が一人飧中</div>
     <h1>一人で入れるお店が、<br><em>見つかる。</em></h1>
     <p class="hero-sub">「入っていいのかな」の不安を、リアルタイムの情報と、お店の本音で、解消する。</p>
     <div class="hero-actions">
@@ -298,211 +299,485 @@ select.finput{appearance:none;cursor:pointer;}
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const DEFAULT_SHOPS=[
-  {id:1,name:'炭火焼き 燈',genre:'焼き鳥',counter:true,welcome:true,msg:'一人でゆっくり楽しんでいただけます。カウンターで大将と話すのがおすすめです。',checkins:2,dist:'220m'},
-  {id:2,name:'手打ち蕎麦 庵',genre:'蕎麦',counter:true,welcome:true,msg:'昼も夜も一人のお客様が多く、静かに食事できる環境です。',checkins:1,dist:'380m'},
-  {id:3,name:'洋食 キッチン六番',genre:'洋食',counter:false,welcome:false,msg:'',checkins:0,dist:'520m'},
-  {id:4,name:'ラーメン 麺道場',genre:'ラーメン',counter:true,welcome:true,msg:'カウンター12席全席一人でOK。食券制なので気軽にどうぞ。',checkins:0,dist:'670m'},
-  {id:5,name:'立ち飲み 角打ち 升',genre:'居酒屋',counter:true,welcome:true,msg:'立ち飲みなので一人が基本スタイル。初めてでもすぐ馴染めます。',checkins:3,dist:'150m'},
-  {id:6,name:'寿司 大漁丸',genre:'寿司',counter:true,welcome:true,msg:'カウンターで職人と話しながら食べるのが一番楽しいお店です。',checkins:1,dist:'800m'},
-  {id:7,name:'イタリアン Vino',genre:'イタリアン',counter:false,welcome:false,msg:'',checkins:0,dist:'1.1km'},
-  {id:8,name:'天ぷら 花',genre:'天ぷら',counter:true,welcome:true,msg:'揚げたてを一人でゆっくり。カウンターで職人の技を間近に。',checkins:0,dist:'630m'},
-  {id:9,name:'中華食堂 龍',genre:'中華',counter:false,welcome:true,msg:'テーブル席ですが一人のお客様も多く、全然気になりません。',checkins:2,dist:'450m'},
-];
-const DEFAULT_REPORTS=[
-  {id:1,name:'あかね',sid:1,sname:'炭火焼き 燈',body:'カウンターに案内してもらえた。大将が自然に話しかけてくれて、全然孤独じゃなかった。むしろ一人の方が大将と会話できて最高だった。',score:5,tags:['カウンターに案内','店主と会話','また行く'],time:'2時間前'},
-  {id:2,name:'しんや',sid:2,sname:'手打ち蕎麦 庵',body:'暖簾をくぐったら「お一人ですか？」って自然に聞いてくれた。窓際の席でゆっくり食べられた。一人でも全然浮かなかった。',score:4,tags:['一人確認あり','静かな雰囲気','昼推奨'],time:'昨日'},
-  {id:3,name:'ゆり',sid:3,sname:'洋食 キッチン六番',body:'テーブル席に案内されたが2人掛けで少し気まずかった。料理は本当においしい。カウンターがあればもっとよかった。次は昼に行く。',score:3,tags:['テーブル席のみ','料理が◎','昼推奨'],time:'3日前'},
-  {id:4,name:'たかし',sid:5,sname:'立ち飲み 角打ち 升',body:'立ち飲みなので最初から一人前提のお店。隣の人と自然に会話が始まって気づいたら2時間いた。最高すぎる。',score:5,tags:['また行く','夜推奨','店主と会話'],time:'4日前'},
-];
+// Supabase設定
+const SUPABASE_URL = 'https://lmqjwrcjsyymjahuight.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtcWp3cmNqc3l5bWphaHVpZ2h0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNzQ5NDksImV4cCI6MjA5MDY1MDk0OX0.qzmUhoo64iYfZ4odhyikKLc29s8Xjb9f0z_-w_9zMGM';
 
-let shops=JSON.parse(localStorage.getItem('hm2-shops')||'null')||[...DEFAULT_SHOPS];
-let reports=JSON.parse(localStorage.getItem('hm2-reports')||'null')||[...DEFAULT_REPORTS];
-let curFilter='all',curScore=0,curCIShop=null,editingReportId=null;
+// Supabaseクライアント初期化
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-function save(){localStorage.setItem('hm2-shops',JSON.stringify(shops));localStorage.setItem('hm2-reports',JSON.stringify(reports));}
+// グローバル変数
+let shops = [];
+let reports = [];
+let currentUser = null;
+let curFilter = 'all';
+let curScore = 0;
+let curCIShop = null;
+let editingReportId = null;
 
-function showPage(n){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',['explore','reports','badge'][i]===n));
-  document.getElementById('page-'+n).classList.add('active');
-  window.scrollTo(0,0);
-  if(n==='explore')renderShops();
-  if(n==='reports')renderReports();
-  if(n==='badge')renderBadge();
+// ページ読み込み時の初期化
+async function initApp() {
+  try {
+    // 匿名ユーザーでサインイン
+    const { data: { user }, error: authError } = await supabase.auth.signInAnonymously();
+    if (authError) throw authError;
+
+    currentUser = user;
+    console.log('Current user ID:', currentUser.id);
+
+    // データを読み込む
+    await loadShopsAndReports();
+
+    // 初期レンダリング
+    renderShops();
+  } catch (error) {
+    console.error('初期化エラー:', error);
+    toast('アプリの初期化に失敗しました');
+  }
 }
 
-function renderShops(){
-  const q=(document.getElementById('q').value||'').toLowerCase();
-  let list=shops.filter(s=>{
-    if(q&&!s.name.toLowerCase().includes(q)&&!s.genre.toLowerCase().includes(q))return false;
-    if(curFilter==='welcome')return s.welcome;
-    if(curFilter==='live')return s.checkins>0;
-    if(curFilter==='counter')return s.counter;
+// Supabaseからデータを読み込む
+async function loadShopsAndReports() {
+  try {
+    // Shopsを取得
+    const { data: shopsData, error: shopsError } = await supabase
+      .from('shops')
+      .select('*')
+      .order('created_at', { ascending: true });
+
+    if (shopsError) throw shopsError;
+    shops = shopsData || [];
+
+    // Reportsを取得
+    const { data: reportsData, error: reportsError } = await supabase
+      .from('reports')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (reportsError) throw reportsError;
+    reports = reportsData || [];
+  } catch (error) {
+    console.error('データ読み込みエラー:', error);
+    toast('データの読み込みに失敗しました');
+  }
+}
+
+// ページ表示
+function showPage(n) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', ['explore', 'reports', 'badge'][i] === n));
+  document.getElementById('page-' + n).classList.add('active');
+  window.scrollTo(0, 0);
+
+  if (n === 'explore') renderShops();
+  if (n === 'reports') renderReports();
+  if (n === 'badge') renderBadge();
+}
+
+// 店舗リスト表示
+function renderShops() {
+  const q = (document.getElementById('q').value || '').toLowerCase();
+  let list = shops.filter(s => {
+    if (q && !s.name.toLowerCase().includes(q) && !s.genre.toLowerCase().includes(q)) return false;
+    if (curFilter === 'welcome') return s.welcome;
+    if (curFilter === 'live') return s.checkins > 0;
+    if (curFilter === 'counter') return s.counter;
     return true;
   });
-  const el=document.getElementById('shops-list');
-  if(!list.length){el.innerHTML='<div class="no-results">条件に合うお店が見つかりませんでした</div>';return;}
-  el.innerHTML=list.map(s=>`
+
+  const el = document.getElementById('shops-list');
+  if (!list.length) {
+    el.innerHTML = '<div class="no-results">条件に合うお店が見つかりませんでした</div>';
+    return;
+  }
+
+  el.innerHTML = list.map(s => `
     <div class="shop-card">
       <div class="shop-main">
         <div class="shop-top">
-          <div><div class="shop-name">${s.name}</div><div class="shop-genre">${s.genre}${s.counter?' · カウンター席あり':''}</div></div>
-          ${s.welcome?'<div class="bw">ひとり歓迎</div>':'<div style="font-size:10px;color:var(--cream3);padding:3px 9px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;">未登録</div>'}
+          <div><div class="shop-name">${s.name}</div><div class="shop-genre">${s.genre}${s.counter ? ' · カウンター席あり' : ''}</div></div>
+          ${s.welcome ? '<div class="bw">ひとり歓迎</div>' : '<div style="font-size:10px;color:var(--cream3);padding:3px 9px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;">未登録</div>'}
         </div>
         <div class="shop-meta">
-          ${s.checkins>0?`<div class="smeta"><span class="live-dot"></span><span class="live-count-text">今${s.checkins}人いる</span></div>`:'<div class="smeta" style="color:var(--cream3);">現在0人</div>'}
+          ${s.checkins > 0 ? `<div class="smeta"><span class="live-dot"></span><span class="live-count-text">今${s.checkins}人いる</span></div>` : '<div class="smeta" style="color:var(--cream3);">現在0人</div>'}
           <div class="smeta">📍 ${s.dist}</div>
         </div>
-        ${s.msg?`<div class="shop-msg">「${s.msg}」</div>`:''}
+        ${s.msg ? `<div class="shop-msg">「${s.msg}」</div>` : ''}
       </div>
       <div class="shop-acts">
         <button class="btn-ci" onclick="quickCI(${s.id})">今ここにいる</button>
         <button class="btn-rp" onclick="openReport(${s.id})">レポートを書く</button>
       </div>
     </div>`).join('');
-  const n=reports.length;
-  const g=reports.filter(r=>r.score>=4).length;
-  document.getElementById('stat-r').textContent=n;
-  document.getElementById('stat-s').textContent=shops.filter(s=>s.welcome).length;
-  document.getElementById('stat-p').textContent=(n?Math.round(g/n*100):87)+'%';
+
+  const n = reports.length;
+  const g = reports.filter(r => r.score >= 4).length;
+  document.getElementById('stat-r').textContent = n;
+  document.getElementById('stat-s').textContent = shops.filter(s => s.welcome).length;
+  document.getElementById('stat-p').textContent = (n ? Math.round(g / n * 100) : 87) + '%';
 }
 
-function renderReports(){
-  const el=document.getElementById('reports-list');
-  const rs=[...reports].reverse();
-  if(!rs.length){el.innerHTML='<div style="padding:60px 0;text-align:center;color:var(--cream3);">まだレポートがありません。最初の一人になろう！</div>';return;}
-  el.innerHTML=rs.map(r=>`
-    <div class="rcard">
-      <div class="rtop">
-        <div class="avatar">${r.name[0]}</div>
-        <div><div class="rname">${r.name}</div><div class="rshop">${r.sname} · ${r.time}</div></div>
-        <span class="sbadge ${r.score>=4?'good':'meh'}" style="margin-left:auto;">${r.score>=4?'入れた':'少し難しい'}</span>
-      </div>
-      <div class="rbody">${r.body}</div>
-      ${r.tags.length?`<div class="rtags">${r.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`:''}
-      <div class="score-row">
-        <div class="dots">${[1,2,3,4,5].map(i=>`<div class="dot ${i<=r.score?'on':''}"></div>`).join('')}</div>
-        <span class="slabel">入りやすさ ${r.score}/5</span>
-      </div>
-      <div class="ract-row">
-        <button class="btn-edit-r" onclick="openEditReport(${r.id})">✎ 修正する</button>
-        <button class="btn-del-r" onclick="deleteReport(${r.id})">✕ 削除する</button>
-      </div>
-    </div>`).join('');
-  const total=reports.length,good=reports.filter(r=>r.score>=4).length;
-  document.getElementById('rs-total').textContent=total;
-  document.getElementById('rs-good').textContent=(total?Math.round(good/total*100):0)+'%';
-  document.getElementById('rs-shops').textContent=[...new Set(reports.map(r=>r.sid))].length;
+// レポート表示
+function renderReports() {
+  const el = document.getElementById('reports-list');
+  const rs = [...reports].reverse();
+
+  if (!rs.length) {
+    el.innerHTML = '<div style="padding:60px 0;text-align:center;color:var(--cream3);">まだレポートがありません。最初の一人になろう！</div>';
+    return;
+  }
+
+  el.innerHTML = rs.map(r => {
+    // 現在のユーザーがこのレポートの所有者か確認
+    const isOwner = currentUser && r.owner_id === currentUser.id;
+
+    return `
+      <div class="rcard">
+        <div class="rtop">
+          <div class="avatar">${r.name[0]}</div>
+          <div><div class="rname">${r.name}</div><div class="rshop">${r.sname} · ${r.time}</div></div>
+          <span class="sbadge ${r.score >= 4 ? 'good' : 'meh'}" style="margin-left:auto;">${r.score >= 4 ? '入れた' : '少し難しい'}</span>
+        </div>
+        <div class="rbody">${r.body}</div>
+        ${r.tags && r.tags.length ? `<div class="rtags">${r.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>` : ''}
+        <div class="score-row">
+          <div class="dots">${[1, 2, 3, 4, 5].map(i => `<div class="dot ${i <= r.score ? 'on' : ''}"></div>`).join('')}</div>
+          <span class="slabel">入りやすさ ${r.score}/5</span>
+        </div>
+        ${isOwner ? `
+          <div class="ract-row">
+            <button class="btn-edit-r" onclick="openEditReport(${r.id})">✎ 修正する</button>
+            <button class="btn-del-r" onclick="deleteReport(${r.id})">✕ 削除する</button>
+          </div>
+        ` : ''}
+      </div>`;
+  }).join('');
+
+  const total = reports.length;
+  const good = reports.filter(r => r.score >= 4).length;
+  document.getElementById('rs-total').textContent = total;
+  document.getElementById('rs-good').textContent = (total ? Math.round(good / total * 100) : 0) + '%';
+  document.getElementById('rs-shops').textContent = [...new Set(reports.map(r => r.sid))].length;
 }
 
-function renderBadge(){
-  const el=document.getElementById('badge-list');
-  el.innerHTML=shops.filter(s=>s.welcome).map(s=>`
+// バッジページ表示
+function renderBadge() {
+  const el = document.getElementById('badge-list');
+  el.innerHTML = shops.filter(s => s.welcome).map(s => `
     <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);">
       <div><div style="font-family:'Noto Serif JP',serif;font-size:13px;font-weight:600;color:var(--cream);">${s.name}</div><div style="font-size:11px;color:var(--cream3);">${s.genre}</div></div>
       <div class="bw">ひとり歓迎</div>
     </div>`).join('');
 }
 
-function setF(el,f){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');curFilter=f;renderShops();}
+// フィルター設定
+function setF(el, f) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  curFilter = f;
+  renderShops();
+}
 
-function openCheckin(){
-  curCIShop=null;
-  document.getElementById('ci-list').innerHTML=shops.map(s=>`
+// チェックインモーダルを開く
+function openCheckin() {
+  curCIShop = null;
+  document.getElementById('ci-list').innerHTML = shops.map(s => `
     <div class="ssi" onclick="selectCI(this,${s.id})">
       <div><div class="ssi-name">${s.name}</div><div class="ssi-sub">${s.genre} · ${s.dist}</div></div>
-      ${s.checkins>0?`<div style="font-size:11px;color:var(--green);">今${s.checkins}人</div>`:''}
+      ${s.checkins > 0 ? `<div style="font-size:11px;color:var(--green);">今${s.checkins}人</div>` : ''}
     </div>`).join('');
   openM('m-checkin');
 }
-function selectCI(el,id){document.querySelectorAll('.ssi').forEach(i=>i.classList.remove('on'));el.classList.add('on');curCIShop=id;}
-function quickCI(id){const s=shops.find(x=>x.id===id);if(!s)return;s.checkins++;save();renderShops();toast(`${s.name}にチェックインしました！`);}
-function submitCI(){if(!curCIShop){toast('お店を選んでください');return;}quickCI(curCIShop);closeM('m-checkin');curCIShop=null;}
 
-function openReport(sid){
-  editingReportId=null;
-  curScore=0;
-  document.querySelectorAll('.sopt').forEach(b=>b.classList.remove('on'));
-  document.querySelectorAll('.topt').forEach(b=>b.classList.remove('on'));
-  document.getElementById('r-name').value='';
-  document.getElementById('r-body').value='';
-  document.getElementById('report-modal-title').textContent='入店レポートを書く';
-  document.getElementById('report-modal-title').className='';
-  document.getElementById('report-submit-btn').textContent='レポートを投稿する';
-  const sel=document.getElementById('r-shop');
-  sel.innerHTML='<option value="">選択...</option>'+shops.map(s=>`<option value="${s.id}"${sid===s.id?' selected':''}>${s.name}</option>`).join('');
-  openM('m-report');
+// チェックイン店舗選択
+function selectCI(el, id) {
+  document.querySelectorAll('.ssi').forEach(i => i.classList.remove('on'));
+  el.classList.add('on');
+  curCIShop = id;
 }
 
-function openEditReport(id){
-  const r=reports.find(r=>r.id===id);
-  if(!r)return;
-  editingReportId=id;
-  curScore=r.score;
-  document.querySelectorAll('.sopt').forEach((b,i)=>b.classList.toggle('on',i<r.score));
-  document.querySelectorAll('.topt').forEach(b=>b.classList.toggle('on',r.tags.includes(b.textContent)));
-  document.getElementById('r-name').value=r.name;
-  document.getElementById('r-body').value=r.body;
-  document.getElementById('report-modal-title').textContent='レポートを修正する';
-  document.getElementById('report-modal-title').className='modal-title-edit';
-  document.getElementById('report-submit-btn').textContent='修正を保存する';
-  const sel=document.getElementById('r-shop');
-  sel.innerHTML='<option value="">選択...</option>'+shops.map(s=>`<option value="${s.id}"${r.sid===s.id?' selected':''}>${s.name}</option>`).join('');
-  openM('m-report');
-}
+// 素早いチェックイン (Supabaseに保存)
+async function quickCI(id) {
+  const s = shops.find(x => x.id === id);
+  if (!s) return;
 
-function deleteReport(id){
-  if(!confirm('このレポートを削除しますか？\n一度削除すると元に戻せません。')){return;}
-  reports=reports.filter(r=>r.id!==id);
-  save();renderReports();renderShops();toast('レポートを削除しました');
-}
+  try {
+    // チェックイン数をインクリメント
+    const { error } = await supabase
+      .from('shops')
+      .update({ checkins: s.checkins + 1 })
+      .eq('id', s.id);
 
-function setScore(n){curScore=n;document.querySelectorAll('.sopt').forEach((b,i)=>b.classList.toggle('on',i<n));}
-function tt(el){el.classList.toggle('on');}
+    if (error) throw error;
 
-function submitReport(){
-  const name=document.getElementById('r-name').value.trim();
-  const sid=parseInt(document.getElementById('r-shop').value);
-  const body=document.getElementById('r-body').value.trim();
-  if(!name){toast('お名前を入力してください');return;}
-  if(!sid){toast('お店を選んでください');return;}
-  if(!body){toast('感想を入力してください');return;}
-  if(!curScore){toast('入りやすさを選んでください');return;}
-  const shop=shops.find(s=>s.id===sid);
-  const tags=[...document.querySelectorAll('.topt.on')].map(t=>t.textContent);
-  if(editingReportId){
-    const idx=reports.findIndex(r=>r.id===editingReportId);
-    if(idx>-1) reports[idx]={...reports[idx],name,sid,sname:shop.name,body,score:curScore,tags};
-    toast('レポートを修正しました！');
-  } else {
-    reports.push({id:Date.now(),name,sid,sname:shop.name,body,score:curScore,tags,time:'たった今'});
-    toast('レポートを投稿しました！');
+    // ローカル状態更新
+    s.checkins++;
+    renderShops();
+    toast(`${s.name}にチェックインしました！`);
+  } catch (error) {
+    console.error('チェックインエラー:', error);
+    toast('チェックインに失敗しました');
   }
-  save();closeM('m-report');renderShops();renderReports();
 }
 
-function registerShop(){
-  const name=document.getElementById('rg-name').value.trim();
-  const genre=document.getElementById('rg-genre').value;
-  const counter=document.getElementById('rg-counter').value==='yes';
-  const msg=document.getElementById('rg-msg').value.trim();
-  if(!name||!genre){toast('お店の名前とジャンルを入力してください');return;}
-  shops.push({id:Date.now(),name,genre,counter,welcome:true,msg,checkins:0,dist:'---'});
-  save();document.getElementById('rg-ok').style.display='block';
-  document.getElementById('rg-name').value='';document.getElementById('rg-genre').value='';document.getElementById('rg-msg').value='';
-  renderBadge();toast(`${name} を登録しました！`);
+// チェックインを送信
+function submitCI() {
+  if (!curCIShop) {
+    toast('お店を選んでください');
+    return;
+  }
+  quickCI(curCIShop);
+  closeM('m-checkin');
+  curCIShop = null;
 }
 
-function openM(id){document.getElementById(id).classList.add('open');}
-function closeM(id){document.getElementById(id).classList.remove('open');if(id==='m-report')editingReportId=null;}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+// レポートモーダルを開く
+function openReport(sid) {
+  editingReportId = null;
+  curScore = 0;
+  document.querySelectorAll('.sopt').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.topt').forEach(b => b.classList.remove('on'));
+  document.getElementById('r-name').value = '';
+  document.getElementById('r-body').value = '';
+  document.getElementById('report-modal-title').textContent = '入店レポートを書く';
+  document.getElementById('report-modal-title').className = '';
+  document.getElementById('report-submit-btn').textContent = 'レポートを投稿する';
 
-let lv=31;
-setInterval(()=>{lv=Math.max(15,Math.min(55,lv+(Math.random()>.5?1:-1)));const el=document.getElementById('live-count');if(el)el.textContent=lv;},3500);
+  const sel = document.getElementById('r-shop');
+  sel.innerHTML = '<option value="">選択...</option>' + shops.map(s => `<option value="${s.id}"${sid === s.id ? ' selected' : ''}>${s.name}</option>`).join('');
+  openM('m-report');
+}
 
-renderShops();
+// レポート編集モーダルを開く
+function openEditReport(id) {
+  const r = reports.find(r => r.id === id);
+  if (!r) return;
+
+  // 所有者確認
+  if (!currentUser || r.owner_id !== currentUser.id) {
+    toast('このレポートは編集できません');
+    return;
+  }
+
+  editingReportId = id;
+  curScore = r.score;
+  document.querySelectorAll('.sopt').forEach((b, i) => b.classList.toggle('on', i < r.score));
+  document.querySelectorAll('.topt').forEach(b => b.classList.toggle('on', r.tags && r.tags.includes(b.textContent)));
+  document.getElementById('r-name').value = r.name;
+  document.getElementById('r-body').value = r.body;
+  document.getElementById('report-modal-title').textContent = 'レポートを修正する';
+  document.getElementById('report-modal-title').className = 'modal-title-edit';
+  document.getElementById('report-submit-btn').textContent = '修正を保存する';
+
+  const sel = document.getElementById('r-shop');
+  sel.innerHTML = '<option value="">選択...</option>' + shops.map(s => `<option value="${s.id}"${r.sid === s.id ? ' selected' : ''}>${s.name}</option>`).join('');
+  openM('m-report');
+}
+
+// レポートを削除 (RLS経由)
+async function deleteReport(id) {
+  if (!confirm('このレポートを削除しますか？\n一度削除すると元に戻せません。')) {
+    return;
+  }
+
+  try {
+    const { error } = await supabase
+      .from('reports')
+      .delete()
+      .eq('id', id)
+      .eq('owner_id', currentUser.id);
+
+    if (error) {
+      if (error.message.includes('policy')) {
+        toast('このレポートは削除できません（権限がありません）');
+      } else {
+        throw error;
+      }
+      return;
+    }
+
+    // ローカル状態更新
+    reports = reports.filter(r => r.id !== id);
+    renderReports();
+    renderShops();
+    toast('レポートを削除しました');
+  } catch (error) {
+    console.error('削除エラー:', error);
+    toast('レポートの削除に失敗しました');
+  }
+}
+
+// スコアを設定
+function setScore(n) {
+  curScore = n;
+  document.querySelectorAll('.sopt').forEach((b, i) => b.classList.toggle('on', i < n));
+}
+
+// タグ選択
+function tt(el) {
+  el.classList.toggle('on');
+}
+
+// レポートを投稿または修正
+async function submitReport() {
+  const name = document.getElementById('r-name').value.trim();
+  const sid = parseInt(document.getElementById('r-shop').value);
+  const body = document.getElementById('r-body').value.trim();
+
+  if (!name) {
+    toast('お名前を入力してください');
+    return;
+  }
+  if (!sid) {
+    toast('お店を選んでください');
+    return;
+  }
+  if (!body) {
+    toast('感想を入力してください');
+    return;
+  }
+  if (!curScore) {
+    toast('入りやすさを選んでください');
+    return;
+  }
+
+  const shop = shops.find(s => s.id === sid);
+  const tags = [...document.querySelectorAll('.topt.on')].map(t => t.textContent);
+
+  try {
+    if (editingReportId) {
+      // 修正
+      const { error } = await supabase
+        .from('reports')
+        .update({
+          name,
+          sid,
+          sname: shop.name,
+          body,
+          score: curScore,
+          tags
+        })
+        .eq('id', editingReportId)
+        .eq('owner_id', currentUser.id);
+
+      if (error) throw error;
+
+      // ローカル状態更新
+      const idx = reports.findIndex(r => r.id === editingReportId);
+      if (idx > -1) {
+        reports[idx] = { ...reports[idx], name, sid, sname: shop.name, body, score: curScore, tags };
+      }
+      toast('レポートを修正しました！');
+    } else {
+      // 新規投稿
+      const { data, error } = await supabase
+        .from('reports')
+        .insert([{
+          name,
+          sid,
+          sname: shop.name,
+          body,
+          score: curScore,
+          tags,
+          time: 'たった今',
+          owner_id: currentUser.id
+        }])
+        .select();
+
+      if (error) throw error;
+
+      // ローカル状態更新
+      if (data && data.length > 0) {
+        reports.push(data[0]);
+      }
+      toast('レポートを投稿しました！');
+    }
+
+    closeM('m-report');
+    renderShops();
+    renderReports();
+  } catch (error) {
+    console.error('レポート送信エラー:', error);
+    toast('レポートの送信に失敗しました');
+  }
+}
+
+// 店舗を登録 (Supabaseに保存)
+async function registerShop() {
+  const name = document.getElementById('rg-name').value.trim();
+  const genre = document.getElementById('rg-genre').value;
+  const counter = document.getElementById('rg-counter').value === 'yes';
+  const msg = document.getElementById('rg-msg').value.trim();
+
+  if (!name || !genre) {
+    toast('お店の名前とジャンルを入力してください');
+    return;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('shops')
+      .insert([{
+        name,
+        genre,
+        counter,
+        welcome: true,
+        msg,
+        checkins: 0,
+        dist: '---',
+        owner_id: currentUser.id
+      }])
+      .select();
+
+    if (error) throw error;
+
+    // ローカル状態更新
+    if (data && data.length > 0) {
+      shops.push(data[0]);
+    }
+
+    document.getElementById('rg-ok').style.display = 'block';
+    document.getElementById('rg-name').value = '';
+    document.getElementById('rg-genre').value = '';
+    document.getElementById('rg-msg').value = '';
+    renderBadge();
+    toast(`${name} を登録しました！`);
+  } catch (error) {
+    console.error('店舗登録エラー:', error);
+    toast('店舗の登録に失敗しました');
+  }
+}
+
+// モーダル操作
+function openM(id) {
+  document.getElementById(id).classList.add('open');
+}
+
+function closeM(id) {
+  document.getElementById(id).classList.remove('open');
+  if (id === 'm-report') editingReportId = null;
+}
+
+// トースト表示
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ライブカウント アニメーション
+let lv = 31;
+setInterval(() => {
+  lv = Math.max(15, Math.min(55, lv + (Math.random() > 0.5 ? 1 : -1)));
+  const el = document.getElementById('live-count');
+  if (el) el.textContent = lv;
+}, 3500);
+
+// アプリ初期化
+initApp();
 </script>
 </body>
 </html>
