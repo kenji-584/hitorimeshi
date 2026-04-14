@@ -217,7 +217,7 @@ select.finput{appearance:none;cursor:pointer;}
     </div>
     <div class="hero-stats">
       <div><div class="hstat-num" id="stat-r">0</div><div class="hstat-label">入店レポート</div></div>
-      <div><div class="hstat-num" id="stat-s">9</div><div class="hstat-label">歓迎バッジ店</div></div>
+      <div><div class="hstat-num" id="stat-s">0</div><div class="hstat-label">歓迎バッジ店</div></div>
       <div><div class="hstat-num" id="stat-p">--%</div><div class="hstat-label">「入れた」率</div></div>
     </div>
   </div>
@@ -447,6 +447,13 @@ function renderShops() {
     return true;
   });
 
+  // Update hero stats (must run even when shop list is empty)
+  const n = reports.length;
+  const g = reports.filter(r => r.score >= 4).length;
+  document.getElementById('stat-r').textContent = n;
+  document.getElementById('stat-s').textContent = shops.filter(s => s.welcome).length;
+  document.getElementById('stat-p').textContent = (n ? Math.round(g / n * 100) + '%' : '--%');
+
   const el = document.getElementById('shops-list');
   if (!list.length) {
     el.innerHTML = '<div class="no-results">条件に合うお店が見つかりませんでした</div>';
@@ -471,12 +478,6 @@ function renderShops() {
         <button class="btn-rp" onclick="openReport(${s.id})">レポートを書く</button>
       </div>
     </div>`).join('');
-
-  const n = reports.length;
-  const g = reports.filter(r => r.score >= 4).length;
-  document.getElementById('stat-r').textContent = n;
-  document.getElementById('stat-s').textContent = shops.filter(s => s.welcome).length;
-  document.getElementById('stat-p').textContent = (n ? Math.round(g / n * 100) + '%' : '--%');
 }
 
 // レポート表示
