@@ -4,54 +4,122 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>一人飯.com — 一人で入れるお店が、見つかる。</title>
+
+<!-- OGP Meta Tags -->
+<meta property="og:title" content="一人飯.com — 一人で入れるお店が、見つかる。">
+<meta property="og:description" content="一人飯の不安を解消。ひとり歓迎バッジ付きのお店と、リアルな入店レポートで、あなたのひとり飯を応援します。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://xn--08j5a5a3pj3c.com">
+<meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'%3E%3Crect fill='%230f0e0c' width='1200' height='630'/%3E%3Ctext x='50%25' y='50%25' font-size='72' font-weight='bold' fill='%23f0ebe2' text-anchor='middle' dominant-baseline='middle' font-family='serif'%3E一人飯.com%3C/text%3E%3C/svg%3E">
+<meta property="og:site_name" content="一人飯.com">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="一人飯.com">
+<meta name="twitter:description" content="一人で入れるお店が見つかる。ひとり歓迎バッジ＆リアルレポート。">
+<meta name="twitter:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'%3E%3Crect fill='%230f0e0c' width='1200' height='630'/%3E%3Ctext x='50%25' y='50%25' font-size='72' font-weight='bold' fill='%23f0ebe2' text-anchor='middle' dominant-baseline='middle' font-family='serif'%3E一人飯.com%3C/text%3E%3C/svg%3E">
+
+<!-- Apple & PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="一人飯">
+<meta name="theme-color" content="#0f0e0c">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%230f0e0c' width='180' height='180'/%3E%3Ctext x='50%25' y='50%25' font-size='80' text-anchor='middle' dominant-baseline='middle'%3E🍽%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="data:application/json,%7B%22name%22:%22一人飯.com%22,%22short_name%22:%22一人飯%22,%22description%22:%22一人で入れるお店が、見つかる%22,%22start_url%22:%22/%22,%22display%22:%22standalone%22,%22background_color%22:%22%230f0e0c%22,%22theme_color%22:%22%230f0e0c%22,%22scope%22:%22/%22,%22icons%22:%5B%7B%22src%22:%22data:image/svg+xml,%253Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27%253E%253Crect fill=%27%230f0e0c%27 width=%27192%27 height=%27192%27/%253E%253Ctext x=%2750%25%27 y=%2750%25%27 font-size=%27100%27 text-anchor=%27middle%27 dominant-baseline=%27middle%27%253E🍽%253C/text%253E%253C/svg%253E%22,%22sizes%22:%22192x192%22,%22type%22:%22image/svg+xml%22,%22purpose%22:%22any%22%7D%5D%7D">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;900&family=Bricolage+Grotesque:wght@300;400;500;700&display=swap" rel="stylesheet">
+
 <style>
-:root{--bg:#0f0e0c;--bg2:#181714;--bg3:#201e1a;--cream:#f0ebe2;--cream2:#c8c0b0;--cream3:#7a7268;--accent:#d4622a;--accent2:#e8845a;--green:#4a9e6b;--green-bg:rgba(74,158,107,0.1);--border:rgba(240,235,226,0.08);--border2:rgba(240,235,226,0.15);--border3:rgba(240,235,226,0.25);}
+:root{
+  --bg:#0f0e0c;--bg2:#181714;--bg3:#201e1a;--cream:#f0ebe2;--cream2:#c8c0b0;--cream3:#7a7268;
+  --accent:#d4622a;--accent2:#e8845a;--green:#4a9e6b;--green-bg:rgba(74,158,107,0.1);
+  --border:rgba(240,235,226,0.08);--border2:rgba(240,235,226,0.15);--border3:rgba(240,235,226,0.25);
+}
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--cream);font-family:'Bricolage Grotesque',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;}
 ::selection{background:var(--accent);color:#fff;}
 button{font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;}
 input,textarea,select{font-family:'Bricolage Grotesque',sans-serif;}
+
+/* Desktop Nav */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:14px 28px;border-bottom:1px solid var(--border);background:rgba(15,14,12,0.92);backdrop-filter:blur(20px);}
-.nav-logo{font-family:'Noto Serif JP',serif;font-size:18px;font-weight:600;color:var(--cream);cursor:pointer;}
+.nav-logo{font-family:'Noto Serif JP',serif;font-size:18px;font-weight:600;color:var(--cream);cursor:pointer;transition:opacity 0.15s;}
+.nav-logo:hover{opacity:0.8;}
 .nav-logo span{color:var(--accent);}
 .nav-tabs{display:flex;gap:2px;}
 .nav-tab{padding:7px 14px;border-radius:6px;font-size:13px;color:var(--cream3);background:transparent;border:none;transition:all 0.15s;}
 .nav-tab.active,.nav-tab:hover{color:var(--cream);background:var(--bg3);}
 .nav-right{display:flex;gap:8px;}
-.checkin-btn{background:var(--green);color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12px;font-weight:500;}
-.report-btn{background:var(--accent);color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12px;font-weight:500;}
-.page{display:none;padding-top:65px;min-height:100vh;}
+
+/* Mobile Bottom Nav */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(15,14,12,0.96);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:8px 0;height:60px;}
+.bottom-nav.visible{display:flex;justify-content:space-around;align-items:center;}
+.bottom-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 12px;color:var(--cream3);font-size:11px;cursor:pointer;transition:all 0.15s;flex:1;text-align:center;}
+.bottom-nav-item.active{color:var(--green);}
+.bottom-nav-item-icon{font-size:20px;}
+
+.checkin-btn{background:var(--green);color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12px;font-weight:500;transition:all 0.15s;}
+.checkin-btn:hover{background:#3d8a5f;}
+.report-btn{background:var(--accent);color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12px;font-weight:500;transition:all 0.15s;}
+.report-btn:hover{background:#c95222;}
+
+.page{display:none;padding-top:65px;min-height:100vh;padding-bottom:0;}
 .page.active{display:block;}
-.hero{padding:70px 36px 52px;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
-.hero-bg{position:absolute;top:50%;left:-40px;transform:translateY(-50%);font-family:'Noto Serif JP',serif;font-size:clamp(160px,26vw,360px);font-weight:900;color:transparent;-webkit-text-stroke:1px rgba(240,235,226,0.03);pointer-events:none;user-select:none;line-height:1;}
-.hero-live{display:inline-flex;align-items:center;gap:8px;background:var(--green-bg);border:1px solid rgba(74,158,107,0.25);padding:5px 12px;border-radius:20px;font-size:12px;color:var(--green);font-weight:500;margin-bottom:20px;width:fit-content;}
-.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.8s ease-in-out infinite;flex-shrink:0;}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.75);}}
+@keyframes confetti{0%{opacity:1;transform:translateY(0) rotate(0deg);}100%{opacity:0;transform:translateY(-100px) rotate(360deg);}}
+@keyframes ripple{0%{transform:scale(0);opacity:1;}100%{transform:scale(4);opacity:0;}}
+@keyframes skeleton{0%,100%{background:var(--bg3);}50%{background:var(--bg2);}}
+
+.hero{padding:70px 36px 52px;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+.hero-bg{position:absolute;top:50%;left:-40px;transform:translateY(-50%);font-family:'Noto Serif JP',serif;font-size:clamp(160px,26vw,360px);font-weight:900;color:transparent;-webkit-text-stroke:1px rgba(240,235,226,0.03);pointer-events:none;user-select:none;line-height:1;z-index:0;}
+.hero-content{position:relative;z-index:1;}
+.hero-live{display:inline-flex;align-items:center;gap:8px;background:var(--green-bg);border:1px solid rgba(74,158,107,0.25);padding:5px 12px;border-radius:20px;font-size:12px;color:var(--green);font-weight:500;margin-bottom:20px;width:fit-content;animation:fadeIn 0.6s ease-out;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.8s ease-in-out infinite;flex-shrink:0;}
 .hero h1{font-family:'Noto Serif JP',serif;font-size:clamp(36px,5.5vw,72px);font-weight:900;line-height:1.06;letter-spacing:-0.02em;margin-bottom:16px;}
 .hero h1 em{font-style:normal;color:var(--accent);}
 .hero-sub{font-size:15px;color:var(--cream2);font-weight:300;max-width:420px;line-height:1.8;margin-bottom:28px;}
 .hero-actions{display:flex;gap:10px;flex-wrap:wrap;}
-.btn-primary{background:var(--cream);color:var(--bg);border:none;padding:11px 24px;border-radius:8px;font-size:14px;font-weight:600;transition:all 0.15s;}
+.btn-primary{background:var(--cream);color:var(--bg);border:none;padding:11px 24px;border-radius:8px;font-size:14px;font-weight:600;transition:all 0.15s;cursor:pointer;position:relative;overflow:hidden;}
+.btn-primary::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:rgba(0,0,0,0.1);transform:translate(-50%,-50%);transition:width 0.6s,height 0.6s;}
+.btn-primary:active::before{width:300px;height:300px;}
 .btn-primary:hover{background:var(--cream2);}
-.btn-ghost{background:transparent;color:var(--cream2);border:1px solid var(--border2);padding:11px 20px;border-radius:8px;font-size:14px;transition:all 0.15s;}
+.btn-ghost{background:transparent;color:var(--cream2);border:1px solid var(--border2);padding:11px 20px;border-radius:8px;font-size:14px;transition:all 0.15s;cursor:pointer;}
 .btn-ghost:hover{border-color:var(--border3);color:var(--cream);}
-.hero-stats{display:flex;gap:36px;margin-top:40px;padding-top:32px;border-top:1px solid var(--border);}
+.hero-stats{display:flex;gap:36px;margin-top:40px;padding-top:32px;border-top:1px solid var(--border);animation:slideUp 0.8s ease-out 0.1s both;}
 .hstat-num{font-size:32px;font-weight:700;color:var(--cream);line-height:1;letter-spacing:-0.03em;}
 .hstat-label{font-size:10px;color:var(--cream3);margin-top:3px;letter-spacing:0.06em;}
+
 .search-area{padding:20px 28px;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
 .search-wrap{flex:1;min-width:180px;position:relative;}
 .search-wrap input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 14px 9px 34px;font-size:13px;color:var(--cream);outline:none;transition:border-color 0.15s;}
 .search-wrap input:focus{border-color:var(--border3);}
 .search-wrap input::placeholder{color:var(--cream3);}
 .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--cream3);font-size:14px;}
+
 .chips{display:flex;gap:6px;flex-wrap:wrap;}
-.chip{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border2);color:var(--cream3);background:transparent;transition:all 0.12s;}
+.chip{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border2);color:var(--cream3);background:transparent;transition:all 0.12s;cursor:pointer;}
 .chip:hover{border-color:var(--border3);color:var(--cream);}
 .chip.on{background:var(--cream);color:var(--bg);border-color:var(--cream);}
-.shop-card{padding:18px 28px;border-bottom:1px solid var(--border);display:flex;gap:16px;align-items:flex-start;transition:background 0.12s;}
+
+/* Empty State */
+.empty-state{padding:60px 28px;text-align:center;animation:slideUp 0.6s ease-out;}
+.empty-state-icon{font-size:80px;margin-bottom:20px;animation:slideUp 0.6s ease-out 0.1s both;}
+.empty-state h2{font-family:'Noto Serif JP',serif;font-size:24px;font-weight:600;margin-bottom:8px;color:var(--cream);}
+.empty-state p{font-size:14px;color:var(--cream3);margin-bottom:24px;}
+.empty-state-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+
+/* Shop Cards with staggered animation */
+.shop-card{padding:18px 28px;border-bottom:1px solid var(--border);display:flex;gap:16px;align-items:flex-start;transition:background 0.12s;animation:fadeIn 0.5s ease-out;contain:layout style;}
+.shop-card:nth-child(1){animation-delay:0.05s;}
+.shop-card:nth-child(2){animation-delay:0.1s;}
+.shop-card:nth-child(3){animation-delay:0.15s;}
+.shop-card:nth-child(n+4){animation-delay:0.2s;}
 .shop-card:hover{background:var(--bg2);}
 .shop-main{flex:1;}
 .shop-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px;gap:10px;}
@@ -63,23 +131,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .live-count-text{color:var(--green);font-weight:500;}
 .shop-msg{font-size:12px;color:var(--cream3);font-style:italic;margin-top:7px;line-height:1.6;}
 .shop-acts{display:flex;flex-direction:column;gap:7px;align-items:flex-end;flex-shrink:0;}
-.btn-ci{background:var(--green-bg);color:var(--green);border:1px solid rgba(74,158,107,0.25);padding:7px 13px;border-radius:6px;font-size:12px;font-weight:500;white-space:nowrap;transition:all 0.15s;}
+.btn-ci{background:var(--green-bg);color:var(--green);border:1px solid rgba(74,158,107,0.25);padding:7px 13px;border-radius:6px;font-size:12px;font-weight:500;white-space:nowrap;transition:all 0.15s;cursor:pointer;position:relative;overflow:hidden;}
+.btn-ci::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:rgba(74,158,107,0.3);transform:translate(-50%,-50%);transition:width 0.4s,height 0.4s;}
+.btn-ci:active::before{width:100px;height:100px;}
 .btn-ci:hover{background:rgba(74,158,107,0.2);}
-.btn-rp{background:transparent;color:var(--cream3);border:1px solid var(--border);padding:7px 13px;border-radius:6px;font-size:12px;transition:all 0.15s;white-space:nowrap;}
+.btn-rp{background:transparent;color:var(--cream3);border:1px solid var(--border);padding:7px 13px;border-radius:6px;font-size:12px;transition:all 0.15s;white-space:nowrap;cursor:pointer;}
 .btn-rp:hover{color:var(--cream);border-color:var(--border2);}
+
 .no-results{padding:60px 28px;text-align:center;color:var(--cream3);font-size:14px;}
+
 .rpage-header{padding:36px 28px 20px;border-bottom:1px solid var(--border);}
 .rpage-header h2{font-family:'Noto Serif JP',serif;font-size:28px;font-weight:600;margin-bottom:6px;}
 .rpage-header p{font-size:14px;color:var(--cream3);}
 .rstats{display:flex;gap:28px;margin-top:20px;}
 .rstat-num{font-size:26px;font-weight:700;color:var(--cream);letter-spacing:-0.03em;}
 .rstat-label{font-size:10px;color:var(--cream3);margin-top:2px;}
-.rlist{padding:20px 28px;display:flex;flex-direction:column;gap:14px;}
-.rcard{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;}
+
+.rlist{padding:20px 28px;display:flex;flex-direction:column;gap:14px;contain:layout;}
+.rcard{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;animation:fadeIn 0.5s ease-out;transition:all 0.15s;}
+.rcard:hover{border-color:var(--border2);}
 .rtop{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .avatar{width:36px;height:36px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--cream2);font-weight:500;flex-shrink:0;}
 .rname{font-size:13px;font-weight:500;color:var(--cream);}
 .rshop{font-size:11px;color:var(--cream3);}
+.rtime{font-size:11px;color:var(--cream3);}
 .rbody{font-size:13px;color:var(--cream2);line-height:1.75;font-weight:300;margin-bottom:10px;}
 .rtags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;}
 .tag{font-size:10px;padding:3px 8px;border-radius:4px;background:var(--bg3);color:var(--cream3);border:1px solid var(--border);}
@@ -91,15 +166,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .sbadge{font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500;margin-left:auto;}
 .sbadge.good{background:rgba(74,158,107,0.12);color:var(--green);}
 .sbadge.meh{background:rgba(212,98,42,0.12);color:var(--accent);}
-/* 削除・修正ボタン */
+.share-icons{display:flex;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);}
+.share-btn{background:transparent;border:1px solid var(--border);color:var(--cream3);padding:5px 10px;border-radius:4px;font-size:11px;transition:all 0.15s;cursor:pointer;display:inline-flex;align-items:center;gap:4px;}
+.share-btn:hover{border-color:var(--border2);color:var(--cream);}
+
 .ract-row{display:flex;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);}
-.btn-edit-r{background:transparent;color:var(--cream3);border:1px solid var(--border);padding:5px 12px;border-radius:6px;font-size:11px;transition:all 0.15s;}
+.btn-edit-r{background:transparent;color:var(--cream3);border:1px solid var(--border);padding:5px 12px;border-radius:6px;font-size:11px;transition:all 0.15s;cursor:pointer;}
 .btn-edit-r:hover{color:var(--accent2);border-color:var(--accent2);}
-.btn-del-r{background:transparent;color:var(--cream3);border:1px solid var(--border);padding:5px 12px;border-radius:6px;font-size:11px;transition:all 0.15s;}
+.btn-del-r{background:transparent;color:var(--cream3);border:1px solid var(--border);padding:5px 12px;border-radius:6px;font-size:11px;transition:all 0.15s;cursor:pointer;}
 .btn-del-r:hover{color:#e05555;border-color:#e05555;}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;align-items:center;justify-content:center;padding:16px;}
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;align-items:center;justify-content:center;padding:16px;animation:fadeIn 0.2s ease-out;}
 .modal-overlay.open{display:flex;}
-.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;padding:28px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;padding:28px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;animation:slideUp 0.3s ease-out;}
 .modal h2{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:600;margin-bottom:4px;}
 .msub{font-size:13px;color:var(--cream3);margin-bottom:20px;}
 .fg{margin-bottom:16px;}
@@ -111,20 +190,26 @@ textarea.finput{resize:vertical;min-height:90px;line-height:1.6;}
 select.finput{appearance:none;cursor:pointer;}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .tag-opts{display:flex;gap:6px;flex-wrap:wrap;}
-.topt{padding:5px 11px;border-radius:6px;font-size:11px;border:1px solid var(--border2);color:var(--cream3);background:transparent;transition:all 0.12s;}
+.topt{padding:5px 11px;border-radius:6px;font-size:11px;border:1px solid var(--border2);color:var(--cream3);background:transparent;transition:all 0.12s;cursor:pointer;}
 .topt.on{background:var(--bg3);color:var(--cream);border-color:var(--border3);}
 .score-sel{display:flex;gap:6px;}
-.sopt{width:34px;height:34px;border-radius:6px;border:1px solid var(--border2);color:var(--cream3);background:transparent;font-size:13px;font-weight:500;transition:all 0.12s;}
+.sopt{width:34px;height:34px;border-radius:6px;border:1px solid var(--border2);color:var(--cream3);background:transparent;font-size:13px;font-weight:500;transition:all 0.12s;cursor:pointer;}
 .sopt.on{background:var(--accent);color:#fff;border-color:var(--accent);}
 .mactions{display:flex;gap:10px;margin-top:24px;}
 .mactions .btn-primary{flex:1;padding:12px;}
-.mclose{position:absolute;top:14px;right:14px;background:transparent;border:none;color:var(--cream3);font-size:18px;cursor:pointer;line-height:1;}
+.mclose{position:absolute;top:14px;right:14px;background:transparent;border:none;color:var(--cream3);font-size:18px;cursor:pointer;line-height:1;transition:color 0.15s;}
+.mclose:hover{color:var(--cream);}
 .ssl{display:flex;flex-direction:column;gap:7px;max-height:260px;overflow-y:auto;}
 .ssi{padding:11px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.12s;display:flex;justify-content:space-between;align-items:center;}
 .ssi:hover,.ssi.on{border-color:var(--green);background:var(--green-bg);}
 .ssi-name{font-size:13px;color:var(--cream);font-family:'Noto Serif JP',serif;}
 .ssi-sub{font-size:11px;color:var(--cream3);}
-.bpage{padding:48px 36px;}
+
+/* Success State */
+.checkin-success{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:999;pointer-events:none;}
+.confetti-item{position:fixed;pointer-events:none;}
+
+.bpage{padding:48px 36px;padding-bottom:100px;}
 .bpage h2{font-family:'Noto Serif JP',serif;font-size:clamp(24px,3.5vw,40px);font-weight:600;line-height:1.15;letter-spacing:-0.02em;margin-bottom:10px;}
 .bpage-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-top:40px;}
 .bvisual{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:36px;text-align:center;}
@@ -144,11 +229,24 @@ select.finput{appearance:none;cursor:pointer;}
 .regform p{font-size:12px;color:var(--cream3);margin-bottom:16px;}
 .success-msg{background:var(--green-bg);border:1px solid rgba(74,158,107,0.25);border-radius:8px;padding:14px;color:var(--green);font-size:13px;display:none;margin-top:14px;}
 .stag{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent2);margin-bottom:10px;}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--cream);color:var(--bg);padding:11px 22px;border-radius:8px;font-size:13px;font-weight:500;z-index:999;transition:transform 0.3s ease;pointer-events:none;white-space:nowrap;}
+
+/* Footer */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 28px;text-align:center;margin-top:60px;}
+.footer-brand{font-family:'Noto Serif JP',serif;font-size:16px;font-weight:600;color:var(--cream);margin-bottom:16px;}
+.footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:16px;font-size:13px;}
+.footer-links a{color:var(--cream3);text-decoration:none;transition:color 0.15s;}
+.footer-links a:hover{color:var(--cream);}
+.footer-copy{font-size:12px;color:var(--cream3);margin-top:16px;}
+
+/* Toast */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--cream);color:var(--bg);padding:11px 22px;border-radius:8px;font-size:13px;font-weight:500;z-index:999;transition:transform 0.3s ease;pointer-events:none;display:flex;align-items:center;gap:8px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.3);}
 .toast.show{transform:translateX(-50%) translateY(0);}
 .toast.error{background:#e05555;color:#fff;}
+.toast-icon{font-size:16px;}
+
 .modal-title-edit{color:var(--accent2);}
-/* 管理人パネル */
+
+/* Admin */
 .admin-bar{background:var(--accent);color:#fff;text-align:center;padding:6px;font-size:12px;font-weight:500;position:fixed;top:63px;left:0;right:0;z-index:199;}
 .admin-login{max-width:400px;margin:120px auto;padding:40px;background:var(--bg2);border:1px solid var(--border2);border-radius:18px;text-align:center;}
 .admin-login h2{font-family:'Noto Serif JP',serif;font-size:22px;margin-bottom:8px;}
@@ -162,29 +260,55 @@ select.finput{appearance:none;cursor:pointer;}
 .admin-item-sub{font-size:11px;color:var(--cream3);margin-top:2px;}
 .admin-item-body{font-size:12px;color:var(--cream2);margin-top:8px;line-height:1.6;}
 .admin-acts{display:flex;gap:6px;flex-shrink:0;}
-.btn-admin-del{background:#e05555;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:11px;cursor:pointer;}
+.btn-admin-del{background:#e05555;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:11px;cursor:pointer;transition:background 0.15s;}
 .btn-admin-del:hover{background:#c94444;}
-.btn-admin-reset{background:var(--bg3);color:var(--cream3);border:1px solid var(--border);padding:6px 14px;border-radius:6px;font-size:11px;cursor:pointer;}
+.btn-admin-reset{background:var(--bg3);color:var(--cream3);border:1px solid var(--border);padding:6px 14px;border-radius:6px;font-size:11px;cursor:pointer;transition:all 0.15s;}
 .btn-admin-reset:hover{color:var(--cream);border-color:var(--border2);}
 .admin-mode .page{padding-top:95px;}
 .admin-stats{display:flex;gap:20px;margin-bottom:20px;}
 .admin-stat{background:var(--bg3);border-radius:10px;padding:14px 20px;flex:1;text-align:center;}
 .admin-stat-num{font-size:24px;font-weight:700;color:var(--cream);}
 .admin-stat-label{font-size:10px;color:var(--cream3);margin-top:2px;}
+
+/* Mobile Responsive */
 @media(max-width:720px){
   nav{padding:11px 14px;}
   .nav-tabs{display:none;}
+  .nav-right{gap:6px;}
+  .checkin-btn,.report-btn{padding:7px 11px;font-size:11px;}
+
+  .page{padding-bottom:70px;}
+  .bottom-nav.visible{display:flex;}
+
   .hero{padding:44px 18px 36px;}
   .hero-stats{gap:20px;flex-wrap:wrap;}
+
   .search-area{padding:14px 18px;}
+  .chips{gap:4px;}
+  .chip{padding:4px 10px;font-size:11px;}
+
   .shop-card{padding:14px 18px;flex-direction:column;}
   .shop-acts{flex-direction:row;width:100%;}
+  .btn-ci,.btn-rp{flex:1;text-align:center;}
+
   .rpage-header,.rlist{padding:20px 18px;}
+  .rstats{gap:16px;}
+
   .bpage{padding:36px 18px;}
   .bpage-grid{grid-template-columns:1fr;gap:32px;}
+
   .frow{grid-template-columns:1fr;}
   .modal{padding:20px;}
   .mactions{flex-direction:column;}
+
+  footer{padding:24px 18px;}
+
+  .hero-stats{padding-top:24px;}
+  .hstat-num{font-size:24px;}
+}
+
+@supports (scrollbar-gutter: stable) {
+  html { scrollbar-gutter: stable; }
 }
 </style>
 </head>
@@ -204,21 +328,43 @@ select.finput{appearance:none;cursor:pointer;}
   </div>
 </nav>
 
-<!-- EXPLORE -->
+<!-- Mobile Bottom Navigation -->
+<div class="bottom-nav" id="bottom-nav">
+  <div class="bottom-nav-item active" onclick="showPage('explore');updateBottomNav('explore')">
+    <div class="bottom-nav-item-icon">⌕</div>
+    <div>探す</div>
+  </div>
+  <div class="bottom-nav-item" onclick="showPage('reports');updateBottomNav('reports')">
+    <div class="bottom-nav-item-icon">📝</div>
+    <div>レポート</div>
+  </div>
+  <div class="bottom-nav-item" onclick="showPage('badge');updateBottomNav('badge')">
+    <div class="bottom-nav-item-icon">🏪</div>
+    <div>登録</div>
+  </div>
+  <div class="bottom-nav-item" onclick="showPage('admin');updateBottomNav('admin')" id="bottom-nav-admin" style="display:none;">
+    <div class="bottom-nav-item-icon">🔒</div>
+    <div>管理</div>
+  </div>
+</div>
+
+<!-- EXPLORE PAGE -->
 <div class="page active" id="page-explore">
   <div class="hero">
     <div class="hero-bg">一人</div>
-    <div class="hero-live" id="hero-live-wrap" style="display:none;"><span class="live-dot"></span>今このエリアで <strong id="live-count">0</strong> 人が一人飯中</div>
-    <h1>一人で入れるお店が、<br><em>見つかる。</em></h1>
-    <p class="hero-sub">「入っていいのかな」の不安を、リアルタイムの情報と、お店の本音で、解消する。</p>
-    <div class="hero-actions">
-      <button class="btn-primary" onclick="findNearby()">近くのお店を探す</button>
-      <button class="btn-ghost" onclick="showPage('reports')">入店レポートを読む</button>
-    </div>
-    <div class="hero-stats">
-      <div><div class="hstat-num" id="stat-r">0</div><div class="hstat-label">入店レポート</div></div>
-      <div><div class="hstat-num" id="stat-s">0</div><div class="hstat-label">歓迎バッジ店</div></div>
-      <div><div class="hstat-num" id="stat-p">--%</div><div class="hstat-label">「入れた」率</div></div>
+    <div class="hero-content">
+      <div class="hero-live" id="hero-live-wrap" style="display:none;"><span class="live-dot"></span>今このエリアで <strong id="live-count">0</strong> 人が一人飯中</div>
+      <h1>一人で入れるお店が、<br><em>見つかる。</em></h1>
+      <p class="hero-sub">「入っていいのかな」の不安を、リアルタイムの情報と、お店の本音で、解消する。</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="findNearby()">近くのお店を探す</button>
+        <button class="btn-ghost" onclick="showPage('reports')">入店レポートを読む</button>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hstat-num" id="stat-r">0</div><div class="hstat-label">入店レポート</div></div>
+        <div><div class="hstat-num" id="stat-s">0</div><div class="hstat-label">歓迎バッジ店</div></div>
+        <div><div class="hstat-num" id="stat-p">--%</div><div class="hstat-label">「入れた」率</div></div>
+      </div>
     </div>
   </div>
   <div class="search-area">
@@ -233,7 +379,7 @@ select.finput{appearance:none;cursor:pointer;}
   <div id="shops-list"></div>
 </div>
 
-<!-- REPORTS -->
+<!-- REPORTS PAGE -->
 <div class="page" id="page-reports">
   <div class="rpage-header">
     <div class="stag">real-time reports</div>
@@ -248,7 +394,7 @@ select.finput{appearance:none;cursor:pointer;}
   <div class="rlist" id="reports-list"></div>
 </div>
 
-<!-- BADGE -->
+<!-- BADGE PAGE -->
 <div class="page" id="page-badge">
   <div class="bpage">
     <div class="stag">for restaurants</div>
@@ -289,9 +435,6 @@ select.finput{appearance:none;cursor:pointer;}
   </div>
 </div>
 
-<!-- ADMIN BAR -->
-<div class="admin-bar" id="admin-bar" style="display:none;">🔒 管理人モード — <a href="#" onclick="logoutAdmin();return false;" style="color:#fff;text-decoration:underline;">ログアウト</a></div>
-
 <!-- ADMIN PAGE -->
 <div class="page" id="page-admin">
   <div id="admin-content">
@@ -319,6 +462,9 @@ select.finput{appearance:none;cursor:pointer;}
     </div>
   </div>
 </div>
+
+<!-- ADMIN BAR -->
+<div class="admin-bar" id="admin-bar" style="display:none;">🔒 管理人モード — <a href="#" onclick="logoutAdmin();return false;" style="color:#fff;text-decoration:underline;">ログアウト</a></div>
 
 <!-- CHECKIN MODAL -->
 <div class="modal-overlay" id="m-checkin" onclick="if(event.target===this)closeM('m-checkin')">
@@ -352,7 +498,42 @@ select.finput{appearance:none;cursor:pointer;}
   </div>
 </div>
 
+<!-- SHARE MODAL (After Checkin/Report) -->
+<div class="modal-overlay" id="m-share" onclick="if(event.target===this)closeM('m-share')">
+  <div class="modal">
+    <button class="mclose" onclick="closeM('m-share')">✕</button>
+    <h2>シェアしよう！</h2>
+    <p class="msub">あなたの一人飯をSNSで共有</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
+      <button class="btn-primary" style="flex:1;padding:10px;" onclick="shareToTwitter()">𝕏 ツイート</button>
+      <button class="btn-primary" style="flex:1;padding:10px;background:var(--accent);" onclick="shareLINE()">LINE シェア</button>
+      <button class="btn-ghost" style="flex:1;padding:10px;" onclick="copyShareLink()">🔗 リンクコピー</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
 <div class="toast" id="toast"></div>
+
+<!-- PWA Add to Home Screen Banner -->
+<div id="pwa-banner" style="display:none;position:fixed;bottom:70px;left:10px;right:10px;background:var(--accent);color:#fff;padding:14px;border-radius:8px;z-index:100;animation:slideUp 0.4s ease-out;">
+  <div style="font-size:13px;font-weight:500;margin-bottom:8px;">一人飯.com をホーム画面に追加</div>
+  <div style="display:flex;gap:8px;">
+    <button onclick="installPWA()" style="flex:1;background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:6px;border-radius:4px;font-size:12px;">追加</button>
+    <button onclick="closePWABanner()" style="flex:1;background:rgba(0,0,0,0.1);color:#fff;border:none;padding:6px;border-radius:4px;font-size:12px;">のちほど</button>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-brand">一人飯.com</div>
+  <div class="footer-links">
+    <a href="#">利用規約</a>
+    <a href="#">プライバシーポリシー</a>
+    <a href="#">お問い合わせ</a>
+  </div>
+  <div class="footer-copy">© 2026 一人飯.com</div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -360,10 +541,9 @@ select.finput{appearance:none;cursor:pointer;}
 const SUPABASE_URL = 'https://lmqjwrcjsyymjahuight.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtcWp3cmNqc3l5bWphaHVpZ2h0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNzQ5NDksImV4cCI6MjA5MDY1MDk0OX0.qzmUhoo64iYfZ4odhyikKLc29s8Xjb9f0z_-w_9zMGM';
 
-// Supabaseクライアント初期化
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// グローバル変数
+// Global State
 let shops = [];
 let reports = [];
 let currentUser = null;
@@ -375,8 +555,34 @@ let isAdmin = false;
 const ADMIN_HASH = 'hitorimeshi2026';
 let userLat = null;
 let userLng = null;
+let deferredPrompt = null;
 
-// --- 位置情報 ---
+// Service Worker Registration (PWA)
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('data:application/javascript,%0Aself.addEventListener%28%22install%22%2C%20event%20%3D%3E%20self.skipWaiting%28%29%29%3B%0Aself.addEventListener%28%22activate%22%2C%20event%20%3D%3E%20self.clients.claim%28%29%29%3B%0Aself.addEventListener%28%22fetch%22%2C%20event%20%3D%3E%7B%0A%20%20event.respondWith%28%0A%20%20%20%20caches.match%28event.request%29.then%28response%20%3D%3E%20response%20%7C%7C%20fetch%28event.request%29%29%0A%20%20%29%3B%0A%7D%29%3B%0A').catch(() => {});
+}
+
+// PWA Install Prompt
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  setTimeout(() => document.getElementById('pwa-banner').style.display = 'block', 2000);
+});
+
+function installPWA() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(() => {
+    deferredPrompt = null;
+    closePWABanner();
+  });
+}
+
+function closePWABanner() {
+  document.getElementById('pwa-banner').style.display = 'none';
+}
+
+// Position Info
 function getUserLocation() {
   return new Promise((resolve) => {
     if (!navigator.geolocation) { resolve(false); return; }
@@ -388,7 +594,6 @@ function getUserLocation() {
   });
 }
 
-// Haversine公式で2点間の距離(m)を計算
 function haversine(lat1, lng1, lat2, lng2) {
   const R = 6371000;
   const toRad = d => d * Math.PI / 180;
@@ -398,100 +603,74 @@ function haversine(lat1, lng1, lat2, lng2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-// 距離(m)から徒歩時間の文字列を生成
-function distLabel(meters) {
-  if (meters == null || isNaN(meters)) return '距離不明';
-  const min = Math.round(meters / 80); // 徒歩 約80m/分
-  if (min < 1) return '徒歩1分以内';
-  if (min >= 60) return '徒歩' + Math.round(min / 60 * 10) / 10 + '時間';
-  return '徒歩' + min + '分';
+function distLabel(m) {
+  if (m === Infinity) return '---';
+  if (m < 1000) return Math.round(m) + 'm';
+  return (m / 1000).toFixed(1) + 'km';
 }
 
-// 各店舗に距離情報を付与
-function calcDistances() {
+async function calcDistances() {
+  if (userLat == null) return;
   shops.forEach(s => {
-    if (userLat != null && s.lat != null && s.lng != null) {
+    if (s.lat && s.lng) {
       s._dist_m = haversine(userLat, userLng, s.lat, s.lng);
       s._dist_label = distLabel(s._dist_m);
     } else {
       s._dist_m = Infinity;
-      s._dist_label = s.lat == null ? '位置未登録' : '位置情報を許可してください';
+      s._dist_label = '---';
     }
   });
 }
 
-// ページ読み込み時の初期化
-async function initApp() {
-  try {
-    // 匿名ユーザーでサインイン
-    const { data: { user }, error: authError } = await sb.auth.signInAnonymously();
-    if (authError) throw authError;
-
-    currentUser = user;
-    console.log('Current user ID:', currentUser.id);
-
-    // 位置情報とデータを並列で取得
-    const [gotLocation] = await Promise.all([
-      getUserLocation(),
-      loadShopsAndReports()
-    ]);
-
-    // 距離計算
-    calcDistances();
-
-    // 初期レンダリング
-    renderShops();
-    updateLiveCount();
-    checkAdminHash();
-  } catch (error) {
-    console.error('初期化エラー:', error);
-    toast('アプリの初期化に失敗しました');
-  }
-}
-
-// 近くのお店を探すボタン
 async function findNearby() {
-  if (userLat == null) {
-    toast('位置情報を取得中...');
-    const ok = await getUserLocation();
-    if (!ok) { toast('位置情報を許可してください'); return; }
-    calcDistances();
+  const ok = await getUserLocation();
+  if (!ok) {
+    toast('位置情報へのアクセスが拒否されました');
+    return;
   }
-  showPage('search');
-  curFilter = 'all';
+  await calcDistances();
+  curFilter = 'nearby';
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
-  document.querySelector('.chip').classList.add('on');
+  document.querySelectorAll('.chip')[3].classList.add('on');
   renderShops();
   document.querySelector('.search-area').scrollIntoView({ behavior: 'smooth' });
 }
 
-// Supabaseからデータを読み込む
+// App Init
+async function initApp() {
+  // Anonymous auth so owner_id works for reports/shops
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) {
+      const { data } = await sb.auth.signInAnonymously();
+      currentUser = data?.user || null;
+    } else {
+      currentUser = session.user;
+    }
+  } catch (e) { console.warn('Auth:', e); }
+
+  await Promise.all([getUserLocation(), loadShopsAndReports()]);
+  await calcDistances();
+  updateLiveCount();
+  checkAdminHash();
+  handleMobileNav();
+}
+
 async function loadShopsAndReports() {
   try {
-    // Shopsを取得
-    const { data: shopsData, error: shopsError } = await sb
-      .from('shops')
-      .select('*')
-      .order('created_at', { ascending: true });
-
+    const { data: shopsData, error: shopsError } = await sb.from('shops').select('*').order('created_at', { ascending: true });
     if (shopsError) throw shopsError;
     shops = shopsData || [];
 
-    // Reportsを取得
-    const { data: reportsData, error: reportsError } = await sb
-      .from('reports')
-      .select('*')
-      .order('created_at', { ascending: false });
-
+    const { data: reportsData, error: reportsError } = await sb.from('reports').select('*').order('created_at', { ascending: false });
     if (reportsError) throw reportsError;
     reports = reportsData || [];
   } catch (error) {
-    console.error('データ読み込みエラー:', error);
+    console.error('Data Error:', error);
     toast('データの読み込みに失敗しました');
   }
 }
 
-// ページ表示
 function showPage(n) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', ['explore', 'reports', 'badge', 'admin'][i] === n));
@@ -504,7 +683,20 @@ function showPage(n) {
   if (n === 'admin') renderAdmin();
 }
 
-// 店舗リスト表示
+function handleMobileNav() {
+  const w = window.innerWidth;
+  const bn = document.getElementById('bottom-nav');
+  if (w <= 720) {
+    bn.classList.add('visible');
+  }
+}
+
+function updateBottomNav(page) {
+  document.querySelectorAll('.bottom-nav-item').forEach((item, i) => {
+    item.classList.toggle('active', ['explore', 'reports', 'badge', 'admin'][i] === page);
+  });
+}
+
 function renderShops() {
   const q = (document.getElementById('q').value || '').toLowerCase();
   let list = shops.filter(s => {
@@ -515,10 +707,9 @@ function renderShops() {
     if (curFilter === 'nearby') return s._dist_m !== Infinity;
     return true;
   });
-  // 近い順にソート（位置情報がある場合）
+
   if (userLat != null) list.sort((a, b) => (a._dist_m || Infinity) - (b._dist_m || Infinity));
 
-  // Update hero stats (must run even when shop list is empty)
   const n = reports.length;
   const g = reports.filter(r => r.score >= 4).length;
   document.getElementById('stat-r').textContent = n;
@@ -526,8 +717,19 @@ function renderShops() {
   document.getElementById('stat-p').textContent = (n ? Math.round(g / n * 100) + '%' : '--%');
 
   const el = document.getElementById('shops-list');
+
   if (!list.length) {
-    el.innerHTML = '<div class="no-results">条件に合うお店が見つかりませんでした</div>';
+    el.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">🍽</div>
+        <h2>まだお店が登録されていません</h2>
+        <p>最初の一人になろう！</p>
+        <div class="empty-state-cta">
+          <button class="btn-primary" onclick="showPage('badge')">近くのお店を登録する</button>
+          <button class="btn-ghost" onclick="showPage('reports')">レポートを書く</button>
+        </div>
+      </div>
+    `;
     return;
   }
 
@@ -551,10 +753,9 @@ function renderShops() {
     </div>`).join('');
 }
 
-// レポート表示
 function renderReports() {
   const el = document.getElementById('reports-list');
-  const rs = [...reports].reverse();
+  const rs = [...reports]; // already newest-first from Supabase
 
   if (!rs.length) {
     el.innerHTML = '<div style="padding:60px 0;text-align:center;color:var(--cream3);">まだレポートがありません。最初の一人になろう！</div>';
@@ -562,14 +763,17 @@ function renderReports() {
   }
 
   el.innerHTML = rs.map(r => {
-    // 現在のユーザーがこのレポートの所有者か確認（管理人は全て操作可能）
     const isOwner = (currentUser && r.owner_id === currentUser.id) || isAdmin;
+    const relTime = getRelativeTime(r.created_at);
 
     return `
       <div class="rcard">
         <div class="rtop">
           <div class="avatar">${r.name[0]}</div>
-          <div><div class="rname">${r.name}</div><div class="rshop">${r.sname} · ${r.time}</div></div>
+          <div>
+            <div class="rname">${r.name}</div>
+            <div class="rshop">${r.sname} · <span class="rtime">${relTime}</span></div>
+          </div>
           <span class="sbadge ${r.score >= 4 ? 'good' : 'meh'}" style="margin-left:auto;">${r.score >= 4 ? '入れた' : '少し難しい'}</span>
         </div>
         <div class="rbody">${r.body}</div>
@@ -577,6 +781,11 @@ function renderReports() {
         <div class="score-row">
           <div class="dots">${[1, 2, 3, 4, 5].map(i => `<div class="dot ${i <= r.score ? 'on' : ''}"></div>`).join('')}</div>
           <span class="slabel">入りやすさ ${r.score}/5</span>
+        </div>
+        <div class="share-icons">
+          <button class="share-btn" onclick="shareReport(${r.id},'twitter')">𝕏 シェア</button>
+          <button class="share-btn" onclick="shareReport(${r.id},'line')">LINE</button>
+          <button class="share-btn" onclick="copyToClipboard('report-${r.id}')">🔗 コピー</button>
         </div>
         ${isOwner ? `
           <div class="ract-row">
@@ -594,7 +803,19 @@ function renderReports() {
   document.getElementById('rs-shops').textContent = [...new Set(reports.map(r => r.sid))].length;
 }
 
-// バッジページ表示
+function getRelativeTime(isoDate) {
+  if (!isoDate) return 'たった今';
+  const date = new Date(isoDate);
+  const now = new Date();
+  const sec = Math.floor((now - date) / 1000);
+
+  if (sec < 60) return 'たった今';
+  if (sec < 3600) return Math.floor(sec / 60) + '分前';
+  if (sec < 86400) return Math.floor(sec / 3600) + '時間前';
+  if (sec < 604800) return Math.floor(sec / 86400) + '日前';
+  return date.toLocaleDateString('ja-JP');
+}
+
 function renderBadge() {
   const el = document.getElementById('badge-list');
   el.innerHTML = shops.filter(s => s.welcome).map(s => `
@@ -604,7 +825,6 @@ function renderBadge() {
     </div>`).join('');
 }
 
-// フィルター設定
 function setF(el, f) {
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
   el.classList.add('on');
@@ -612,7 +832,6 @@ function setF(el, f) {
   renderShops();
 }
 
-// チェックインモーダルを開く
 function openCheckin() {
   curCIShop = null;
   document.getElementById('ci-list').innerHTML = shops.map(s => `
@@ -623,39 +842,47 @@ function openCheckin() {
   openM('m-checkin');
 }
 
-// チェックイン店舗選択
 function selectCI(el, id) {
   document.querySelectorAll('.ssi').forEach(i => i.classList.remove('on'));
   el.classList.add('on');
   curCIShop = id;
 }
 
-// 素早いチェックイン (Supabaseに保存)
 async function quickCI(id) {
   const s = shops.find(x => x.id === id);
   if (!s) return;
 
   try {
-    // チェックイン数をインクリメント
-    const { error } = await sb
-      .from('shops')
-      .update({ checkins: s.checkins + 1 })
-      .eq('id', s.id);
-
+    const { error } = await sb.from('shops').update({ checkins: s.checkins + 1 }).eq('id', s.id);
     if (error) throw error;
 
-    // ローカル状態更新
     s.checkins++;
     renderShops();
     updateLiveCount();
-    toast(`${s.name}にチェックインしました！`);
+
+    // Celebrate
+    celebrateCheckin();
+    toast('✨ ' + s.name + 'にチェックインしました！');
   } catch (error) {
-    console.error('チェックインエラー:', error);
+    console.error('Checkin Error:', error);
     toast('チェックインに失敗しました');
   }
 }
 
-// チェックインを送信
+function celebrateCheckin() {
+  for (let i = 0; i < 20; i++) {
+    const conf = document.createElement('div');
+    conf.className = 'confetti-item';
+    conf.style.left = Math.random() * window.innerWidth + 'px';
+    conf.style.top = window.innerHeight + 'px';
+    conf.textContent = ['🎉', '✨', '🎊'][Math.floor(Math.random() * 3)];
+    conf.style.fontSize = '20px';
+    conf.style.animation = `confetti ${2 + Math.random() * 1}s ease-out forwards`;
+    document.body.appendChild(conf);
+    setTimeout(() => conf.remove(), 3000);
+  }
+}
+
 function submitCI() {
   if (!curCIShop) {
     toast('お店を選んでください');
@@ -666,7 +893,6 @@ function submitCI() {
   curCIShop = null;
 }
 
-// レポートモーダルを開く
 function openReport(sid) {
   editingReportId = null;
   curScore = 0;
@@ -683,12 +909,10 @@ function openReport(sid) {
   openM('m-report');
 }
 
-// レポート編集モーダルを開く
 function openEditReport(id) {
   const r = reports.find(r => r.id === id);
   if (!r) return;
 
-  // 所有者確認（管理人は全て操作可能）
   if (!isAdmin && (!currentUser || r.owner_id !== currentUser.id)) {
     toast('このレポートは編集できません');
     return;
@@ -709,7 +933,6 @@ function openEditReport(id) {
   openM('m-report');
 }
 
-// レポートを削除 (RLS経由)
 async function deleteReport(id) {
   if (!confirm('このレポートを削除しますか？\n一度削除すると元に戻せません。')) {
     return;
@@ -729,29 +952,25 @@ async function deleteReport(id) {
       return;
     }
 
-    // ローカル状態更新
     reports = reports.filter(r => r.id !== id);
     renderReports();
     renderShops();
     toast('レポートを削除しました');
   } catch (error) {
-    console.error('削除エラー:', error);
+    console.error('Delete Error:', error);
     toast('レポートの削除に失敗しました');
   }
 }
 
-// スコアを設定
 function setScore(n) {
   curScore = n;
   document.querySelectorAll('.sopt').forEach((b, i) => b.classList.toggle('on', i < n));
 }
 
-// タグ選択
 function tt(el) {
   el.classList.toggle('on');
 }
 
-// レポートを投稿または修正
 async function submitReport() {
   const name = document.getElementById('r-name').value.trim();
   const sid = parseInt(document.getElementById('r-shop').value);
@@ -779,64 +998,42 @@ async function submitReport() {
 
   try {
     if (editingReportId) {
-      // 修正
-      let editQuery = sb
-        .from('reports')
-        .update({
-          name,
-          sid,
-          sname: shop.name,
-          body,
-          score: curScore,
-          tags
-        })
-        .eq('id', editingReportId);
+      let editQuery = sb.from('reports').update({
+        name, sid, sname: shop.name, body, score: curScore, tags
+      }).eq('id', editingReportId);
       if (!isAdmin) editQuery = editQuery.eq('owner_id', currentUser.id);
       const { error } = await editQuery;
 
       if (error) throw error;
 
-      // ローカル状態更新
       const idx = reports.findIndex(r => r.id === editingReportId);
       if (idx > -1) {
         reports[idx] = { ...reports[idx], name, sid, sname: shop.name, body, score: curScore, tags };
       }
       toast('レポートを修正しました！');
     } else {
-      // 新規投稿
-      const { data, error } = await sb
-        .from('reports')
-        .insert([{
-          name,
-          sid,
-          sname: shop.name,
-          body,
-          score: curScore,
-          tags,
-          time: 'たった今',
-          owner_id: currentUser.id
-        }])
-        .select();
+      const { data, error } = await sb.from('reports').insert([{
+        name, sid, sname: shop.name, body, score: curScore, tags,
+        time: 'たった今', owner_id: currentUser.id
+      }]).select();
 
       if (error) throw error;
 
-      // ローカル状態更新
       if (data && data.length > 0) {
         reports.push(data[0]);
       }
-      toast('レポートを投稿しました！');
+      toast('📝 レポートを投稿しました！');
     }
 
     closeM('m-report');
     renderShops();
     renderReports();
   } catch (error) {
-    console.error('レポート送信エラー:', error);
+    console.error('Report Error:', error);
     toast('レポートの送信に失敗しました');
   }
 }
 
-// 店舗を登録 (Supabaseに保存)
 async function registerShop() {
   const name = document.getElementById('rg-name').value.trim();
   const genre = document.getElementById('rg-genre').value;
@@ -849,28 +1046,15 @@ async function registerShop() {
   }
 
   try {
-    // 位置情報を取得（まだの場合）
     if (userLat == null) await getUserLocation();
 
-    const { data, error } = await sb
-      .from('shops')
-      .insert([{
-        name,
-        genre,
-        counter,
-        welcome: true,
-        msg,
-        checkins: 0,
-        dist: '---',
-        lat: userLat,
-        lng: userLng,
-        owner_id: currentUser.id
-      }])
-      .select();
+    const { data, error } = await sb.from('shops').insert([{
+      name, genre, counter, welcome: true, msg, checkins: 0,
+      dist: '---', lat: userLat, lng: userLng, owner_id: currentUser.id
+    }]).select();
 
     if (error) throw error;
 
-    // ローカル状態更新
     if (data && data.length > 0) {
       shops.push(data[0]);
       calcDistances();
@@ -881,14 +1065,13 @@ async function registerShop() {
     document.getElementById('rg-genre').value = '';
     document.getElementById('rg-msg').value = '';
     renderBadge();
-    toast(`${name} を登録しました！`);
+    toast('🎉 ' + name + ' を登録しました！');
   } catch (error) {
-    console.error('店舗登録エラー:', error);
+    console.error('Shop Register Error:', error);
     toast('店舗の登録に失敗しました');
   }
 }
 
-// モーダル操作
 function openM(id) {
   document.getElementById(id).classList.add('open');
 }
@@ -898,15 +1081,49 @@ function closeM(id) {
   if (id === 'm-report') editingReportId = null;
 }
 
-// トースト表示
 function toast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
+  const icon = msg.includes('✨') || msg.includes('🎉') || msg.includes('📝') ? '' : '';
+  t.innerHTML = `<span class="toast-icon">${icon}</span><span>${msg}</span>`;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// 管理人ログイン
+// Share Functions
+function shareToTwitter() {
+  const curShop = shops.find(s => s.id === curCIShop);
+  const text = `一人で${curShop?.name || 'お店'}に来てます！ #一人飯`;
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`);
+}
+
+function shareLINE() {
+  window.open(`line://msg/text/${encodeURIComponent('一人飯.com で新しいお店を発見！')}`);
+}
+
+function copyShareLink() {
+  copyToClipboard(window.location.href);
+}
+
+function shareReport(id, platform) {
+  const report = reports.find(r => r.id === id);
+  if (!report) return;
+
+  const text = `${report.name} さんが ${report.sname} で入店レポートを書きました！入りやすさ: ${report.score}/5 #一人飯`;
+
+  if (platform === 'twitter') {
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`);
+  } else if (platform === 'line') {
+    window.open(`line://msg/text/${encodeURIComponent(text)}`);
+  }
+}
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    toast('✅ リンクをコピーしました');
+  });
+}
+
+// Admin
 function loginAdmin() {
   const pw = document.getElementById('admin-pw').value;
   if (pw === ADMIN_HASH) {
@@ -916,9 +1133,10 @@ function loginAdmin() {
     document.getElementById('admin-content').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'block';
     document.getElementById('nav-admin').style.display = 'inline-block';
+    document.getElementById('bottom-nav-admin').style.display = 'flex';
     document.getElementById('admin-err').style.display = 'none';
     renderAdmin();
-    toast('管理人モードでログインしました');
+    toast('🔓 管理人モードでログインしました');
   } else {
     document.getElementById('admin-err').style.display = 'block';
   }
@@ -931,12 +1149,12 @@ function logoutAdmin() {
   document.getElementById('admin-content').style.display = 'block';
   document.getElementById('admin-panel').style.display = 'none';
   document.getElementById('nav-admin').style.display = 'none';
+  document.getElementById('bottom-nav-admin').style.display = 'none';
   document.getElementById('admin-pw').value = '';
   showPage('explore');
   toast('管理人モードからログアウトしました');
 }
 
-// 管理人パネル描画
 function renderAdmin() {
   if (!isAdmin) return;
 
@@ -944,7 +1162,6 @@ function renderAdmin() {
   document.getElementById('a-reports').textContent = reports.length;
   document.getElementById('a-checkins').textContent = shops.reduce((s, x) => s + (x.checkins || 0), 0);
 
-  // レポート一覧
   const rl = document.getElementById('admin-reports-list');
   if (!reports.length) {
     rl.innerHTML = '<div style="color:var(--cream3);font-size:13px;">レポートはまだありません</div>';
@@ -954,7 +1171,7 @@ function renderAdmin() {
         <div class="admin-item-top">
           <div class="admin-item-info">
             <div class="admin-item-name">${r.name} → ${r.sname}</div>
-            <div class="admin-item-sub">スコア: ${r.score}/5 · ${r.time} · ID: ${r.id}</div>
+            <div class="admin-item-sub">スコア: ${r.score}/5 · ${getRelativeTime(r.created_at)} · ID: ${r.id}</div>
           </div>
           <div class="admin-acts">
             <button class="btn-admin-del" onclick="adminDeleteReport(${r.id})">削除</button>
@@ -964,7 +1181,6 @@ function renderAdmin() {
       </div>`).join('');
   }
 
-  // 店舗一覧
   const sl = document.getElementById('admin-shops-list');
   sl.innerHTML = shops.map(s => `
     <div class="admin-item">
@@ -981,7 +1197,6 @@ function renderAdmin() {
     </div>`).join('');
 }
 
-// 管理人：レポート削除
 async function adminDeleteReport(id) {
   if (!isAdmin) return;
   if (!confirm('このレポートを削除しますか？')) return;
@@ -995,12 +1210,11 @@ async function adminDeleteReport(id) {
     renderShops();
     toast('レポートを削除しました');
   } catch (e) {
-    console.error('管理人削除エラー:', e);
+    console.error('Admin Delete Error:', e);
     toast('削除に失敗しました');
   }
 }
 
-// 管理人：店舗削除
 async function adminDeleteShop(id) {
   if (!isAdmin) return;
   const s = shops.find(x => x.id === id);
@@ -1014,12 +1228,11 @@ async function adminDeleteShop(id) {
     renderShops();
     toast('店舗を削除しました');
   } catch (e) {
-    console.error('店舗削除エラー:', e);
+    console.error('Shop Delete Error:', e);
     toast('削除に失敗しました');
   }
 }
 
-// 管理人：チェックインリセット
 async function adminResetCheckins(id) {
   if (!isAdmin) return;
   try {
@@ -1032,12 +1245,11 @@ async function adminResetCheckins(id) {
     updateLiveCount();
     toast('チェックインをリセットしました');
   } catch (e) {
-    console.error('リセットエラー:', e);
+    console.error('Reset Error:', e);
     toast('リセットに失敗しました');
   }
 }
 
-// URLハッシュで管理画面表示
 function checkAdminHash() {
   if (window.location.hash === '#admin') {
     document.getElementById('nav-admin').style.display = 'inline-block';
@@ -1045,7 +1257,6 @@ function checkAdminHash() {
   }
 }
 
-// ライブカウント（実データ表示）
 function updateLiveCount() {
   const total = shops.reduce((sum, s) => sum + (s.checkins || 0), 0);
   const el = document.getElementById('live-count');
@@ -1054,7 +1265,7 @@ function updateLiveCount() {
   if (wrap) wrap.style.display = total > 0 ? 'inline-flex' : 'none';
 }
 
-// アプリ初期化
+// Initialize
 initApp();
 </script>
 </body>
