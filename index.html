@@ -212,7 +212,7 @@ select.finput{appearance:none;cursor:pointer;}
     <h1>一人で入れるお店が、<br><em>見つかる。</em></h1>
     <p class="hero-sub">「入っていいのかな」の不安を、リアルタイムの情報と、お店の本音で、解消する。</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="document.querySelector('.search-area').scrollIntoView({behavior:'smooth'})">近くのお店を探す</button>
+      <button class="btn-primary" onclick="findNearby()">近くのお店を探す</button>
       <button class="btn-ghost" onclick="showPage('reports')">入店レポートを読む</button>
     </div>
     <div class="hero-stats">
@@ -373,6 +373,52 @@ let curCIShop = null;
 let editingReportId = null;
 let isAdmin = false;
 const ADMIN_HASH = 'hitorimeshi2026';
+let userLat = null;
+let userLng = null;
+
+// --- 位置情報 ---
+function getUserLocation() {
+  return new Promise((resolve) => {
+    if (!navigator.geolocation) { resolve(false); return; }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => { userLat = pos.coords.latitude; userLng = pos.coords.longitude; resolve(true); },
+      () => { resolve(false); },
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
+    );
+  });
+}
+
+// Haversine公式で2点間の距離(m)を計算
+function haversine(lat1, lng1, lat2, lng2) {
+  const R = 6371000;
+  const toRad = d => d * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+// 距離(m)から徒歩時間の文字列を生成
+function distLabel(meters) {
+  if (meters == null || isNaN(meters)) return '距離不明';
+  const min = Math.round(meters / 80); // 徒歩 約80m/分
+  if (min < 1) return '徒歩1分以内';
+  if (min >= 60) return '徒歩' + Math.round(min / 60 * 10) / 10 + '時間';
+  return '徒歩' + min + '分';
+}
+
+// 各店舗に距離情報を付与
+function calcDistances() {
+  shops.forEach(s => {
+    if (userLat != null && s.lat != null && s.lng != null) {
+      s._dist_m = haversine(userLat, userLng, s.lat, s.lng);
+      s._dist_label = distLabel(s._dist_m);
+    } else {
+      s._dist_m = Infinity;
+      s._dist_label = s.lat == null ? '位置未登録' : '位置情報を許可してください';
+    }
+  });
+}
 
 // ページ読み込み時の初期化
 async function initApp() {
@@ -384,8 +430,14 @@ async function initApp() {
     currentUser = user;
     console.log('Current user ID:', currentUser.id);
 
-    // データを読み込む
-    await loadShopsAndReports();
+    // 位置情報とデータを並列で取得
+    const [gotLocation] = await Promise.all([
+      getUserLocation(),
+      loadShopsAndReports()
+    ]);
+
+    // 距離計算
+    calcDistances();
 
     // 初期レンダリング
     renderShops();
@@ -395,6 +447,22 @@ async function initApp() {
     console.error('初期化エラー:', error);
     toast('アプリの初期化に失敗しました');
   }
+}
+
+// 近くのお店を探すボタン
+async function findNearby() {
+  if (userLat == null) {
+    toast('位置情報を取得中...');
+    const ok = await getUserLocation();
+    if (!ok) { toast('位置情報を許可してください'); return; }
+    calcDistances();
+  }
+  showPage('search');
+  curFilter = 'all';
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+  document.querySelector('.chip').classList.add('on');
+  renderShops();
+  document.querySelector('.search-area').scrollIntoView({ behavior: 'smooth' });
 }
 
 // Supabaseからデータを読み込む
@@ -444,8 +512,11 @@ function renderShops() {
     if (curFilter === 'welcome') return s.welcome;
     if (curFilter === 'live') return s.checkins > 0;
     if (curFilter === 'counter') return s.counter;
+    if (curFilter === 'nearby') return s._dist_m !== Infinity;
     return true;
   });
+  // 近い順にソート（位置情報がある場合）
+  if (userLat != null) list.sort((a, b) => (a._dist_m || Infinity) - (b._dist_m || Infinity));
 
   // Update hero stats (must run even when shop list is empty)
   const n = reports.length;
@@ -469,7 +540,7 @@ function renderShops() {
         </div>
         <div class="shop-meta">
           ${s.checkins > 0 ? `<div class="smeta"><span class="live-dot"></span><span class="live-count-text">今${s.checkins}人いる</span></div>` : '<div class="smeta" style="color:var(--cream3);">現在0人</div>'}
-          <div class="smeta">📍 ${s.dist}</div>
+          <div class="smeta">📍 ${s._dist_label || s.dist || '---'}</div>
         </div>
         ${s.msg ? `<div class="shop-msg">「${s.msg}」</div>` : ''}
       </div>
@@ -546,7 +617,7 @@ function openCheckin() {
   curCIShop = null;
   document.getElementById('ci-list').innerHTML = shops.map(s => `
     <div class="ssi" onclick="selectCI(this,${s.id})">
-      <div><div class="ssi-name">${s.name}</div><div class="ssi-sub">${s.genre} · ${s.dist}</div></div>
+      <div><div class="ssi-name">${s.name}</div><div class="ssi-sub">${s.genre} · ${s._dist_label || s.dist || '---'}</div></div>
       ${s.checkins > 0 ? `<div style="font-size:11px;color:var(--green);">今${s.checkins}人</div>` : ''}
     </div>`).join('');
   openM('m-checkin');
@@ -778,6 +849,9 @@ async function registerShop() {
   }
 
   try {
+    // 位置情報を取得（まだの場合）
+    if (userLat == null) await getUserLocation();
+
     const { data, error } = await sb
       .from('shops')
       .insert([{
@@ -788,6 +862,8 @@ async function registerShop() {
         msg,
         checkins: 0,
         dist: '---',
+        lat: userLat,
+        lng: userLng,
         owner_id: currentUser.id
       }])
       .select();
@@ -797,6 +873,7 @@ async function registerShop() {
     // ローカル状態更新
     if (data && data.length > 0) {
       shops.push(data[0]);
+      calcDistances();
     }
 
     document.getElementById('rg-ok').style.display = 'block';
