@@ -129,8 +129,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .shop-genre{font-size:12px;color:var(--dark3);margin-top:4px;}
 .shop-badges{display:flex;gap:8px;align-items:center;}
 .bw{background:#EDEAE5;color:var(--green);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:4px;}
+.bw-net{background:#FFF3E0;color:#E65100;font-size:10px;font-weight:500;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:4px;}
+.shop-name-link{color:var(--dark);text-decoration:none;cursor:pointer;transition:color 0.2s;}
+.shop-name-link:hover{color:var(--accent);text-decoration:underline;}
+.shop-dist-link{text-decoration:none;cursor:pointer;transition:opacity 0.2s;}
+.shop-dist-link:hover{opacity:0.7;text-decoration:underline;}
 
-.shop-info-row{display:flex;gap:16px;flex-wrap:wrap;}
+.shop-info-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
 .shop-meta{font-size:13px;color:var(--dark2);display:flex;align-items:center;gap:4px;font-weight:500;}
 .shop-distance{font-size:13px;color:var(--accent);font-weight:600;}
 .checkin-indicator{font-size:12px;color:var(--green);font-weight:500;display:flex;align-items:center;gap:4px;}
@@ -431,7 +436,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 28p
       </div>
       <div class="hero-stats">
         <div><div class="hstat-num" id="stat-r">0</div><div class="hstat-label">入店レポート</div></div>
-        <div><div class="hstat-num" id="stat-s">0</div><div class="hstat-label">歓迎バッジ店</div></div>
+        <div><div class="hstat-num" id="stat-s">0</div><div class="hstat-label">ひとりOK情報</div></div>
         <div><div class="hstat-num" id="stat-p">--%</div><div class="hstat-label">「入れた」率</div></div>
       </div>
     </div>
@@ -440,7 +445,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 28p
     <div class="search-wrap"><span class="search-icon">⌕</span><input type="text" id="q" placeholder="お店名・ジャンルで検索..." oninput="renderShops()"></div>
     <div class="chips">
       <button class="chip on" onclick="setF(this,'all')">すべて</button>
-      <button class="chip" onclick="setF(this,'welcome')">歓迎バッジのみ</button>
+      <button class="chip" onclick="setF(this,'welcome')">ひとりOK情報あり</button>
       <button class="chip" onclick="setF(this,'live')">今一人いる</button>
       <button class="chip" onclick="setF(this,'counter')">カウンター</button>
     </div>
@@ -594,8 +599,23 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 28p
   </div>
 
   <div id="match-content" style="display:none;">
-    <div style="padding:16px 28px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;">
+    <div style="padding:16px 28px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
       <button class="btn-primary" onclick="openCreateMatchModal()" style="padding:8px 14px;font-size:13px;">募集を出す</button>
+      <button class="btn-ghost" id="match-map-toggle" onclick="toggleMatchMap()" style="padding:8px 14px;font-size:13px;">🗺 マップで見る</button>
+    </div>
+
+    <!-- Match Map View -->
+    <div id="match-map-container" style="display:none;padding:0;border-bottom:1px solid var(--border);">
+      <div style="padding:12px 28px;background:linear-gradient(135deg,#FFF8F3,#FFFBF7);border-bottom:1px solid var(--border);">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:14px;font-weight:600;color:var(--dark);">📍 近くの募集マップ</div>
+          <button onclick="openMatchMapFull()" style="font-size:12px;color:var(--accent);background:none;border:none;cursor:pointer;font-weight:500;">Google Mapで開く ↗</button>
+        </div>
+      </div>
+      <div id="match-map-list" style="padding:12px 28px;max-height:300px;overflow-y:auto;"></div>
+      <div id="match-map-empty" style="display:none;text-align:center;padding:24px;font-size:13px;color:var(--dark3);">
+        📍 位置情報を有効にすると、近くの募集が表示されます
+      </div>
     </div>
 
     <div style="padding:16px 28px;border-bottom:1px solid var(--border);">
@@ -735,6 +755,14 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 28p
   </div>
 </div>
 
+<!-- Shop Detail Modal -->
+<div class="modal-overlay" id="m-shop-detail" onclick="if(event.target===this)closeM('m-shop-detail')">
+  <div class="modal" style="max-width:540px;max-height:85vh;overflow-y:auto;">
+    <button class="mclose" onclick="closeM('m-shop-detail')">✕</button>
+    <div id="shop-detail-content"></div>
+  </div>
+</div>
+
 <!-- Safety Guide Modal -->
 <div class="modal-overlay" id="m-safety" onclick="if(event.target===this)closeM('m-safety')">
   <div class="modal" style="max-width:500px;">
@@ -809,7 +837,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 28p
   <div style="display:flex;align-items:flex-start;gap:12px;">
     <div style="font-size:28px;flex-shrink:0;">📍</div>
     <div style="flex:1;">
-      <div style="font-size:14px;font-weight:600;color:var(--dark);margin-bottom:4px;" id="nearby-title">近くにひとり歓迎のお店があります！</div>
+      <div style="font-size:14px;font-weight:600;color:var(--dark);margin-bottom:4px;" id="nearby-title">近くにひとりOKのお店があります！</div>
       <div style="font-size:12px;color:var(--dark3);line-height:1.6;" id="nearby-body"></div>
     </div>
     <button onclick="closeNearbyBanner()" style="background:none;border:none;color:var(--dark3);font-size:18px;padding:0;cursor:pointer;">✕</button>
@@ -827,14 +855,21 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 28p
     <input type="checkbox" id="notify-toggle" onchange="toggleNotifications(this.checked)" style="width:18px;height:18px;accent-color:var(--green);">
     <div>
       <div style="font-size:13px;font-weight:500;color:var(--dark);">近くのお店を通知</div>
-      <div style="font-size:11px;color:var(--dark3);">500m以内にひとり歓迎店があると通知</div>
+      <div style="font-size:11px;color:var(--dark3);">500m以内にひとりOKの店があると通知</div>
     </div>
   </label>
-  <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 0;">
+  <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 0;border-bottom:1px solid var(--border);">
     <input type="checkbox" id="notify-checkin-toggle" onchange="toggleCheckinNotify(this.checked)" style="width:18px;height:18px;accent-color:var(--green);">
     <div>
       <div style="font-size:13px;font-weight:500;color:var(--dark);">チェックイン通知</div>
       <div style="font-size:11px;color:var(--dark3);">近くのお店に誰かがチェックインしたら通知</div>
+    </div>
+  </label>
+  <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 0;">
+    <input type="checkbox" id="notify-match-toggle" onchange="toggleMatchNotify(this.checked)" style="width:18px;height:18px;accent-color:#E84E1B;">
+    <div>
+      <div style="font-size:13px;font-weight:500;color:var(--dark);">💕 仲間マッチ通知</div>
+      <div style="font-size:11px;color:var(--dark3);">近くで一緒にご飯したい人がいたら通知</div>
     </div>
   </label>
   <button onclick="document.getElementById('notify-settings').style.display='none'" style="width:100%;margin-top:10px;background:var(--bg3);border:none;padding:8px;border-radius:6px;font-size:12px;color:var(--dark2);cursor:pointer;">閉じる</button>
@@ -1096,19 +1131,28 @@ async function renderShops() {
     const genreTags = genres.map(g => `<div class="shop-tag">${escapeHtml(g)}</div>`).join('');
     const msgHtml = s.msg ? `<div class="shop-msg-section"><div class="shop-msg-label">【ネット情報】</div><div class="shop-msg">「${escapeHtml(s.msg)}」</div></div>` : '';
 
+    // Badge logic: only show official badge if shop owner registered it
+    const isOwnerVerified = !!s.owner_id;
+    let badgeHtml = '';
+    if (isOwnerVerified && s.welcome) {
+      badgeHtml = '<div class="bw">🍽 ひとり歓迎</div>';
+    } else if (s.welcome) {
+      badgeHtml = '<div class="bw-net">📋 ネット情報: ひとりOK</div>';
+    }
+
     return `<div class="shop-card">
       <div class="shop-header">
         <div class="shop-name-group">
-          <div class="shop-name">${escapeHtml(s.name)}</div>
+          <a href="#" class="shop-name shop-name-link" onclick="showShopDetail(${s.id});return false;">${escapeHtml(s.name)}</a>
           <div class="shop-genre">${genres.length > 0 ? genres.join(' / ') : 'その他'}</div>
         </div>
         <div class="shop-badges">
-          ${s.welcome ? '<div class="bw">🍽 ひとり歓迎</div>' : ''}
+          ${badgeHtml}
         </div>
       </div>
       <div class="shop-info-row">
         ${(s.counter === true || s.counter === 'yes') ? '<div class="shop-meta">🪑 カウンター有</div>' : ''}
-        <div class="shop-distance">📍 ${s._dist_label || s.dist || '---'}</div>
+        <a href="#" class="shop-distance shop-dist-link" onclick="openMap(${s.id});return false;">📍 ${s._dist_label || s.dist || '---'}</a>
         ${s.checkins && s.checkins > 0 ? `<div class="checkin-indicator">🟢 ${s.checkins}人チェックイン</div>` : ''}
       </div>
       <div class="shop-tags">${genreTags}</div>
@@ -1487,6 +1531,58 @@ function logoutAdmin() {
   showPage('explore');
 }
 
+// --- Shop Detail ---
+function showShopDetail(shopId) {
+  const s = shops.find(x => x.id === shopId);
+  if (!s) return;
+  const shopReports = reports.filter(r => r.shop_id === s.id);
+  const isOwnerVerified = !!s.owner_id;
+  let badgeHtml = '';
+  if (isOwnerVerified && s.welcome) {
+    badgeHtml = '<div class="bw" style="display:inline-flex;margin-top:8px;">🍽 ひとり歓迎（お店公認）</div>';
+  } else if (s.welcome) {
+    badgeHtml = '<div class="bw-net" style="display:inline-flex;margin-top:8px;">📋 ネット情報: ひとりOK</div>';
+  }
+
+  const reportsHtml = shopReports.length > 0
+    ? shopReports.slice(0, 5).map(r => `<div style="padding:12px;background:var(--bg);border-radius:8px;margin-bottom:8px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-weight:600;font-size:13px;">${escapeHtml(r.name)}</span>
+          <span style="font-size:12px;color:var(--dark3);">${'⭐'.repeat(r.score || 0)}</span>
+        </div>
+        <p style="font-size:13px;color:var(--dark2);line-height:1.6;margin:0;">${escapeHtml(r.body)}</p>
+      </div>`).join('')
+    : '<p style="font-size:13px;color:var(--dark3);text-align:center;padding:20px;">まだレポートがありません</p>';
+
+  document.getElementById('shop-detail-content').innerHTML = `
+    <h2 class="mtitle" style="font-size:22px;">${escapeHtml(s.name)}</h2>
+    <p style="color:var(--dark3);font-size:14px;margin:-8px 0 12px;">${escapeHtml(s.genre || 'その他')}${s.dist ? ' ・ ' + escapeHtml(s.dist) : ''}</p>
+    ${badgeHtml}
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;">
+      ${(s.counter === true || s.counter === 'yes') ? '<div style="font-size:13px;color:var(--dark2);background:var(--bg);padding:6px 12px;border-radius:8px;">🪑 カウンター有</div>' : ''}
+      ${s._dist_label && s._dist_label !== '---' ? `<div style="font-size:13px;color:var(--accent);background:var(--bg);padding:6px 12px;border-radius:8px;">📍 ${s._dist_label}</div>` : ''}
+      ${s.checkins > 0 ? `<div style="font-size:13px;color:var(--green);background:var(--bg);padding:6px 12px;border-radius:8px;">🟢 ${s.checkins}人チェックイン中</div>` : ''}
+    </div>
+    ${s.msg ? `<div style="background:#FFF8E1;border-left:3px solid #FFA000;padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0;">
+      <div style="font-size:11px;color:#E65100;font-weight:600;margin-bottom:4px;">【ネット情報】</div>
+      <p style="font-size:13px;color:var(--dark);line-height:1.7;margin:0;">${escapeHtml(s.msg)}</p>
+    </div>` : ''}
+    <div style="display:flex;gap:8px;margin:20px 0;">
+      <button class="btn-primary" style="flex:1;font-size:13px;padding:10px;" onclick="openMap(${s.id})">📍 Google Mapで見る</button>
+      <button class="btn-ghost" style="flex:1;font-size:13px;padding:10px;" onclick="shareShop(${s.id})">↗ シェアする</button>
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:16px;margin-top:8px;">
+      <h3 style="font-size:15px;margin-bottom:12px;">入店レポート（${shopReports.length}件）</h3>
+      ${reportsHtml}
+    </div>
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button class="btn-ci" style="flex:1;" onclick="closeM('m-shop-detail');openCheckin(${s.id})">今ここにいる</button>
+      <button class="btn-rp" style="flex:1;" onclick="closeM('m-shop-detail');openReport(${s.id})">レポートを書く</button>
+    </div>
+  `;
+  openM('m-shop-detail');
+}
+
 // --- Google Maps ---
 function openMap(shopId) {
   const s = shops.find(x => x.id === shopId);
@@ -1512,7 +1608,8 @@ function openMapNearby() {
 function shareShop(shopId) {
   const s = shops.find(x => x.id === shopId);
   if (!s) return;
-  const text = `${s.name}（${s.genre || 'レストラン'}・${s.dist || '東京'}）${s.welcome ? ' ひとり歓迎🍽' : ''}\n一人飯.com で見つけた！\nhttps://www.hitorimeshi.com/`;
+  const isVerified = !!s.owner_id && s.welcome;
+  const text = `${s.name}（${s.genre || 'レストラン'}・${s.dist || '東京'}）${isVerified ? ' ひとり歓迎🍽' : s.welcome ? ' ひとりOK情報あり📋' : ''}\n一人飯.com で見つけた！\nhttps://www.hitorimeshi.com/`;
 
   // Use Web Share API if available (mobile)
   if (navigator.share) {
@@ -1563,6 +1660,7 @@ function toggleNotifySettings() {
   // Sync toggles with current state
   document.getElementById('notify-toggle').checked = notifyNearby;
   document.getElementById('notify-checkin-toggle').checked = notifyCheckin;
+  document.getElementById('notify-match-toggle').checked = notifyMatch;
 }
 
 async function enableNotifications() {
@@ -1622,7 +1720,7 @@ async function checkNearbyAndNotify() {
     const dist = Math.round(closest._dist_m);
 
     if (Notification.permission === 'granted') {
-      new Notification('🍽 近くにひとり歓迎のお店！', {
+      new Notification('🍽 近くにひとりOKのお店！', {
         body: `${closest.name}（${closest.genre}）が${dist}m先にあります`,
         icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ctext y="80" font-size="80"%3E🍽%3C/text%3E%3C/svg%3E',
         tag: 'nearby-shop'
@@ -1662,13 +1760,187 @@ function scrollToNearby() {
   document.querySelector('.search-area')?.scrollIntoView({ behavior: 'smooth' });
 }
 
+// --- Match Notifications ---
+let notifyMatch = false;
+let matchCheckInterval = null;
+let lastMatchCheckCount = 0;
+
+function toggleMatchNotify(enabled) {
+  notifyMatch = enabled;
+  localStorage.setItem('hitorimeshi_notify_match', enabled ? 'true' : 'false');
+  if (enabled) {
+    if (!('Notification' in window) || Notification.permission !== 'granted') {
+      enableNotifications().then(() => {
+        startMatchCheck();
+      });
+    } else {
+      startMatchCheck();
+    }
+    toast('💕 仲間マッチ通知をオンにしました');
+  } else {
+    if (matchCheckInterval) clearInterval(matchCheckInterval);
+    matchCheckInterval = null;
+    toast('仲間マッチ通知をオフにしました');
+  }
+}
+
+function startMatchCheck() {
+  if (matchCheckInterval) return;
+  checkNearbyMatches();
+  matchCheckInterval = setInterval(checkNearbyMatches, 3 * 60 * 1000);
+}
+
+async function checkNearbyMatches() {
+  if (!notifyMatch || !userLat || !userLng) return;
+  try {
+    const { data } = await sb.from('match_requests')
+      .select('*, profiles(*)')
+      .eq('status', 'active')
+      .gte('expires_at', new Date().toISOString());
+    if (!data) return;
+
+    const nearby = data.filter(mr => {
+      if (mr.user_id === currentUser?.id) return false;
+      if (!mr.lat || !mr.lng) return false;
+      if (localStorage.getItem(`match-blocked-${mr.id}`)) return false;
+      const d = haversine(userLat, userLng, mr.lat, mr.lng);
+      return d < 2000;
+    });
+
+    if (nearby.length > lastMatchCheckCount && lastMatchCheckCount > 0) {
+      const newCount = nearby.length - lastMatchCheckCount;
+      const closest = nearby[0];
+      if (Notification.permission === 'granted') {
+        new Notification(`💕 近くで${newCount}人が仲間を探しています`, {
+          body: `${closest.profiles?.nickname || '誰か'}さんが${closest.area || 'この付近'}で食事仲間を募集中`,
+          icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ctext y="80" font-size="80"%3E💕%3C/text%3E%3C/svg%3E',
+          tag: 'nearby-match'
+        });
+      }
+    }
+    lastMatchCheckCount = nearby.length;
+  } catch (e) {
+    console.warn('Match check error:', e);
+  }
+}
+
+// --- Match Map ---
+let matchMapOpen = false;
+
+function toggleMatchMap() {
+  matchMapOpen = !matchMapOpen;
+  const container = document.getElementById('match-map-container');
+  const btn = document.getElementById('match-map-toggle');
+  container.style.display = matchMapOpen ? 'block' : 'none';
+  btn.textContent = matchMapOpen ? '📋 リストに戻す' : '🗺 マップで見る';
+  if (matchMapOpen) renderMatchMap();
+}
+
+function renderMatchMap() {
+  const list = document.getElementById('match-map-list');
+  const empty = document.getElementById('match-map-empty');
+
+  if (!userLat || !userLng) {
+    list.style.display = 'none';
+    empty.style.display = 'block';
+    return;
+  }
+
+  const nearby = matchRequests.filter(mr => {
+    if (localStorage.getItem(`match-blocked-${mr.id}`)) return false;
+    return mr._dist_m && mr._dist_m < 10000;
+  }).sort((a, b) => a._dist_m - b._dist_m);
+
+  if (nearby.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:24px;"><div style="font-size:36px;margin-bottom:8px;">🔍</div><p style="font-size:13px;color:var(--dark3);">近くに募集がありません</p></div>';
+    empty.style.display = 'none';
+    list.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  list.style.display = 'block';
+
+  list.innerHTML = nearby.map((mr, i) => {
+    const profile = mr.profiles;
+    const dist = mr._dist_m < 1000 ? Math.round(mr._dist_m) + 'm' : (mr._dist_m / 1000).toFixed(1) + 'km';
+    const directionAngle = getDirection(userLat, userLng, mr.lat, mr.lng);
+    const directionArrow = getDirectionArrow(directionAngle);
+    const paymentIcon = mr.payment_pref === 'おごりたい' ? '💰' : mr.payment_pref === 'おごられたい' ? '🙏' : mr.payment_pref === '割り勘' ? '✌️' : '🤝';
+
+    return `<div style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;background:${i === 0 ? '#FFF3E0' : 'var(--bg)'};margin-bottom:8px;cursor:pointer;" onclick="openMatchOnMap(${mr.id})">
+      <div style="font-size:24px;flex-shrink:0;">${profile?.avatar_emoji || '😊'}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:13px;font-weight:600;color:var(--dark);">${escapeHtml(profile?.nickname || '匿名')}</span>
+          <span style="font-size:11px;color:var(--dark3);">${escapeHtml(profile?.age_range || '')} ${escapeHtml(profile?.gender || '')}</span>
+          <span style="font-size:11px;">${paymentIcon}</span>
+        </div>
+        <div style="font-size:12px;color:var(--dark2);margin-top:2px;">${escapeHtml(mr.area || '---')} ・ ${escapeHtml(mr.preferred_date || '')} ${escapeHtml(mr.preferred_time || '')}</div>
+        ${mr.message ? `<div style="font-size:11px;color:var(--dark3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(mr.message)}</div>` : ''}
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div style="font-size:18px;">${directionArrow}</div>
+        <div style="font-size:12px;font-weight:600;color:var(--accent);">${dist}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function getDirection(lat1, lng1, lat2, lng2) {
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const y = Math.sin(dLng) * Math.cos(lat2 * Math.PI / 180);
+  const x = Math.cos(lat1 * Math.PI / 180) * Math.sin(lat2 * Math.PI / 180) - Math.sin(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.cos(dLng);
+  return Math.atan2(y, x) * 180 / Math.PI;
+}
+
+function getDirectionArrow(angle) {
+  if (angle >= -22.5 && angle < 22.5) return '→';
+  if (angle >= 22.5 && angle < 67.5) return '↗';
+  if (angle >= 67.5 && angle < 112.5) return '↑';
+  if (angle >= 112.5 && angle < 157.5) return '↖';
+  if (angle >= 157.5 || angle < -157.5) return '←';
+  if (angle >= -157.5 && angle < -112.5) return '↙';
+  if (angle >= -112.5 && angle < -67.5) return '↓';
+  return '↘';
+}
+
+function openMatchOnMap(matchId) {
+  const mr = matchRequests.find(m => m.id === matchId);
+  if (!mr) return;
+  if (mr.lat && mr.lng) {
+    window.open(`https://www.google.com/maps/search/?api=1&query=${mr.lat},${mr.lng}`, '_blank');
+  } else if (mr.area) {
+    window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mr.area + ' レストラン')}`, '_blank');
+  }
+}
+
+function openMatchMapFull() {
+  if (!userLat || !userLng) {
+    toast('位置情報が必要です');
+    return;
+  }
+  // Build a multi-pin Google Maps URL with nearby matches
+  const nearby = matchRequests.filter(mr => mr._dist_m && mr._dist_m < 10000 && mr.lat && mr.lng && !localStorage.getItem(`match-blocked-${mr.id}`));
+  if (nearby.length > 0) {
+    // Open Google Maps centered on user with a food search
+    window.open(`https://www.google.com/maps/search/レストラン/@${userLat},${userLng},14z`, '_blank');
+  } else {
+    window.open(`https://www.google.com/maps/search/レストラン/@${userLat},${userLng},14z`, '_blank');
+  }
+}
+
 function initNotifications() {
   // Restore saved preferences
   notifyNearby = localStorage.getItem('hitorimeshi_notify') === 'true';
   notifyCheckin = localStorage.getItem('hitorimeshi_notify_checkin') === 'true';
+  notifyMatch = localStorage.getItem('hitorimeshi_notify_match') === 'true';
   if (notifyNearby && Notification.permission === 'granted') {
     startNearbyCheck();
     document.getElementById('notify-dot').style.display = 'block';
+  }
+  if (notifyMatch && Notification.permission === 'granted') {
+    startMatchCheck();
   }
   // Show nearby banner on first load
   showNearbyBannerOnLoad();
