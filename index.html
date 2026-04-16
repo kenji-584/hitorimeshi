@@ -249,7 +249,11 @@ select.finput{appearance:none;cursor:pointer;}
 .regform{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:24px;margin-top:28px;}
 .regform h3{font-family:'Noto Serif JP',serif;font-size:17px;font-weight:600;margin-bottom:3px;color:var(--dark);}
 .regform p{font-size:12px;color:var(--dark2);margin-bottom:16px;}
-.success-msg{background:rgba(91,168,118,0.12);border:1px solid rgba(91,168,118,0.25);border-radius:8px;padding:14px;color:var(--green);font-size:13px;display:none;margin-top:14px;}
+..shop-address{font-size:12px;color:var(--ink3);display:flex;align-items:center;gap:4px;margin-top:3px;}
+.autofill-btn{background:var(--bg3);color:var(--cream2);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;font-size:12px;font-weight:500;cursor:pointer;width:100%;margin-bottom:12px;transition:all 0.15s;}
+.autofill-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+.autofill-result{font-size:12px;color:var(--cream3);padding:10px;background:var(--bg3);border-radius:8px;margin-bottom:12px;display:none;}
+success-msg{background:rgba(91,168,118,0.12);border:1px solid rgba(91,168,118,0.25);border-radius:8px;padding:14px;color:var(--green);font-size:13px;display:none;margin-top:14px;}
 .stag{font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);}
 
 /* Footer */
@@ -491,6 +495,13 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 28p
             <div class="fg"><label class="flabel">カウンター席</label><select class="finput" id="rg-counter"><option value="yes">あり</option><option value="no">なし</option></select></div>
           </div>
           <div class="fg"><label class="flabel">一人客へのメッセージ（任意）</label><textarea class="finput" id="rg-msg" placeholder="例：カウンターでゆっくりお食事いただけます。一人のお客様も大歓迎です。" rows="3"></textarea></div>
+          <button class="autofill-btn" onclick="autoFillShopInfo()" type="button">🔍 Nominatimでお店情報を自動取得</button>
+          <div class="autofill-result" id="autofill-result"></div>
+          <div class="fg" id="rg-address-wrap" style="display:none"><label class="flabel">住所</label><input class="finput" type="text" id="rg-address" placeholder="自動取得または手入力"></div>
+          <div class="frow" id="rg-contact-wrap" style="display:none">
+            <div class="fg"><label class="flabel">電話番号</label><input class="finput" type="text" id="rg-phone" placeholder="例：03-1234-5678"></div>
+            <div class="fg"><label class="flabel">営業時間</label><input class="finput" type="text" id="rg-hours" placeholder="例：11:00〜23:00"></div>
+          </div>
           <button class="btn-primary" onclick="registerShop()" style="width:100%;padding:12px;">無料でバッジを取得する</button>
           <div class="success-msg" id="rg-ok">登録ありがとうございます！審査後、バッジが付与されます。</div>
         </div>
@@ -1153,7 +1164,7 @@ async function renderShops() {
       </div>
       <div class="shop-info-row">
         ${(s.counter === true || s.counter === 'yes') ? '<div class="shop-meta">🪑 カウンター有</div>' : ''}
-        <a href="#" class="shop-distance shop-dist-link" onclick="openMap(${s.id});return false;">📍 ${s._dist_label || s.dist || '---'}</a>${s.address?'<div class="shop-address">📮 '+s.address+'</div>':''}${s.phone?'<div class="shop-address">📞 '+s.phone+'</div>':''}${s.hours?'<div class="shop-address">🕐 '+s.hours+'</div>':''}
+        <a href="#" class="shop-distance shop-dist-link" onclick="openMap(${s.id});return false;">📍 ${s._dist_label || s.dist || '---'}</a>${s.address?'<div class="shop-address">📮 '+s.address+'</div>':''}${s.phone?'<div class="shop-address">📞 '+s.phone+'</div>':''}${s.hours?'<div class="shop-address">🕐 '+s.hours+'</div>':''}${s.address?'<div class="shop-address">📮 '+s.address+'</div>':''}${s.phone?'<div class="shop-address">📞 '+s.phone+'</div>':''}${s.hours?'<div class="shop-address">🕐 '+s.hours+'</div>':''}
         ${s.checkins && s.checkins > 0 ? `<div class="checkin-indicator">🟢 ${s.checkins}人チェックイン</div>` : ''}
       </div>
       <div class="shop-tags">${genreTags}</div>
@@ -1403,6 +1414,25 @@ async function submitReport() {
   }
 }
 
+async function autoFillShopInfo(){
+  const name=document.getElementById('rg-name').value.trim();
+  if(!name){showToast('お店の名前を入力してください');return;}
+  const resultEl=document.getElementById('autofill-result');
+  resultEl.style.display='block';
+  resultEl.textContent='検索中...';
+  try{
+    const q=encodeURIComponent(name+' 日本');
+    const res=await fetch('https://nominatim.openstreetmap.org/search?q='+q+'&format=json&addressdetails=1&limit=3&accept-language=ja',{headers:{'User-Agent':'hitorimeshi.com'}});
+    const data=await res.json();
+    if(!data.length){resultEl.textContent='見つかりませんでした。手動で入力してください。';document.getElementById('rg-address-wrap').style.display='block';document.getElementById('rg-contact-wrap').style.display='block';return;}
+    const best=data[0];
+    const addr=best.display_name;
+    document.getElementById('rg-address').value=addr;
+    document.getElementById('rg-address-wrap').style.display='block';
+    document.getElementById('rg-contact-wrap').style.display='block';
+    resultEl.textContent='✓ 住所を取得しました。電話・営業時間は手動で入力してください。';
+  }catch(e){resultEl.textContent='取得に失敗しました。手動で入力してください。';document.getElementById('rg-address-wrap').style.display='block';document.getElementById('rg-contact-wrap').style.display='block';}
+}
 async function registerShop() {
   const name = document.getElementById('rg-name').value.trim();
   const genre = document.getElementById('rg-genre').value.trim();
