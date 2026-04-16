@@ -134,7 +134,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .shop-name-link:hover{color:var(--accent);text-decoration:underline;}
 .shop-dist-link{text-decoration:none;cursor:pointer;transition:opacity 0.2s;}
 .shop-dist-link:hover{opacity:0.7;text-decoration:underline;}
-.shop-address{font-size:12px;color:var(--ink3);display:flex;align-items:center;gap:4px;margin-top:3px;}
 
 .shop-info-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
 .shop-meta{font-size:13px;color:var(--dark2);display:flex;align-items:center;gap:4px;font-weight:500;}
@@ -250,9 +249,9 @@ select.finput{appearance:none;cursor:pointer;}
 .regform h3{font-family:'Noto Serif JP',serif;font-size:17px;font-weight:600;margin-bottom:3px;color:var(--dark);}
 .regform p{font-size:12px;color:var(--dark2);margin-bottom:16px;}
 ..shop-address{font-size:12px;color:var(--ink3);display:flex;align-items:center;gap:4px;margin-top:3px;}
-.autofill-btn{background:var(--bg3);color:var(--cream2);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;font-size:12px;font-weight:500;cursor:pointer;width:100%;margin-bottom:12px;transition:all 0.15s;}
+.autofill-btn{width:100%;background:var(--bg3);color:var(--cream2);border:1px solid var(--border2);border-radius:8px;padding:9px 14px;font-size:12px;font-weight:500;cursor:pointer;margin-bottom:12px;transition:all 0.15s;}
 .autofill-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
-.autofill-result{font-size:12px;color:var(--cream3);padding:10px;background:var(--bg3);border-radius:8px;margin-bottom:12px;display:none;}
+.autofill-result{font-size:12px;color:var(--cream3);padding:10px;background:var(--bg3);border-radius:8px;margin-bottom:12px;display:none;line-height:1.6;}
 success-msg{background:rgba(91,168,118,0.12);border:1px solid rgba(91,168,118,0.25);border-radius:8px;padding:14px;color:var(--green);font-size:13px;display:none;margin-top:14px;}
 .stag{font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);}
 
@@ -495,7 +494,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 28p
             <div class="fg"><label class="flabel">カウンター席</label><select class="finput" id="rg-counter"><option value="yes">あり</option><option value="no">なし</option></select></div>
           </div>
           <div class="fg"><label class="flabel">一人客へのメッセージ（任意）</label><textarea class="finput" id="rg-msg" placeholder="例：カウンターでゆっくりお食事いただけます。一人のお客様も大歓迎です。" rows="3"></textarea></div>
-          <button class="autofill-btn" onclick="autoFillShopInfo()" type="button">🔍 Nominatimでお店情報を自動取得</button>
+          <button class="autofill-btn" onclick="autoFillShopInfo()" type="button">🔍 お店名でOSM検索して自動入力</button>
           <div class="autofill-result" id="autofill-result"></div>
           <div class="fg" id="rg-address-wrap" style="display:none"><label class="flabel">住所</label><input class="finput" type="text" id="rg-address" placeholder="自動取得または手入力"></div>
           <div class="frow" id="rg-contact-wrap" style="display:none">
@@ -1164,7 +1163,7 @@ async function renderShops() {
       </div>
       <div class="shop-info-row">
         ${(s.counter === true || s.counter === 'yes') ? '<div class="shop-meta">🪑 カウンター有</div>' : ''}
-        <a href="#" class="shop-distance shop-dist-link" onclick="openMap(${s.id});return false;">📍 ${s._dist_label || s.dist || '---'}</a>${s.address?'<div class="shop-address">📮 '+s.address+'</div>':''}${s.phone?'<div class="shop-address">📞 '+s.phone+'</div>':''}${s.hours?'<div class="shop-address">🕐 '+s.hours+'</div>':''}${s.address?'<div class="shop-address">📮 '+s.address+'</div>':''}${s.phone?'<div class="shop-address">📞 '+s.phone+'</div>':''}${s.hours?'<div class="shop-address">🕐 '+s.hours+'</div>':''}
+        <a href="#" class="shop-distance shop-dist-link" onclick="openMap(${s.id});return false;">📍 ${s._dist_label || s.dist || '---'}</a>${s.address?'<div class="shop-address">📮 '+s.address+'<\/div>':''}${s.phone?'<div class="shop-address">📞 '+s.phone+'<\/div>':''}${s.hours?'<div class="shop-address">🕐 '+s.hours+'<\/div>':''}
         ${s.checkins && s.checkins > 0 ? `<div class="checkin-indicator">🟢 ${s.checkins}人チェックイン</div>` : ''}
       </div>
       <div class="shop-tags">${genreTags}</div>
@@ -1414,25 +1413,6 @@ async function submitReport() {
   }
 }
 
-async function autoFillShopInfo(){
-  const name=document.getElementById('rg-name').value.trim();
-  if(!name){showToast('お店の名前を入力してください');return;}
-  const resultEl=document.getElementById('autofill-result');
-  resultEl.style.display='block';
-  resultEl.textContent='検索中...';
-  try{
-    const q=encodeURIComponent(name+' 日本');
-    const res=await fetch('https://nominatim.openstreetmap.org/search?q='+q+'&format=json&addressdetails=1&limit=3&accept-language=ja',{headers:{'User-Agent':'hitorimeshi.com'}});
-    const data=await res.json();
-    if(!data.length){resultEl.textContent='見つかりませんでした。手動で入力してください。';document.getElementById('rg-address-wrap').style.display='block';document.getElementById('rg-contact-wrap').style.display='block';return;}
-    const best=data[0];
-    const addr=best.display_name;
-    document.getElementById('rg-address').value=addr;
-    document.getElementById('rg-address-wrap').style.display='block';
-    document.getElementById('rg-contact-wrap').style.display='block';
-    resultEl.textContent='✓ 住所を取得しました。電話・営業時間は手動で入力してください。';
-  }catch(e){resultEl.textContent='取得に失敗しました。手動で入力してください。';document.getElementById('rg-address-wrap').style.display='block';document.getElementById('rg-contact-wrap').style.display='block';}
-}
 async function registerShop() {
   const name = document.getElementById('rg-name').value.trim();
   const genre = document.getElementById('rg-genre').value.trim();
@@ -1446,7 +1426,10 @@ async function registerShop() {
 
   try {
     const { error } = await sb.from('shops').insert([{
-      name, genre, counter, msg, welcome: false, owner_id: currentUser.id, checkins: 0
+      name, genre, counter, msg, welcome: false, owner_id: currentUser.id, checkins: 0,
+        address: (document.getElementById('rg-address')?.value||'').trim(),
+        phone: (document.getElementById('rg-phone')?.value||'').trim(),
+        hours: (document.getElementById('rg-hours')?.value||'').trim()
     }]);
     if (error) throw error;
     await loadShopsAndReports();
@@ -2386,6 +2369,30 @@ async function submitMatchRating() {
 }
 
 // Init
+
+async function autoFillShopInfo(){
+  const name=document.getElementById('rg-name').value.trim();
+  if(!name){toast('お店の名前を入力してください');return;}
+  const resultEl=document.getElementById('autofill-result');
+  resultEl.style.display='block';
+  resultEl.textContent='検索中…';
+  try{
+    const q=encodeURIComponent(name);
+    const res=await fetch('https://nominatim.openstreetmap.org/search?q='+q+'&format=json&addressdetails=1&limit=3&countrycodes=jp&accept-language=ja',{headers:{'User-Agent':'hitorimeshi.com/1.0'}});
+    const data=await res.json();
+    document.getElementById('rg-address-wrap').style.display='block';
+    document.getElementById('rg-contact-wrap').style.display='block';
+    if(!data.length){resultEl.textContent='見つかりませんでした。手動で入力してください。';return;}
+    const a=data[0].address||{};
+    const parts=[a.road,a.suburb||a.neighbourhood,a.city||a.town||a.village,a.state,a.postcode].filter(Boolean);
+    document.getElementById('rg-address').value=parts.join('　')||data[0].display_name.split(',').slice(0,3).join(' ');
+    resultEl.textContent='✓ 住所を取得しました。電話・営業時間は手動で入力してください。';
+  }catch(e){
+    document.getElementById('rg-address-wrap').style.display='block';
+    document.getElementById('rg-contact-wrap').style.display='block';
+    document.getElementById('autofill-result').textContent='取得に失敗。手動で入力してください。';
+  }
+}
 initApp();
 </script>
 </body>
