@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- SEO & Social -->
+<meta name="description" content="一人で入れるお店が、見つかる。ひとり飯を応援する、食の情報プラットフォーム。入店レポート、認定店、食事会で、安心してひとり時間を楽しむ場所。">
+<meta name="theme-color" content="#15110c">
+
+<!-- Favicon (inline base64 for portability) -->
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAk0lEQVR42mP88PwyAy0BEwONwagFoxaMAAvu3XuoZ+Q4bcZ8mljw58+f4vKG7z9+9E+a1dox4f///5hqWDCFHj9+OnHKHCLtUFZSUFZSYGBg+Pjx06PHT+XlZNAUMI6WRaMWjFowagFhwEJFs7rMwyGMspMrqe8DuOlobCaqm44mMpqKMGMVTYRqPkC2A5k99Gs0ACOaNPLTsRxPAAAAAElFTkSuQmCC">
+<link rel="apple-touch-icon" href="./favicon-180.png">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="一人飯.com">
+<meta property="og:title" content="一人飯.com — 一人で入れるお店が、見つかる。">
+<meta property="og:description" content="ひとり飯を応援する、食の情報プラットフォーム。入店レポート、認定店、食事会で、安心してひとり時間を楽しむ場所。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="./ogp.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="一人飯.com — 一人で入れるお店が、見つかる。">
+<meta name="twitter:description" content="ひとり飯を応援する、食の情報プラットフォーム。入店レポート、認定店、食事会で、安心してひとり時間を楽しむ場所。">
+<meta name="twitter:image" content="./ogp.jpg">
+
+<title>違反を通報 — 一人飯.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>/* ═══ SHARED VARIABLES ═══ */
+:root {
+  --paper:    #f0e7d3;
+  --paper-2:  #e6dbc2;
+  --paper-3:  #dcd0b3;
+  --ink:      #15110c;
+  --ink-dim:  #5a5345;
+  --ink-mute: #8f876f;
+  --pine:     #1f3d2c;
+  --pine-2:   #2e5540;
+  --wine:     #7a1e2a;
+  --wine-2:   #9b2a35;
+  --cream:    #d4b896;
+  --rule:     rgba(21, 17, 12, 0.16);
+  --rule-2:   rgba(21, 17, 12, 0.06);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 400;
+  line-height: 1.82;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+a { color: inherit; }
+::selection { background: var(--pine); color: var(--paper); }
+
+.paper-bg {
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.05 0 0 0 0.1 0'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>");
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: multiply;
+}
+
+/* ═══ HEADER (light version for subpages) ═══ */
+header.site-header {
+  padding: 22px 44px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  position: relative;
+  z-index: 20;
+  border-bottom: 0.5px solid var(--rule);
+  background: var(--paper);
+}
+.logo {
+  font-family: 'Shippori Mincho B1', serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.005em;
+  justify-self: start;
+  line-height: 1.1;
+  color: var(--ink);
+  text-decoration: none;
+}
+.logo .dot { color: var(--wine); }
+.logo .en {
+  display: block;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 9px;
+  color: var(--ink-dim);
+  letter-spacing: 0.22em;
+  margin-top: 3px;
+}
+nav.main {
+  display: flex;
+  gap: 32px;
+  justify-self: center;
+}
+nav.main a {
+  color: var(--ink);
+  text-decoration: none;
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 0;
+  position: relative;
+  letter-spacing: 0.04em;
+  transition: color 0.25s;
+}
+nav.main a.active { color: var(--wine); }
+nav.main a.active::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 2px;
+  width: 100%; height: 1px;
+  background: var(--wine);
+}
+nav.main a:hover { color: var(--wine); }
+.header-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-self: end;
+}
+.btn-bell {
+  width: 36px; height: 36px;
+  border: 0.5px solid var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s;
+  background: var(--paper);
+}
+.btn-bell::after {
+  content: '';
+  position: absolute;
+  top: 7px; right: 7px;
+  width: 6px; height: 6px;
+  background: var(--wine);
+  border-radius: 50%;
+}
+.btn-bell:hover { background: var(--ink); color: var(--paper); }
+.btn-here {
+  padding: 9px 16px;
+  border: 0.5px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Shippori Mincho B1', serif;
+  letter-spacing: 0.04em;
+  transition: all 0.3s;
+}
+.btn-here:hover { background: var(--pine); color: var(--paper); border-color: var(--pine); }
+.btn-report {
+  padding: 9px 16px;
+  background: var(--wine);
+  color: var(--paper);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Shippori Mincho B1', serif;
+  letter-spacing: 0.04em;
+  border: 0.5px solid var(--wine);
+  transition: all 0.3s;
+}
+.btn-report:hover { background: var(--ink); border-color: var(--ink); }
+
+.avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--paper-2);
+  border: 0.5px solid var(--rule);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Shippori Mincho B1', serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--ink);
+  overflow: hidden;
+}
+
+/* ═══ PAGE TITLE BLOCK ═══ */
+.page-title {
+  padding: 64px 44px 44px;
+  border-bottom: 0.5px solid var(--rule);
+  position: relative;
+  z-index: 1;
+}
+.page-title .crumb {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-mute);
+  letter-spacing: 0.15em;
+  margin-bottom: 20px;
+}
+.page-title h1 {
+  font-family: 'Shippori Mincho B1', serif;
+  font-weight: 700;
+  font-size: clamp(32px, 4.2vw, 56px);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin-bottom: 16px;
+}
+.page-title h1 em { color: var(--wine); font-style: italic; font-weight: 800; }
+.page-title p {
+  max-width: 580px;
+  font-size: 14px;
+  color: var(--ink-dim);
+  line-height: 2;
+}
+
+/* ═══ FOOTER ═══ */
+footer.site-footer {
+  padding: 70px 44px 36px;
+  border-top: 1px solid var(--ink);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  margin-top: 100px;
+}
+footer.site-footer .ornament {
+  color: var(--wine);
+  margin-bottom: 18px;
+  font-size: 13px;
+  letter-spacing: 0.8em;
+  font-family: 'EB Garamond', serif;
+}
+footer.site-footer .sign {
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 22px;
+  color: var(--ink);
+  font-weight: 500;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  letter-spacing: 0.03em;
+}
+footer.site-footer .en-sign {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-dim);
+  margin-bottom: 36px;
+  display: block;
+  letter-spacing: 0.05em;
+}
+footer.site-footer .bottom {
+  color: var(--ink-mute);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+}
+
+/* ═══ COMMON PILLS & BUTTONS ═══ */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  border: 0.5px solid var(--pine);
+  color: var(--pine);
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.pill.wine { border-color: var(--wine); color: var(--wine); }
+.pill.mute { border-color: var(--rule); color: var(--ink-mute); }
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--ink-dim);
+}
+.status::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--pine-2);
+}
+.status.wait::before { background: var(--wine-2); }
+.status.closed::before { background: var(--ink-mute); }
+
+.live-dot {
+  width: 8px; height: 8px;
+  background: var(--wine-2);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(155, 42, 53, 0.5);
+  animation: ping 2s infinite;
+  display: inline-block;
+}
+@keyframes ping {
+  0%   { box-shadow: 0 0 0 0 rgba(155, 42, 53, 0.55); }
+  70%  { box-shadow: 0 0 0 14px rgba(155, 42, 53, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(155, 42, 53, 0); }
+}
+
+@media (max-width: 1024px) {
+  header.site-header { grid-template-columns: 1fr auto; padding: 14px 20px; }
+  nav.main { display: none; }
+  .page-title { padding: 40px 20px 32px; }
+  footer.site-footer { padding: 50px 20px 28px; margin-top: 60px; }
+  .header-right .btn-here { display: none; }
+}
+
+/* footer links */
+footer.site-footer .f-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 36px 0 32px;
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 12px;
+}
+footer.site-footer .f-links a {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  border-bottom: 0.5px solid transparent;
+  padding-bottom: 2px;
+  transition: border-color 0.25s;
+}
+footer.site-footer .f-links a:hover { border-color: var(--ink); }
+footer.site-footer .f-links .f-sep { color: var(--ink-mute); }
+footer.site-footer .f-links .f-flag {
+  color: var(--wine);
+  font-weight: 600;
+  border: 0.5px solid var(--wine);
+  padding: 4px 11px;
+  border-bottom: 0.5px solid var(--wine);
+}
+footer.site-footer .f-links .f-flag:hover { background: var(--wine); color: var(--paper); border-color: var(--wine); }
+
+@media (max-width: 640px) {
+  footer.site-footer .f-links { gap: 6px 10px; font-size: 11px; }
+  footer.site-footer .f-links .f-sep { display: none; }
+}
+
+
+.rp-layout { max-width: 880px; margin: 0 auto; padding: 50px 44px 80px; position: relative; z-index: 1; }
+
+.rp-hero { border-bottom: 0.5px solid var(--ink); padding-bottom: 36px; margin-bottom: 44px; }
+.rp-hero .crumb { font-family: 'EB Garamond', serif; font-style: italic; font-size: 12px; color: var(--ink-mute); letter-spacing: 0.15em; margin-bottom: 20px; }
+.rp-hero h1 { font-family: 'Shippori Mincho B1', serif; font-weight: 700; font-size: clamp(32px, 4.2vw, 50px); line-height: 1.15; letter-spacing: -0.015em; margin-bottom: 16px; }
+.rp-hero h1 em { color: var(--wine); font-style: italic; font-weight: 800; }
+.rp-hero p { font-size: 14px; color: var(--ink-dim); line-height: 2; max-width: 640px; }
+.rp-hero p strong { color: var(--ink); font-weight: 600; }
+
+.emergency-bar {
+  background: var(--wine);
+  color: var(--paper);
+  padding: 18px 26px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 44px;
+  font-size: 13.5px;
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+}
+.emergency-bar .eico {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--paper);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  font-family: 'Shippori Mincho B1', serif;
+  font-weight: 800;
+  font-size: 16px;
+}
+.emergency-bar strong { font-family: 'Shippori Mincho B1', serif; font-weight: 700; }
+.emergency-bar a { color: var(--paper); font-weight: 700; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+
+/* form */
+.form-section { margin-bottom: 42px; }
+.form-section > h2 {
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: -0.005em;
+  padding-top: 18px;
+  border-top: 0.5px solid var(--rule);
+}
+.form-section > p.note { font-size: 12.5px; color: var(--ink-mute); font-family: 'EB Garamond', serif; font-style: italic; letter-spacing: 0.04em; margin-bottom: 18px; line-height: 1.8; }
+
+/* Violation type grid */
+.violation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.vt {
+  padding: 18px 20px;
+  border: 0.5px solid var(--ink);
+  background: var(--paper);
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.vt.active { background: var(--ink); color: var(--paper); }
+.vt.active.wine { background: var(--wine); border-color: var(--wine); }
+.vt .v-check {
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  flex: 0 0 auto;
+  margin-top: 2px;
+  position: relative;
+}
+.vt.active .v-check {
+  background: var(--paper);
+  border-color: var(--paper);
+}
+.vt.active .v-check::after {
+  content: '';
+  position: absolute;
+  top: 4px; left: 4px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+.vt.active.wine .v-check::after { background: var(--wine); }
+.vt .v-txt .vt-t { font-family: 'Shippori Mincho B1', serif; font-size: 14px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.02em; }
+.vt .v-txt .vt-d { font-size: 11.5px; color: var(--ink-dim); line-height: 1.7; }
+.vt.active .vt-d { color: rgba(240,231,211,0.7); }
+
+/* inputs */
+.fld { display: flex; flex-direction: column; margin-bottom: 20px; }
+.fld label { font-family: 'Shippori Mincho B1', serif; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--ink); letter-spacing: 0.03em; }
+.fld .hint { font-size: 11.5px; color: var(--ink-mute); font-family: 'EB Garamond', serif; font-style: italic; letter-spacing: 0.04em; margin-bottom: 8px; }
+.fld input, .fld textarea, .fld select {
+  background: var(--paper);
+  border: 0.5px solid var(--ink);
+  padding: 12px 14px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.fld input:focus, .fld textarea:focus, .fld select:focus { border-color: var(--wine); }
+.fld textarea { resize: vertical; min-height: 140px; line-height: 1.8; }
+.fld .char-count { font-size: 11px; color: var(--ink-mute); font-family: 'EB Garamond', serif; font-style: italic; text-align: right; margin-top: 6px; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+/* file upload */
+.upload-zone {
+  border: 1px dashed var(--ink);
+  background: var(--paper-2);
+  padding: 30px;
+  text-align: center;
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 13px;
+  color: var(--ink-dim);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.upload-zone:hover { background: var(--paper); }
+.upload-zone strong { color: var(--ink); font-weight: 700; display: block; margin-bottom: 4px; }
+.upload-zone small { display: block; margin-top: 8px; font-size: 11px; color: var(--ink-mute); font-family: 'EB Garamond', serif; font-style: italic; }
+
+/* anon toggle */
+.anon-row { display: flex; align-items: center; gap: 14px; padding: 18px 20px; background: var(--paper-2); border: 0.5px solid var(--rule); margin: 18px 0 28px; }
+.toggle { width: 44px; height: 24px; background: var(--rule); border-radius: 12px; position: relative; cursor: pointer; flex: 0 0 auto; transition: background 0.25s; }
+.toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: var(--paper); border-radius: 50%; transition: transform 0.25s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+.toggle.on { background: var(--pine); }
+.toggle.on::after { transform: translateX(20px); }
+.anon-row .text { flex: 1; }
+.anon-row .text .t { font-family: 'Shippori Mincho B1', serif; font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.anon-row .text .s { font-size: 11.5px; color: var(--ink-dim); line-height: 1.7; }
+
+/* submit */
+.submit-row {
+  display: flex;
+  gap: 10px;
+  padding-top: 30px;
+  border-top: 0.5px solid var(--ink);
+  margin-top: 30px;
+}
+.submit {
+  flex: 1;
+  padding: 18px;
+  background: var(--wine);
+  color: var(--paper);
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border: 0.5px solid var(--wine);
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+  text-decoration: none;
+}
+.submit:hover { background: var(--ink); border-color: var(--ink); }
+.cancel {
+  padding: 18px 28px;
+  background: transparent;
+  color: var(--ink);
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border: 0.5px solid var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+}
+.cancel:hover { background: var(--ink); color: var(--paper); }
+
+.timeline-card {
+  margin-top: 50px;
+  padding: 32px 36px;
+  background: var(--paper-2);
+  border-left: 3px solid var(--pine);
+}
+.timeline-card h3 { font-family: 'Shippori Mincho B1', serif; font-size: 18px; font-weight: 700; margin-bottom: 18px; letter-spacing: -0.005em; }
+.tl { display: grid; gap: 14px; }
+.tl-item { display: grid; grid-template-columns: 100px 1fr; gap: 20px; padding-bottom: 14px; border-bottom: 0.5px solid var(--rule); }
+.tl-item:last-child { border-bottom: none; padding-bottom: 0; }
+.tl-when { font-family: 'EB Garamond', serif; font-style: italic; font-size: 13px; color: var(--wine); font-weight: 500; letter-spacing: 0.04em; }
+.tl-what { font-size: 13px; color: var(--ink); line-height: 1.8; }
+.tl-what strong { font-family: 'Shippori Mincho B1', serif; font-weight: 600; }
+
+@media (max-width: 768px) {
+  .rp-layout { padding: 30px 20px 60px; }
+  .violation-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .tl-item { grid-template-columns: 1fr; gap: 6px; }
+  .emergency-bar { flex-direction: column; text-align: center; align-items: stretch; }
+  .submit-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="paper-bg"></div>
+<header class="site-header">
+  <a href="index.html" class="logo">
+    一人飯<span class="dot">.</span>com
+    <span class="en">HITORIMESHI · A GUIDE FOR SOLO DINERS</span>
+  </a>
+  <nav class="main">
+    <a href="find.html" data-page="find">探す</a>
+    <a href="match.html" data-page="match">食事会</a>
+    <a href="report.html" data-page="report">入店レポート</a>
+    <a href="for-shops.html" data-page="for-shops">お店の方へ</a>
+  </nav>
+  <div class="header-right">
+    <button class="btn-bell" aria-label="通知">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 01-3.46 0"/>
+      </svg>
+    </button>
+    <a href="find.html" class="btn-here" style="text-decoration:none; display:inline-block;">今ここにいる</a>
+    <a href="report.html" class="btn-report" style="text-decoration:none; display:inline-block;">レポートを書く</a>
+  </div>
+</header>
+
+
+<div class="rp-layout">
+
+  <div class="rp-hero">
+    <div class="crumb">HOME  /  違反を通報</div>
+    <h1>一人飯.comを、<br><em>あなたと</em>守ります。</h1>
+    <p>不審なユーザー、迷惑行為、違反を見つけたら、ためらわずに通報してください。<strong>通報者の情報は、通報対象者には一切開示されません</strong>。運営が24時間以内に確認し、必要な対応を取ります。</p>
+  </div>
+
+  <div class="emergency-bar">
+    <div class="eico">!</div>
+    <div>
+      <strong>今まさに危険を感じている場合は、まず警察（110番）に連絡してください。</strong><br>
+      その上で、この通報フォームから運営にもご連絡いただければ、アカウント停止・証拠提供などの対応を行います。
+    </div>
+  </div>
+
+  <form onsubmit="event.preventDefault(); alert('通報を受け付けました。24時間以内にご返信します。');">
+
+    <!-- Type of violation -->
+    <div class="form-section">
+      <h2>違反の内容  <span style="font-family:'EB Garamond',serif; font-style:italic; font-size:12px; color:var(--ink-mute); font-weight:400; letter-spacing:0.12em; margin-left:6px;">TYPE</span></h2>
+      <p class="note">当てはまるものを1つ選んでください。複数ある場合はメインのものを。</p>
+
+      <div class="violation-grid">
+        <div class="vt active wine">
+          <div class="v-check"></div>
+          <div class="v-txt">
+            <div class="vt-t">つきまとい・待ち伏せ</div>
+            <div class="vt-d">食事会後や店舗で、しつこく追いかけられた・待ち伏せされた</div>
+          </div>
+        </div>
+        <div class="vt">
+          <div class="v-check"></div>
+          <div class="v-txt">
+            <div class="vt-t">ナンパ・連絡先強要</div>
+            <div class="vt-d">LINE / 電話番号 / SNSの交換をしつこく要求された</div>
+          </div>
+        </div>
+        <div class="vt">
+          <div class="v-check"></div>
+          <div class="v-txt">
+            <div class="vt-t">セクハラ・わいせつ発言</div>
+            <div class="vt-d">性的な発言・身体的特徴への不適切なコメント・不快な接触</div>
+          </div>
+        </div>
+        <div class="vt">
+          <div class="v-check"></div>
+          <div class="v-txt">
+            <div class="vt-t">勧誘・営業</div>
+            <div class="vt-d">宗教・政治・マルチ商法・投資・副業などの勧誘</div>
+          </div>
+        </div>
+        <div class="vt">
+          <div class="v-check"></div>
+          <div class="v-txt">
+            <div class="vt-t">詐欺・金銭トラブル</div>
+            <div class="vt-d">食事代の踏み倒し・個人間金銭のやり取り・詐欺の疑い</div>
+          </div>
+        </div>
+        <div class="vt">
+          <div class="v-check"></div>
+          <div class="v-txt">
+            <div class="vt-t">なりすまし・虚偽プロフィール</div>
+            <div class="vt-d">本人でない人物の写真、虚偽の年齢・職業・性別の登録</div>
+          </div>
+        </div>
+        <div class="vt">
+          <div class="v-check"></div>
+          <div class="v-txt">
+            <div class="vt-t">暴言・差別発言</div>
+            <div class="vt-d">人種・性別・国籍・性的指向などへの差別的発言</div>
+          </div>
+        </div>
+        <div class="vt">
+          <div class="v-check"></div>
+          <div class="v-txt">
+            <div class="vt-t">その他</div>
+            <div class="vt-d">上記に当てはまらないが、迷惑・違反と感じる行為</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Who -->
+    <div class="form-section">
+      <h2>通報対象  <span style="font-family:'EB Garamond',serif; font-style:italic; font-size:12px; color:var(--ink-mute); font-weight:400; letter-spacing:0.12em; margin-left:6px;">TARGET</span></h2>
+
+      <div class="two-col">
+        <div class="fld">
+          <label>対象のユーザー名 or ID</label>
+          <div class="hint">分かる範囲で。不明なら空欄でOK。</div>
+          <input type="text" placeholder="例：Kohei さん、または @user_xxxx">
+        </div>
+        <div class="fld">
+          <label>関連する食事会・お店</label>
+          <div class="hint">どこで会った人かを教えてください。</div>
+          <input type="text" placeholder="例：4/26 鮨 おと波の食事会">
+        </div>
+      </div>
+    </div>
+
+    <!-- When / Where -->
+    <div class="form-section">
+      <h2>いつ・どこで  <span style="font-family:'EB Garamond',serif; font-style:italic; font-size:12px; color:var(--ink-mute); font-weight:400; letter-spacing:0.12em; margin-left:6px;">WHEN / WHERE</span></h2>
+
+      <div class="two-col">
+        <div class="fld">
+          <label>発生日時</label>
+          <input type="datetime-local" value="2026-04-26T21:30">
+        </div>
+        <div class="fld">
+          <label>場所</label>
+          <input type="text" placeholder="例：渋谷・宇田川町の路上、食事会中、食事会後など">
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail -->
+    <div class="form-section">
+      <h2>具体的に何があったか  <span style="font-family:'EB Garamond',serif; font-style:italic; font-size:12px; color:var(--ink-mute); font-weight:400; letter-spacing:0.12em; margin-left:6px;">DETAILS</span></h2>
+      <p class="note">思い出せる範囲で構いません。運営が状況を正しく把握し、適切な対応を取るために必要です。</p>
+
+      <div class="fld">
+        <textarea placeholder="例：食事会終了後、お店を出てから『家まで送るよ』と執拗に言われた。断っても諦めず、駅まで追いかけてきた。怖かったので他の参加者と一緒に改札を抜けてやり過ごした。"></textarea>
+        <div class="char-count">0 / 2000 文字</div>
+      </div>
+    </div>
+
+    <!-- Evidence -->
+    <div class="form-section">
+      <h2>証拠・スクリーンショット  <span style="font-family:'EB Garamond',serif; font-style:italic; font-size:12px; color:var(--ink-mute); font-weight:400; letter-spacing:0.12em; margin-left:6px;">EVIDENCE</span></h2>
+      <p class="note">チャット画面・やり取りの画像などがあれば、証拠として添付してください（任意）。</p>
+
+      <div class="upload-zone">
+        <strong>画像をアップロード</strong>
+        <span>クリック or ドラッグ＆ドロップ</span>
+        <small>JPG, PNG ／ 最大5MB × 5枚まで</small>
+      </div>
+    </div>
+
+    <!-- Anonymous -->
+    <div class="anon-row">
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      <div class="text">
+        <div class="t">通報者情報を運営と共有する</div>
+        <div class="s">ONにすると、運営があなたにフォローアップできます。OFFでも通報は受理されますが、追加の質問・経過報告ができません。<strong style="color:var(--ink);">通報対象者には、いずれの場合もあなたの情報は開示されません</strong>。</div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="submit-row">
+      <a href="javascript:history.back()" class="cancel">キャンセル</a>
+      <button type="submit" class="submit">通報を送信する →</button>
+    </div>
+  </form>
+
+  <!-- Timeline -->
+  <div class="timeline-card">
+    <h3>通報を受けた後の、対応フロー</h3>
+    <div class="tl">
+      <div class="tl-item">
+        <div class="tl-when">〜24時間</div>
+        <div class="tl-what"><strong>受付返信</strong><br>通報を受理した旨をメールでお知らせします。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-when">〜72時間</div>
+        <div class="tl-what"><strong>事実確認</strong><br>運営が通報内容を確認し、必要に応じて他の関係者にも状況を聞きます。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-when">〜7日</div>
+        <div class="tl-what"><strong>対応判断と実施</strong><br>違反の程度に応じて、警告／利用制限／アカウント停止／警察通報などの措置を取ります。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-when">〜7日</div>
+        <div class="tl-what"><strong>結果のご報告</strong><br>取った対応について、差し支えない範囲で通報者にお伝えします（匿名通報を除く）。</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <div class="ornament">❊ &nbsp; ❊ &nbsp; ❊</div>
+  <div class="sign">ひとりでも、<br>ちゃんとおいしい時間を。</div>
+  <span class="en-sign">— Solo, but well fed. —</span>
+
+  <div class="f-links">
+    <a href="index.html">トップ</a>
+    <span class="f-sep">·</span>
+    <a href="find.html">お店を探す</a>
+    <span class="f-sep">·</span>
+    <a href="match.html">食事会</a>
+    <span class="f-sep">·</span>
+    <a href="report.html">入店レポート</a>
+    <span class="f-sep">·</span>
+    <a href="safety.html">安全ガイド</a>
+    <span class="f-sep">·</span>
+    <a href="terms.html">利用規約</a>
+    <span class="f-sep">·</span>
+    <a href="report-abuse.html" class="f-flag">🚩 違反を通報</a>
+  </div>
+
+  <div class="bottom">© 2026 &nbsp;·&nbsp; HITORIMESHI.COM</div>
+</footer>
+
+</body>
+</html>

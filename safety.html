@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- SEO & Social -->
+<meta name="description" content="一人で入れるお店が、見つかる。ひとり飯を応援する、食の情報プラットフォーム。入店レポート、認定店、食事会で、安心してひとり時間を楽しむ場所。">
+<meta name="theme-color" content="#15110c">
+
+<!-- Favicon (inline base64 for portability) -->
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAk0lEQVR42mP88PwyAy0BEwONwagFoxaMAAvu3XuoZ+Q4bcZ8mljw58+f4vKG7z9+9E+a1dox4f///5hqWDCFHj9+OnHKHCLtUFZSUFZSYGBg+Pjx06PHT+XlZNAUMI6WRaMWjFowagFhwEJFs7rMwyGMspMrqe8DuOlobCaqm44mMpqKMGMVTYRqPkC2A5k99Gs0ACOaNPLTsRxPAAAAAElFTkSuQmCC">
+<link rel="apple-touch-icon" href="./favicon-180.png">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="一人飯.com">
+<meta property="og:title" content="一人飯.com — 一人で入れるお店が、見つかる。">
+<meta property="og:description" content="ひとり飯を応援する、食の情報プラットフォーム。入店レポート、認定店、食事会で、安心してひとり時間を楽しむ場所。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="./ogp.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="一人飯.com — 一人で入れるお店が、見つかる。">
+<meta name="twitter:description" content="ひとり飯を応援する、食の情報プラットフォーム。入店レポート、認定店、食事会で、安心してひとり時間を楽しむ場所。">
+<meta name="twitter:image" content="./ogp.jpg">
+
+<title>安全の仕組み — 一人飯.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>/* ═══ SHARED VARIABLES ═══ */
+:root {
+  --paper:    #f0e7d3;
+  --paper-2:  #e6dbc2;
+  --paper-3:  #dcd0b3;
+  --ink:      #15110c;
+  --ink-dim:  #5a5345;
+  --ink-mute: #8f876f;
+  --pine:     #1f3d2c;
+  --pine-2:   #2e5540;
+  --wine:     #7a1e2a;
+  --wine-2:   #9b2a35;
+  --cream:    #d4b896;
+  --rule:     rgba(21, 17, 12, 0.16);
+  --rule-2:   rgba(21, 17, 12, 0.06);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 400;
+  line-height: 1.82;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+a { color: inherit; }
+::selection { background: var(--pine); color: var(--paper); }
+
+.paper-bg {
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.05 0 0 0 0.1 0'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>");
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: multiply;
+}
+
+/* ═══ HEADER (light version for subpages) ═══ */
+header.site-header {
+  padding: 22px 44px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  position: relative;
+  z-index: 20;
+  border-bottom: 0.5px solid var(--rule);
+  background: var(--paper);
+}
+.logo {
+  font-family: 'Shippori Mincho B1', serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.005em;
+  justify-self: start;
+  line-height: 1.1;
+  color: var(--ink);
+  text-decoration: none;
+}
+.logo .dot { color: var(--wine); }
+.logo .en {
+  display: block;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 9px;
+  color: var(--ink-dim);
+  letter-spacing: 0.22em;
+  margin-top: 3px;
+}
+nav.main {
+  display: flex;
+  gap: 32px;
+  justify-self: center;
+}
+nav.main a {
+  color: var(--ink);
+  text-decoration: none;
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 0;
+  position: relative;
+  letter-spacing: 0.04em;
+  transition: color 0.25s;
+}
+nav.main a.active { color: var(--wine); }
+nav.main a.active::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 2px;
+  width: 100%; height: 1px;
+  background: var(--wine);
+}
+nav.main a:hover { color: var(--wine); }
+.header-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-self: end;
+}
+.btn-bell {
+  width: 36px; height: 36px;
+  border: 0.5px solid var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s;
+  background: var(--paper);
+}
+.btn-bell::after {
+  content: '';
+  position: absolute;
+  top: 7px; right: 7px;
+  width: 6px; height: 6px;
+  background: var(--wine);
+  border-radius: 50%;
+}
+.btn-bell:hover { background: var(--ink); color: var(--paper); }
+.btn-here {
+  padding: 9px 16px;
+  border: 0.5px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Shippori Mincho B1', serif;
+  letter-spacing: 0.04em;
+  transition: all 0.3s;
+}
+.btn-here:hover { background: var(--pine); color: var(--paper); border-color: var(--pine); }
+.btn-report {
+  padding: 9px 16px;
+  background: var(--wine);
+  color: var(--paper);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Shippori Mincho B1', serif;
+  letter-spacing: 0.04em;
+  border: 0.5px solid var(--wine);
+  transition: all 0.3s;
+}
+.btn-report:hover { background: var(--ink); border-color: var(--ink); }
+
+.avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--paper-2);
+  border: 0.5px solid var(--rule);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Shippori Mincho B1', serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--ink);
+  overflow: hidden;
+}
+
+/* ═══ PAGE TITLE BLOCK ═══ */
+.page-title {
+  padding: 64px 44px 44px;
+  border-bottom: 0.5px solid var(--rule);
+  position: relative;
+  z-index: 1;
+}
+.page-title .crumb {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-mute);
+  letter-spacing: 0.15em;
+  margin-bottom: 20px;
+}
+.page-title h1 {
+  font-family: 'Shippori Mincho B1', serif;
+  font-weight: 700;
+  font-size: clamp(32px, 4.2vw, 56px);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin-bottom: 16px;
+}
+.page-title h1 em { color: var(--wine); font-style: italic; font-weight: 800; }
+.page-title p {
+  max-width: 580px;
+  font-size: 14px;
+  color: var(--ink-dim);
+  line-height: 2;
+}
+
+/* ═══ FOOTER ═══ */
+footer.site-footer {
+  padding: 70px 44px 36px;
+  border-top: 1px solid var(--ink);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  margin-top: 100px;
+}
+footer.site-footer .ornament {
+  color: var(--wine);
+  margin-bottom: 18px;
+  font-size: 13px;
+  letter-spacing: 0.8em;
+  font-family: 'EB Garamond', serif;
+}
+footer.site-footer .sign {
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 22px;
+  color: var(--ink);
+  font-weight: 500;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  letter-spacing: 0.03em;
+}
+footer.site-footer .en-sign {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-dim);
+  margin-bottom: 36px;
+  display: block;
+  letter-spacing: 0.05em;
+}
+footer.site-footer .bottom {
+  color: var(--ink-mute);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+}
+
+/* ═══ COMMON PILLS & BUTTONS ═══ */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  border: 0.5px solid var(--pine);
+  color: var(--pine);
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.pill.wine { border-color: var(--wine); color: var(--wine); }
+.pill.mute { border-color: var(--rule); color: var(--ink-mute); }
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--ink-dim);
+}
+.status::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--pine-2);
+}
+.status.wait::before { background: var(--wine-2); }
+.status.closed::before { background: var(--ink-mute); }
+
+.live-dot {
+  width: 8px; height: 8px;
+  background: var(--wine-2);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(155, 42, 53, 0.5);
+  animation: ping 2s infinite;
+  display: inline-block;
+}
+@keyframes ping {
+  0%   { box-shadow: 0 0 0 0 rgba(155, 42, 53, 0.55); }
+  70%  { box-shadow: 0 0 0 14px rgba(155, 42, 53, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(155, 42, 53, 0); }
+}
+
+@media (max-width: 1024px) {
+  header.site-header { grid-template-columns: 1fr auto; padding: 14px 20px; }
+  nav.main { display: none; }
+  .page-title { padding: 40px 20px 32px; }
+  footer.site-footer { padding: 50px 20px 28px; margin-top: 60px; }
+  .header-right .btn-here { display: none; }
+}
+
+/* footer links */
+footer.site-footer .f-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 36px 0 32px;
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 12px;
+}
+footer.site-footer .f-links a {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  border-bottom: 0.5px solid transparent;
+  padding-bottom: 2px;
+  transition: border-color 0.25s;
+}
+footer.site-footer .f-links a:hover { border-color: var(--ink); }
+footer.site-footer .f-links .f-sep { color: var(--ink-mute); }
+footer.site-footer .f-links .f-flag {
+  color: var(--wine);
+  font-weight: 600;
+  border: 0.5px solid var(--wine);
+  padding: 4px 11px;
+  border-bottom: 0.5px solid var(--wine);
+}
+footer.site-footer .f-links .f-flag:hover { background: var(--wine); color: var(--paper); border-color: var(--wine); }
+
+@media (max-width: 640px) {
+  footer.site-footer .f-links { gap: 6px 10px; font-size: 11px; }
+  footer.site-footer .f-links .f-sep { display: none; }
+}
+
+
+.doc-layout { max-width: 920px; margin: 0 auto; padding: 60px 44px 80px; position: relative; z-index: 1; }
+.doc-hero { border-bottom: 0.5px solid var(--ink); padding-bottom: 40px; margin-bottom: 48px; }
+.doc-hero .crumb { font-family: 'EB Garamond', serif; font-style: italic; font-size: 12px; color: var(--ink-mute); letter-spacing: 0.15em; margin-bottom: 20px; }
+.doc-hero h1 { font-family: 'Shippori Mincho B1', serif; font-weight: 700; font-size: clamp(36px, 4.4vw, 56px); line-height: 1.15; letter-spacing: -0.018em; margin-bottom: 20px; }
+.doc-hero h1 em { color: var(--wine); font-style: italic; font-weight: 800; }
+.doc-hero .sub { font-size: 15px; color: var(--ink-dim); line-height: 2.1; max-width: 640px; }
+
+.doc-toc {
+  background: var(--paper-2);
+  border: 0.5px solid var(--rule);
+  padding: 24px 28px;
+  margin-bottom: 48px;
+}
+.doc-toc h4 {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--wine);
+  letter-spacing: 0.2em;
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+.doc-toc ol { list-style: none; counter-reset: toc; columns: 2; column-gap: 32px; }
+.doc-toc li { counter-increment: toc; padding: 5px 0; font-family: 'Shippori Mincho B1', serif; font-size: 13px; font-weight: 500; break-inside: avoid; }
+.doc-toc li::before {
+  content: counter(toc, decimal-leading-zero) '  ';
+  color: var(--wine);
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  margin-right: 6px;
+}
+.doc-toc li a { color: var(--ink); text-decoration: none; }
+.doc-toc li a:hover { color: var(--wine); }
+
+.doc-section { margin-bottom: 56px; }
+.doc-section > h2 {
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+  padding-top: 12px;
+  border-top: 2px solid var(--ink);
+  padding-top: 28px;
+  margin-top: 30px;
+  position: relative;
+}
+.doc-section > h2::before {
+  content: attr(data-no);
+  position: absolute;
+  top: -11px; left: 0;
+  background: var(--paper);
+  padding-right: 14px;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-dim);
+  letter-spacing: 0.16em;
+  font-weight: 400;
+}
+.doc-section > p.lead { font-size: 14px; color: var(--ink-dim); margin-bottom: 22px; line-height: 2; max-width: 720px; }
+
+.guard-card {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 20px;
+  padding: 22px 26px;
+  border: 0.5px solid var(--rule);
+  background: var(--paper);
+  margin-bottom: 14px;
+}
+.guard-card .g-num {
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--wine);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.guard-card h3 { font-family: 'Shippori Mincho B1', serif; font-size: 17px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.005em; }
+.guard-card p { font-size: 13.5px; color: var(--ink-dim); line-height: 2; }
+.guard-card p strong { color: var(--ink); font-weight: 600; }
+
+.checklist {
+  background: var(--paper);
+  border: 0.5px solid var(--ink);
+  padding: 28px 32px;
+  margin: 24px 0;
+}
+.checklist h4 { font-family: 'Shippori Mincho B1', serif; font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+.checklist ul { list-style: none; }
+.checklist li {
+  padding: 7px 0 7px 28px;
+  position: relative;
+  font-size: 13.5px;
+  color: var(--ink-dim);
+  line-height: 1.8;
+}
+.checklist li::before {
+  content: '✓';
+  position: absolute;
+  left: 0; top: 7px;
+  color: var(--pine);
+  font-weight: 700;
+}
+
+.panic-card {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 36px 40px;
+  margin-top: 40px;
+  border-left: 4px solid var(--wine);
+  position: relative;
+}
+.panic-card .pc-label {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--cream);
+  letter-spacing: 0.2em;
+  margin-bottom: 12px;
+}
+.panic-card h3 { font-family: 'Shippori Mincho B1', serif; font-size: 24px; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.01em; }
+.panic-card p { font-size: 14px; color: rgba(240,231,211,0.85); line-height: 2; margin-bottom: 24px; }
+.panic-card p strong { color: var(--cream); font-weight: 700; font-family: 'Shippori Mincho B1', serif; }
+.panic-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.panic-actions a {
+  padding: 14px 22px;
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-decoration: none;
+  border: 0.5px solid var(--paper);
+  color: var(--paper);
+  transition: all 0.25s;
+}
+.panic-actions a.fill { background: var(--wine); border-color: var(--wine); }
+.panic-actions a:hover { background: var(--paper); color: var(--ink); }
+.panic-actions a.fill:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+
+@media (max-width: 768px) {
+  .doc-layout { padding: 40px 20px 60px; }
+  .doc-hero { padding-bottom: 30px; margin-bottom: 32px; }
+  .doc-toc ol { columns: 1; }
+  .guard-card { grid-template-columns: 1fr; padding: 20px 22px; }
+  .guard-card .g-num { font-size: 26px; }
+  .panic-card { padding: 24px 22px; }
+  .panic-actions { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="paper-bg"></div>
+<header class="site-header">
+  <a href="index.html" class="logo">
+    一人飯<span class="dot">.</span>com
+    <span class="en">HITORIMESHI · A GUIDE FOR SOLO DINERS</span>
+  </a>
+  <nav class="main">
+    <a href="find.html" data-page="find">探す</a>
+    <a href="match.html" data-page="match">食事会</a>
+    <a href="report.html" data-page="report">入店レポート</a>
+    <a href="for-shops.html" data-page="for-shops">お店の方へ</a>
+  </nav>
+  <div class="header-right">
+    <button class="btn-bell" aria-label="通知">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 01-3.46 0"/>
+      </svg>
+    </button>
+    <a href="find.html" class="btn-here" style="text-decoration:none; display:inline-block;">今ここにいる</a>
+    <a href="report.html" class="btn-report" style="text-decoration:none; display:inline-block;">レポートを書く</a>
+  </div>
+</header>
+
+
+<div class="doc-layout">
+
+  <div class="doc-hero">
+    <div class="crumb">HOME  /  安全の仕組み</div>
+    <h1>一人飯.comが、<br><em>安全</em>である理由。</h1>
+    <p class="sub">私たちは、出会い系ではありません。食の情報を共有するコミュニティです。悪意あるユーザーが入り込めない"構造"で、安心してひとり飯を楽しめる場所を作っています。</p>
+  </div>
+
+  <div class="doc-toc">
+    <h4>この文書について ／ Table of Contents</h4>
+    <ol>
+      <li><a href="#s1">7つの構造的ガード</a></li>
+      <li><a href="#s2">ユーザー権限の段階設計</a></li>
+      <li><a href="#s3">食事会の運営ルール</a></li>
+      <li><a href="#s4">通報と対応</a></li>
+      <li><a href="#s5">個人情報の扱い</a></li>
+      <li><a href="#s6">もしトラブルに遭ったら</a></li>
+    </ol>
+  </div>
+
+  <!-- Section 1 -->
+  <section class="doc-section" id="s1">
+    <h2 data-no="№ 01  ·  Guardrails">7つの構造的ガード</h2>
+    <p class="lead">"ルールで禁止"ではなく、"そもそも起きない構造"で安全を作っています。下記7つが、悪意の入口を塞ぐ設計上のガードです。</p>
+
+    <div class="guard-card">
+      <div class="g-num">01</div>
+      <div>
+        <h3>1対1メッセージ機能、ゼロ。</h3>
+        <p>個人間のダイレクトメッセージは<strong>存在しません</strong>。連絡手段は食事会のグループチャット（運営が監視可能）のみ。勧誘・ナンパ・ストーカー行為の起点を、機能として封じています。</p>
+      </div>
+    </div>
+
+    <div class="guard-card">
+      <div class="g-num">02</div>
+      <div>
+        <h3>個人プロフィール、非公開。</h3>
+        <p>他のユーザーの詳細プロフィールを閲覧することは<strong>できません</strong>。食事会の主催者と運営のみが、参加者の名前・本人確認状況を確認可能。"漁る"ことができない仕組み。</p>
+      </div>
+    </div>
+
+    <div class="guard-card">
+      <div class="g-num">03</div>
+      <div>
+        <h3>必ず3人以上の食事会。</h3>
+        <p>2人だけの食事会は<strong>開催できません</strong>。密室・呼び出し・持ち帰りを構造的に防ぎます。初対面は必ず複数人、お店という公共空間で。</p>
+      </div>
+    </div>
+
+    <div class="guard-card">
+      <div class="g-num">04</div>
+      <div>
+        <h3>主催者は、本人確認済みのみ。</h3>
+        <p>食事会を開ける人は、<strong>身分証を提出し運営が承認した本人確認済みユーザー</strong>のみ。匿名のまま参加することは可能ですが、"場を作る側"には必ず責任ある実在の人を据えます。</p>
+      </div>
+    </div>
+
+    <div class="guard-card">
+      <div class="g-num">05</div>
+      <div>
+        <h3>全食事会を、運営が事前承認。</h3>
+        <p>開催日時・場所・費用が適切か、<strong>運営者が1件ずつ目視で承認</strong>。深夜・不審な場所・高すぎる参加費などは掲載しません。スケールしても、この"人の目"は維持します。</p>
+      </div>
+    </div>
+
+    <div class="guard-card">
+      <div class="g-num">06</div>
+      <div>
+        <h3>認定店のみで開催。</h3>
+        <p>食事会は、一人飯.comと提携した認定店でのみ開催可能。<strong>店員さんが見守る目</strong>があり、不審な行動があれば店舗から運営へ即時連絡される協力体制を敷いています。</p>
+      </div>
+    </div>
+
+    <div class="guard-card">
+      <div class="g-num">07</div>
+      <div>
+        <h3>位置情報は、区レベルまで。</h3>
+        <p>プロフィールに公開される位置情報は<strong>「◯◯区」まで</strong>。町丁・番地は一切表示されません。「今ここにいる」情報も、個人を特定できる形では公開されません。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2 -->
+  <section class="doc-section" id="s2">
+    <h2 data-no="№ 02  ·  Access">ユーザー権限の段階設計</h2>
+    <p class="lead">できることは、信頼の積み上げに応じて段階的に広がります。いきなり全機能を使わせることはしません。</p>
+
+    <div class="checklist">
+      <h4>LEVEL 0  ·  ゲスト（未登録）</h4>
+      <ul>
+        <li>お店の検索・閲覧</li>
+        <li>入店レポートを読む</li>
+      </ul>
+    </div>
+
+    <div class="checklist">
+      <h4>LEVEL 1  ·  メール登録（食べログと同程度）</h4>
+      <ul>
+        <li>上記すべて</li>
+        <li>入店レポートの投稿（匿名可）</li>
+        <li>お気に入り店舗の保存</li>
+      </ul>
+    </div>
+
+    <div class="checklist">
+      <h4>LEVEL 2  ·  電話番号認証（SMS）</h4>
+      <ul>
+        <li>上記すべて</li>
+        <li>食事会への参加申込</li>
+        <li>食事会のグループチャット参加</li>
+      </ul>
+    </div>
+
+    <div class="checklist">
+      <h4>LEVEL 3  ·  本人確認（身分証提出）</h4>
+      <ul>
+        <li>上記すべて</li>
+        <li>食事会の主催（運営承認が条件）</li>
+        <li>"認証済み"バッジの表示</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Section 3 -->
+  <section class="doc-section" id="s3">
+    <h2 data-no="№ 03  ·  Gathering Rules">食事会の運営ルール</h2>
+    <p class="lead">一人飯.comで開催できる食事会には、明確なルールがあります。</p>
+
+    <div class="checklist">
+      <h4>開催可能な条件</h4>
+      <ul>
+        <li>参加者3〜8名（2名の食事会は禁止）</li>
+        <li>開始時刻は11:00〜22:00の範囲</li>
+        <li>開催場所は一人飯.com認定店のみ</li>
+        <li>主催者は本人確認済み・違反歴なし</li>
+        <li>参加費は相場内（極端に高額・低額はNG）</li>
+        <li>テーマが明確で、食事以外の目的を含まない</li>
+      </ul>
+    </div>
+
+    <div class="checklist">
+      <h4>禁止される食事会</h4>
+      <ul>
+        <li>宗教・政治・マルチ商法・投資勧誘を含むもの</li>
+        <li>出会い・恋愛・合コンを目的と明記するもの</li>
+        <li>年齢層・性別で過度に対象を絞ったもの（女性限定の安全目的は例外）</li>
+        <li>深夜帯（23時以降）の開催</li>
+        <li>お店以外の場所（自宅・ホテル・個室バーなど）での開催</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Section 4 -->
+  <section class="doc-section" id="s4">
+    <h2 data-no="№ 04  ·  Reporting">通報と対応</h2>
+    <p class="lead">全ページのフッターに通報ボタンを常設しています。1クリックで運営に繋がります。</p>
+
+    <div class="checklist">
+      <h4>通報対応のフロー</h4>
+      <ul>
+        <li>通報受理：24時間以内に運営から受付返信</li>
+        <li>初動調査：72時間以内に事実確認</li>
+        <li>対応判断：警告／利用制限／アカウント停止／警察通報</li>
+        <li>通報者へ結果報告：原則7日以内</li>
+        <li>同一ユーザーへの通報3件で自動仮停止、運営が人力レビュー</li>
+      </ul>
+    </div>
+
+    <div class="checklist">
+      <h4>通報すべき行為（例）</h4>
+      <ul>
+        <li>食事会でのナンパ・連絡先の強要</li>
+        <li>宗教・マルチ・投資などの勧誘</li>
+        <li>食事会後のつきまとい・待ち伏せ</li>
+        <li>セクハラ・人種差別・ハラスメント発言</li>
+        <li>なりすまし・虚偽プロフィール</li>
+        <li>お店での迷惑行為</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Section 5 -->
+  <section class="doc-section" id="s5">
+    <h2 data-no="№ 05  ·  Privacy">個人情報の扱い</h2>
+    <p class="lead">私たちは、個人を特定できる情報を極力集めず、集めたものは厳密に守ります。</p>
+
+    <div class="checklist">
+      <h4>収集する情報</h4>
+      <ul>
+        <li>メールアドレス（ログイン用）</li>
+        <li>電話番号（SMS認証用、非公開）</li>
+        <li>表示名（本名不要、イニシャル・ニックネーム可）</li>
+        <li>居住エリア（区レベルのみ）</li>
+        <li>本人確認書類画像（主催者のみ、確認後は運営が暗号化保管）</li>
+      </ul>
+    </div>
+
+    <div class="checklist">
+      <h4>他ユーザーに公開される情報</h4>
+      <ul>
+        <li>表示名（主催者は本名、参加者はイニシャル）</li>
+        <li>居住区（例：渋谷区）</li>
+        <li>参加した食事会のジャンル傾向</li>
+        <li>入店レポートの内容（匿名投稿も可）</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Section 6 -->
+  <section class="doc-section" id="s6">
+    <h2 data-no="№ 06  ·  If Things Go Wrong">もしトラブルに遭ったら</h2>
+    <p class="lead">悪いことは、残念ながら完全にはなくせません。もし何かあったら、ひとりで抱えず、すぐ運営にご連絡ください。</p>
+
+    <div class="panic-card">
+      <div class="pc-label">EMERGENCY  ／  緊急時</div>
+      <h3>身の危険を感じるときは、まず110番を。</h3>
+      <p>命や身体の危険を感じる状況では、<strong>まず警察（110）に連絡してください</strong>。その後、一人飯.com運営にもご連絡いただければ、アカウント停止や警察への証拠提供など、必要な対応を迅速に行います。</p>
+      <div class="panic-actions">
+        <a href="report-abuse.html" class="fill">違反を通報する →</a>
+        <a href="mailto:safety@hitorimeshi.com">safety@hitorimeshi.com</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="site-footer">
+  <div class="ornament">❊ &nbsp; ❊ &nbsp; ❊</div>
+  <div class="sign">ひとりでも、<br>ちゃんとおいしい時間を。</div>
+  <span class="en-sign">— Solo, but well fed. —</span>
+
+  <div class="f-links">
+    <a href="index.html">トップ</a>
+    <span class="f-sep">·</span>
+    <a href="find.html">お店を探す</a>
+    <span class="f-sep">·</span>
+    <a href="match.html">食事会</a>
+    <span class="f-sep">·</span>
+    <a href="report.html">入店レポート</a>
+    <span class="f-sep">·</span>
+    <a href="safety.html">安全ガイド</a>
+    <span class="f-sep">·</span>
+    <a href="terms.html">利用規約</a>
+    <span class="f-sep">·</span>
+    <a href="report-abuse.html" class="f-flag">🚩 違反を通報</a>
+  </div>
+
+  <div class="bottom">© 2026 &nbsp;·&nbsp; HITORIMESHI.COM</div>
+</footer>
+
+</body>
+</html>
